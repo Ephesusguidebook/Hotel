@@ -16,6 +16,7 @@ export type Room = {
   slug: string;
   name: string;
   image: string;
+  images: string[];
   size: string;
   occupancy: string;
   bed: string;
@@ -29,6 +30,13 @@ export const rooms: Room[] = [
     slug: "deluxe-sea-view",
     name: "Deluxe Sea View",
     image: "/images/room-deluxe.jpg",
+    images: [
+      "/images/room-deluxe.jpg",
+      "/images/room-deluxe-2.jpg",
+      "/images/room-deluxe-3.jpg",
+      "/images/room-deluxe-4.jpg",
+      "/images/room-deluxe-5.jpg",
+    ],
     size: "38 m²",
     occupancy: "2 guests",
     bed: "1 King bed",
@@ -41,6 +49,13 @@ export const rooms: Room[] = [
     slug: "signature-suite",
     name: "Signature Suite",
     image: "/images/room-suite.jpg",
+    images: [
+      "/images/room-suite.jpg",
+      "/images/room-suite-2.jpg",
+      "/images/room-suite-3.jpg",
+      "/images/room-suite-4.jpg",
+      "/images/room-suite-5.jpg",
+    ],
     size: "62 m²",
     occupancy: "2–3 guests",
     bed: "1 King bed + daybed",
@@ -53,6 +68,13 @@ export const rooms: Room[] = [
     slug: "executive-panorama",
     name: "Executive Panorama",
     image: "/images/room-executive.jpg",
+    images: [
+      "/images/room-executive.jpg",
+      "/images/room-executive-2.jpg",
+      "/images/room-executive-3.jpg",
+      "/images/room-executive-4.jpg",
+      "/images/room-executive-5.jpg",
+    ],
     size: "48 m²",
     occupancy: "2 guests",
     bed: "1 King bed",
@@ -65,6 +87,13 @@ export const rooms: Room[] = [
     slug: "family-garden-room",
     name: "Family Garden Room",
     image: "/images/room-family.jpg",
+    images: [
+      "/images/room-family.jpg",
+      "/images/room-family-2.jpg",
+      "/images/room-family-3.jpg",
+      "/images/room-family-4.jpg",
+      "/images/room-family-5.jpg",
+    ],
     size: "55 m²",
     occupancy: "4 guests",
     bed: "1 King bed + 2 Twin beds",
@@ -79,11 +108,15 @@ export type AddOn = {
   slug: string;
   name: string;
   image: string;
+  images: string[];
   category: "Tour" | "Transfer";
   duration: string;
   price: number;
   unit: string;
   description: string;
+  longDescription: string[];
+  includes: string[];
+  meetingPoint: string;
 };
 
 export const addOns: AddOn[] = [
@@ -91,45 +124,97 @@ export const addOns: AddOn[] = [
     slug: "old-town-walking-tour",
     name: "Old Town Walking Tour",
     image: "/images/tour-city.jpg",
+    images: [
+      "/images/tour-city.jpg",
+      "/images/tour-city-2.jpg",
+      "/images/tour-city-3.jpg",
+      "/images/tour-city-4.jpg",
+    ],
     category: "Tour",
     duration: "3 hours",
     price: 65,
     unit: "per guest",
     description:
       "A guided stroll through the old quarter's cathedrals, ceramics workshops, and hidden piazzas with a local historian.",
+    longDescription: [
+      "This small-group walk starts just after breakfast, when the old quarter is quiet and the light is soft on the stonework.",
+      "Your guide is a local historian who has led this route for years — expect stops at the cathedral, a family-run ceramics workshop, and a handful of piazzas most visitors walk straight past.",
+      "The pace is unhurried, with plenty of stops for photos and questions. Comfortable shoes are recommended.",
+    ],
+    includes: ["Local historian guide", "Small group (max 8 guests)", "Bottled water", "Hotel pickup"],
+    meetingPoint: "Hotel lobby, 9:00 AM",
   },
   {
     slug: "sunset-sailing-cruise",
     name: "Sunset Sailing Cruise",
     image: "/images/tour-sunset.jpg",
+    images: [
+      "/images/tour-sunset.jpg",
+      "/images/tour-sunset-2.jpg",
+      "/images/tour-sunset-3.jpg",
+      "/images/tour-sunset-4.jpg",
+    ],
     category: "Tour",
     duration: "2.5 hours",
     price: 110,
     unit: "per guest",
     description:
       "A private sail along the coastline with prosecco and local antipasti as the sun drops behind the cliffs.",
+    longDescription: [
+      "A private sailing boat departs from the hotel's private jetty in the late afternoon, timed so the sun sets while you're on the water.",
+      "The route hugs the coastline, passing a handful of coves only reachable by boat, before anchoring for prosecco and a plate of local antipasti.",
+      "A small, intimate group — most evenings it's just one or two families or couples aboard.",
+    ],
+    includes: ["Private skipper", "Prosecco & antipasti", "Life jackets provided", "Return to hotel jetty"],
+    meetingPoint: "Hotel jetty, 5:30 PM (seasonal)",
   },
   {
     slug: "private-spa-day",
     name: "Private Spa Day",
     image: "/images/tour-spa.jpg",
+    images: [
+      "/images/tour-spa.jpg",
+      "/images/tour-spa-2.jpg",
+      "/images/tour-spa-3.jpg",
+      "/images/tour-spa-4.jpg",
+    ],
     category: "Tour",
     duration: "Full day",
     price: 190,
     unit: "per guest",
     description:
       "Full access to the thermal suite plus a 60-minute treatment of your choice at the Aurelia Bay spa.",
+    longDescription: [
+      "A full day at the spa, starting with the thermal suite — sauna, steam room, and a cold plunge overlooking the garden.",
+      "Your 60-minute treatment can be booked for any time during the day; choose from massage, facial, or a regional herbal wrap.",
+      "Light spa cuisine and herbal teas are available throughout the day in the relaxation lounge.",
+    ],
+    includes: ["Full thermal suite access", "60-minute treatment of choice", "Spa robe & slippers", "Light spa cuisine"],
+    meetingPoint: "Spa reception, any time from 9:00 AM",
   },
   {
     slug: "airport-private-transfer",
     name: "Private Airport Transfer",
     image: "/images/tour-transfer.jpg",
+    images: [
+      "/images/tour-transfer.jpg",
+      "/images/tour-transfer-2.jpg",
+      "/images/tour-transfer-3.jpg",
+      "/images/tour-transfer-4.jpg",
+    ],
     category: "Transfer",
     duration: "Door to door",
     price: 95,
     unit: "per vehicle",
     description:
       "A private car with a dedicated driver between Naples International Airport and the hotel, tracked to your flight.",
+    longDescription: [
+      "A private car and driver meet you at arrivals with a name sign, whatever time your flight lands.",
+      "Your driver tracks your flight, so delays don't cost you anything — the car will be waiting.",
+      "The drive along the coast takes a little over an hour; bottled water and Wi-Fi are available on board.",
+    ],
+    includes: ["Flight tracking", "Meet & greet at arrivals", "Bottled water & Wi-Fi", "Up to 4 passengers, 4 bags"],
+    meetingPoint: "Arrivals hall, Naples International Airport",
   },
 ];
 

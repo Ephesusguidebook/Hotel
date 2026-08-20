@@ -1,7 +1,7 @@
-import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import ReservationPanel from "@/components/ReservationPanel";
+import ImageGallery from "@/components/ImageGallery";
 import { rooms } from "@/lib/data";
 import type { Metadata } from "next";
 
@@ -42,16 +42,10 @@ export default async function RoomsPage({
                 id={room.slug}
                 className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center scroll-mt-28"
               >
-                <div
-                  className={`relative aspect-[4/3] ${
-                    i % 2 === 1 ? "md:order-2" : ""
-                  }`}
-                >
-                  <Image
-                    src={room.image}
+                <div className={i % 2 === 1 ? "md:order-2" : ""}>
+                  <ImageGallery
+                    images={room.images}
                     alt={room.name}
-                    fill
-                    className="object-cover"
                     sizes="(min-width: 768px) 33vw, 100vw"
                   />
                 </div>

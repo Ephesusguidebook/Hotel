@@ -190,11 +190,52 @@ generate("room-suite", 1200, 800, 1, motif="lines", monogram="S")
 generate("room-executive", 1200, 800, 2, motif="arcs", monogram="E")
 generate("room-family", 1200, 800, 3, motif="lines", monogram="F")
 
+# Extra gallery frames per room (bed, bath, view, detail) for the slider galleries
+ROOM_GALLERY = [
+    ("room-deluxe", 0, "D"),
+    ("room-suite", 1, "S"),
+    ("room-executive", 2, "E"),
+    ("room-family", 3, "F"),
+]
+GALLERY_ANGLES = [70, 160, 25, 200]
+for base, pal, mono in ROOM_GALLERY:
+    for i in range(2, 6):
+        motif = "arcs" if i % 2 == 0 else "lines"
+        generate(
+            f"{base}-{i}",
+            1200,
+            800,
+            pal,
+            motif=motif,
+            monogram=mono,
+            angle=GALLERY_ANGLES[(i - 2) % len(GALLERY_ANGLES)],
+        )
+
 # Tours / add-ons
 generate("tour-city", 1200, 800, 1, motif="arcs", monogram="C")
 generate("tour-sunset", 1200, 800, 2, motif="lines", monogram="S")
 generate("tour-spa", 1200, 800, 3, motif="arcs", monogram="S")
 generate("tour-transfer", 1200, 800, 0, motif="lines", monogram="T")
+
+# Extra gallery frames per add-on
+ADDON_GALLERY = [
+    ("tour-city", 1, "C"),
+    ("tour-sunset", 2, "S"),
+    ("tour-spa", 3, "S"),
+    ("tour-transfer", 0, "T"),
+]
+for base, pal, mono in ADDON_GALLERY:
+    for i in range(2, 5):
+        motif = "lines" if i % 2 == 0 else "arcs"
+        generate(
+            f"{base}-{i}",
+            1200,
+            800,
+            pal,
+            motif=motif,
+            monogram=mono,
+            angle=GALLERY_ANGLES[(i - 2) % len(GALLERY_ANGLES)],
+        )
 
 # Blog
 generate("blog-1", 1200, 800, 0, motif="lines", monogram="J")

@@ -1,19 +1,17 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Room } from "@/lib/data";
+import ImageGallery from "@/components/ImageGallery";
 
 export default function RoomCard({ room }: { room: Room }) {
   return (
-    <div className="group bg-charcoal-950">
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <Image
-          src={room.image}
+    <div className="bg-charcoal-950">
+      <div className="relative">
+        <ImageGallery
+          images={room.images}
           alt={room.name}
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
           sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
         />
-        <div className="absolute top-4 right-4 bg-charcoal-950/80 border border-gold-500/60 px-3 py-1.5 text-xs tracking-wide text-gold-400">
+        <div className="absolute top-4 right-4 bg-charcoal-950/80 border border-gold-500/60 px-3 py-1.5 text-xs tracking-wide text-gold-400 pointer-events-none">
           from ${room.price}/night
         </div>
       </div>

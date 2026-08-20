@@ -32,6 +32,7 @@ export default async function AdminRoomsPage({
 
       <div className="flex justify-end mb-6">
         <Link
+          prefetch={false}
           href="/admin/rooms/new"
           className="text-xs tracking-widest-plus bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 px-5 py-3"
         >
@@ -43,6 +44,7 @@ export default async function AdminRoomsPage({
         {rooms.map((room) => (
           <Link
             key={room.slug}
+            prefetch={false}
             href={`/admin/rooms/${room.slug}`}
             className="flex items-center justify-between px-6 py-5 hover:bg-ivory-100 transition-colors"
           >

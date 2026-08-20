@@ -20,17 +20,29 @@ export default function AdminHeader({ title }: { title: string }) {
           </button>
         </form>
       </div>
-      <nav className="flex gap-6 pb-4 text-sm">
-        <Link href="/admin" className="text-charcoal-700 hover:text-gold-600">
+      <nav className="flex flex-wrap gap-6 pb-4 text-sm">
+        <Link href="/admin" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
           Dashboard
         </Link>
-        <Link href="/admin/rooms" className="text-charcoal-700 hover:text-gold-600">
+        <Link href="/admin/rooms" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
           Rooms
         </Link>
-        <Link href="/admin/add-ons" className="text-charcoal-700 hover:text-gold-600">
+        <Link href="/admin/add-ons" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
           Tours & Transfers
         </Link>
-        <Link href="/" className="text-charcoal-700 hover:text-gold-600" target="_blank">
+        <Link href="/admin/blog" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
+          Journal
+        </Link>
+        <Link href="/admin/about" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
+          About Us
+        </Link>
+        <Link href="/admin/legal" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
+          Legal
+        </Link>
+        <Link href="/admin/settings" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
+          Settings
+        </Link>
+        <Link href="/" prefetch={false} className="text-charcoal-700 hover:text-gold-600" target="_blank">
           View site &rarr;
         </Link>
       </nav>

@@ -1,12 +1,14 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
 
 export default function SiteChrome({
+  navbar,
+  footer,
   children,
 }: {
+  navbar: React.ReactNode;
+  footer: React.ReactNode;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -19,9 +21,9 @@ export default function SiteChrome({
 
   return (
     <>
-      <Navbar />
+      {navbar}
       <main className="pt-20">{children}</main>
-      <Footer />
+      {footer}
     </>
   );
 }

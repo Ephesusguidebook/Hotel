@@ -12,6 +12,178 @@ export const hotel = {
   checkOut: "11:00 AM",
 };
 
+// Site-wide settings — hotel identity + contact details shown in the Footer,
+// Contact page, and page metadata. Editable from /admin/settings.
+export type SiteSettings = {
+  hotelName: string;
+  tagline: string;
+  city: string;
+  phone: string;
+  email: string;
+  address: string;
+  checkIn: string;
+  checkOut: string;
+  frontDeskHours: string;
+};
+
+export const siteSettingsSeed: SiteSettings = {
+  hotelName: hotel.name,
+  tagline: hotel.tagline,
+  city: hotel.city,
+  phone: hotel.phone,
+  email: hotel.email,
+  address: hotel.address,
+  checkIn: hotel.checkIn,
+  checkOut: hotel.checkOut,
+  frontDeskHours: "Available 24 hours",
+};
+
+// About Us page content. Editable from /admin/about.
+export type ValueBlock = { title: string; text: string };
+
+export type AboutContent = {
+  heroTitle: string;
+  heroDescription: string;
+  storyHeading: string;
+  storyParagraphs: string[];
+  teamImage: string;
+  values: ValueBlock[];
+};
+
+export const aboutContentSeed: AboutContent = {
+  heroTitle: "A family project, twenty years in",
+  heroDescription:
+    "From a six-room guesthouse to a small coastal hotel, built one season at a time.",
+  storyHeading: "How Aurelia Bay began",
+  storyParagraphs: [
+    "Aurelia Bay opened in the early 2000s as a six-room guesthouse run by a single family out of a converted harborside villa. What guests kept coming back for wasn't the size of the rooms — it was the sense that someone had thought carefully about how they'd spend their days.",
+    "Over two decades, the property grew slowly: a few more rooms, a proper kitchen, a small spa built into the old cellar. Each addition was made with the same instinct that started the place — build for the guest who wants to slow down, not the one passing through.",
+    "Today the team is larger, but the approach hasn't changed. Reservations are still answered by someone who knows the coastline personally, and the tours and transfers we recommend are the ones we'd take ourselves.",
+  ],
+  teamImage: "/images/about-team.jpg",
+  values: [
+    {
+      title: "Small by design",
+      text: "A limited number of rooms so every stay gets full attention, not a shift-change of staff.",
+    },
+    {
+      title: "Rooted in place",
+      text: "Most of what's on the table, and much of what's in the rooms, comes from within a short drive of the hotel.",
+    },
+    {
+      title: "Quietly run",
+      text: "No loudspeakers, no upsells at check-in — service that shows up when it's useful and steps back otherwise.",
+    },
+  ],
+};
+
+// Privacy Policy / Terms & Conditions. Editable from /admin/legal.
+export type LegalSection = { heading: string; body: string[] };
+
+export type LegalPage = {
+  slug: "privacy" | "terms";
+  title: string;
+  updated: string;
+  sections: LegalSection[];
+};
+
+export const legalPagesSeed: Record<"privacy" | "terms", LegalPage> = {
+  privacy: {
+    slug: "privacy",
+    title: "Privacy Policy",
+    updated: "August 2026",
+    sections: [
+      {
+        heading: "1. Information We Collect",
+        body: [
+          "When you make a reservation, contact us, or browse Aurelia Bay's website, we may collect information such as your name, email address, phone number, and stay preferences.",
+          "We also collect limited technical information (such as browser type and pages visited) to help us understand how the site is used and to keep it running smoothly.",
+        ],
+      },
+      {
+        heading: "2. How We Use Information",
+        body: [
+          "Information you provide is used to process reservations, respond to enquiries, and personalize your stay — for example, remembering room preferences from a previous visit.",
+          "We do not sell guest information to third parties.",
+        ],
+      },
+      {
+        heading: "3. Cookies",
+        body: [
+          "This site may use cookies to remember basic preferences and to understand aggregate visitor patterns. You can disable cookies in your browser settings at any time.",
+        ],
+      },
+      {
+        heading: "4. Data Retention",
+        body: [
+          "Reservation and guest records are retained for as long as needed to fulfil legal, accounting, and operational requirements, after which they are securely deleted.",
+        ],
+      },
+      {
+        heading: "5. Your Rights",
+        body: [
+          "You may request access to, correction of, or deletion of your personal information at any time by contacting us at reservations@aureliabay.example.",
+        ],
+      },
+      {
+        heading: "6. Contact",
+        body: [
+          "Questions about this policy can be directed to reservations@aureliabay.example or +39 089 000 000.",
+        ],
+      },
+    ],
+  },
+  terms: {
+    slug: "terms",
+    title: "Terms & Conditions",
+    updated: "August 2026",
+    sections: [
+      {
+        heading: "1. Reservations",
+        body: [
+          "A valid credit card is required to guarantee a reservation. Rates are quoted per room, per night, and are subject to change until a reservation is confirmed.",
+        ],
+      },
+      {
+        heading: "2. Check-In & Check-Out",
+        body: [
+          "Check-in begins at 3:00 PM and check-out is by 11:00 AM. Early check-in and late check-out may be arranged in advance, subject to availability.",
+        ],
+      },
+      {
+        heading: "3. Cancellations",
+        body: [
+          "Reservations may be cancelled free of charge up to 5 days before arrival. Cancellations made after this window, or no-shows, may be charged the equivalent of one night's stay.",
+        ],
+      },
+      {
+        heading: "4. Tours & Transfers",
+        body: [
+          "Tours and transfers booked as add-ons are subject to availability and weather conditions. Cancellations within 24 hours of a scheduled activity may not be refundable.",
+        ],
+      },
+      {
+        heading: "5. Guest Conduct",
+        body: [
+          "Guests are expected to treat staff, other guests, and the property with respect. The hotel reserves the right to end a stay without refund in cases of serious misconduct.",
+        ],
+      },
+      {
+        heading: "6. Liability",
+        body: [
+          "Aurelia Bay is not responsible for loss or damage to personal belongings, except where required by law. Guests are encouraged to use in-room safes for valuables.",
+        ],
+      },
+      {
+        heading: "7. Changes to These Terms",
+        body: [
+          "These terms may be updated from time to time. The version in effect at the time of your reservation will apply to your stay.",
+        ],
+      },
+    ],
+  },
+};
+
 export type Room = {
   slug: string;
   name: string;

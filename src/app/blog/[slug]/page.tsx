@@ -1,14 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { blogPosts } from "@/lib/data";
+import { getBlogPostBySlug, getBlogPosts } from "@/lib/blog-repo";
 import type { Metadata } from "next";
 
-type Params = Promise<{ slug: string }>;
+export const dynamic = "force-dynamic";
 
-export function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
-}
+type Params = Promise<{ slug: string }>;
 
 export async function generateMetadata({
   params,
@@ -16,7 +14,7 @@ export async function generateMetadata({
   params: Params;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = await getBlogPostBySlug(slug);
   if (!post) return {};
   return {
     title: `${post.title} — Aurelia Bay Journal`,
@@ -26,10 +24,13 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: { params: Params }) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const [post, allPosts] = await Promise.all([
+    getBlogPostBySlug(slug),
+    getBlogPosts(),
+  ]);
   if (!post) notFound();
 
-  const more = blogPosts.filter((p) => p.slug !== slug).slice(0, 3);
+  const more = allPosts.filter((p) => p.slug !== slug).slice(0, 3);
 
   return (
     <>

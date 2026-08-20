@@ -4,9 +4,11 @@ import QuickSearch from "@/components/QuickSearch";
 import SectionHeading from "@/components/SectionHeading";
 import RoomCard from "@/components/RoomCard";
 import BlogCard from "@/components/BlogCard";
-import { hotel, blogPosts, testimonials } from "@/lib/data";
+import { testimonials } from "@/lib/data";
 import { getRooms } from "@/lib/rooms-repo";
 import { getAddOns } from "@/lib/addons-repo";
+import { getBlogPosts } from "@/lib/blog-repo";
+import { getSiteSettings } from "@/lib/settings-repo";
 
 export const dynamic = "force-dynamic";
 
@@ -30,7 +32,13 @@ const highlights = [
 ];
 
 export default async function Home() {
-  const [rooms, addOns] = await Promise.all([getRooms(), getAddOns()]);
+  const [rooms, addOns, blogPosts, hotel] = await Promise.all([
+    getRooms(),
+    getAddOns(),
+    getBlogPosts(),
+    getSiteSettings(),
+  ]);
+  const journalTeaser = blogPosts.slice(0, 4);
 
   return (
     <>
@@ -54,8 +62,8 @@ export default async function Home() {
             {hotel.tagline}
           </h1>
           <p className="mt-6 text-ivory-200/85 max-w-lg text-base md:text-lg">
-            {hotel.name} is a small collection of rooms and suites set above
-            the water, built around slow mornings and quiet service.
+            {hotel.hotelName} is a small collection of rooms and suites set
+            above the water, built around slow mornings and quiet service.
           </p>
 
           <div className="mt-12">
@@ -222,7 +230,7 @@ export default async function Home() {
             </Link>
           </div>
           <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-            {blogPosts.map((post) => (
+            {journalTeaser.map((post) => (
               <BlogCard key={post.slug} post={post} />
             ))}
           </div>

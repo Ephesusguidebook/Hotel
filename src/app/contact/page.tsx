@@ -1,15 +1,22 @@
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import ContactForm from "@/components/ContactForm";
-import { hotel } from "@/lib/data";
+import { getSiteSettings } from "@/lib/settings-repo";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Contact — Aurelia Bay",
-  description: `Get in touch with ${hotel.name}.`,
-};
+export const dynamic = "force-dynamic";
 
-export default function ContactPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  return {
+    title: "Contact — " + settings.hotelName,
+    description: `Get in touch with ${settings.hotelName}.`,
+  };
+}
+
+export default async function ContactPage() {
+  const hotel = await getSiteSettings();
+
   return (
     <>
       <PageHero
@@ -46,7 +53,7 @@ export default function ContactPage() {
                 <p className="text-[11px] tracking-widest-plus text-gold-600 mb-1">
                   FRONT DESK HOURS
                 </p>
-                <p>Available 24 hours</p>
+                <p>{hotel.frontDeskHours}</p>
               </div>
             </div>
 

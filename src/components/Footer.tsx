@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { hotel } from "@/lib/data";
+import { getSiteSettings } from "@/lib/settings-repo";
 
 const explore = [
   { href: "/rooms", label: "Rooms & Suites" },
@@ -14,14 +14,16 @@ const guest = [
   { href: "/terms", label: "Terms & Conditions" },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  const hotel = await getSiteSettings();
+
   return (
     <footer className="bg-charcoal-950 text-ivory-200/80 border-t border-charcoal-700/60">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div>
             <div className="font-serif text-xl tracking-widest-plus text-ivory-50">
-              {hotel.name.toUpperCase()}
+              {hotel.hotelName.toUpperCase()}
             </div>
             <div className="gold-divider my-4" />
             <p className="text-sm leading-relaxed max-w-xs">
@@ -76,7 +78,7 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-ivory-200/50">
           <p>
-            &copy; {new Date().getFullYear()} {hotel.name}. All rights
+            &copy; {new Date().getFullYear()} {hotel.hotelName}. All rights
             reserved.
           </p>
           <p>Placeholder content — for design preview purposes.</p>

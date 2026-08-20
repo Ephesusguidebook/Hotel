@@ -1,14 +1,18 @@
 import PageHero from "@/components/PageHero";
 import BlogCard from "@/components/BlogCard";
-import { blogPosts } from "@/lib/data";
+import { getBlogPosts } from "@/lib/blog-repo";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Journal — Aurelia Bay",
   description: "Notes on the coast, the kitchen, and life around the hotel.",
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const blogPosts = await getBlogPosts();
+
   return (
     <>
       <PageHero
@@ -23,6 +27,11 @@ export default function BlogPage() {
           {blogPosts.map((post) => (
             <BlogCard key={post.slug} post={post} />
           ))}
+          {blogPosts.length === 0 && (
+            <p className="text-sm text-charcoal-700">
+              No journal posts yet — check back soon.
+            </p>
+          )}
         </div>
       </section>
     </>

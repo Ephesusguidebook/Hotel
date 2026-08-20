@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import SiteChrome from "@/components/SiteChrome";
-import { hotel } from "@/lib/data";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { getSiteSettings } from "@/lib/settings-repo";
 import "./globals.css";
 
 // Fonts are loaded via a standard <link> tag below (see head) rather than
@@ -8,10 +10,13 @@ import "./globals.css";
 // fonts.googleapis.com at build time. Replace with next/font or self-hosted
 // files if you'd rather bundle them.
 
-export const metadata: Metadata = {
-  title: `${hotel.name} — ${hotel.tagline}`,
-  description: `${hotel.name} is a boutique hotel on the ${hotel.city}. Explore rooms, suites, tours, and transfers, and book your stay.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  return {
+    title: `${settings.hotelName} — ${settings.tagline}`,
+    description: `${settings.hotelName} is a boutique hotel on the ${settings.city}. Explore rooms, suites, tours, and transfers, and book your stay.`,
+  };
+}
 
 export default function RootLayout({
   children,
@@ -35,7 +40,9 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <SiteChrome>{children}</SiteChrome>
+        <SiteChrome navbar={<Navbar />} footer={<Footer />}>
+          {children}
+        </SiteChrome>
       </body>
     </html>
   );

@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { rooms } from "@/lib/data";
+import type { Room } from "@/lib/data";
 
 type Props = {
+  rooms: Room[];
   defaultCheckIn?: string;
   defaultCheckOut?: string;
   defaultGuests?: string;
@@ -18,46 +19,61 @@ function nightsBetween(a: string, b: string) {
   return diff > 0 ? diff : 0;
 }
 
-// Deterministic "mock availability" so the same dates + room always
-// produce the same result, without needing a real booking backend.
-function mockAvailability(roomSlug: string, checkIn: string) {
-  if (!roomSlug || !checkIn) return null;
+// Availability is grounded in what's set in the admin panel (available /
+// unitsLeft on the room). The date is hashed only to add a little
+// day-to-day variety within that admin-set ceiling — a room the admin has
+// marked unavailable, or with 0 units left, always shows as unavailable.
+function checkAvailability(room: Room, checkIn: string) {
+  if (!room.available || room.unitsLeft <= 0) {
+    return { available: false, unitsLeft: 0 };
+  }
   let hash = 0;
-  const key = roomSlug + checkIn;
+  const key = room.slug + checkIn;
   for (let i = 0; i < key.length; i++) {
     hash = (hash * 31 + key.charCodeAt(i)) % 1000;
   }
   const available = hash % 5 !== 0; // ~80% of dates show as available
-  const unitsLeft = 1 + (hash % 3);
+  const unitsLeft = available ? 1 + (hash % room.unitsLeft) : 0;
   return { available, unitsLeft };
 }
 
 export default function ReservationPanel({
+  rooms,
   defaultCheckIn = "",
   defaultCheckOut = "",
   defaultGuests = "2",
-  defaultRoom = rooms[0].slug,
+  defaultRoom,
 }: Props) {
   const [checkIn, setCheckIn] = useState(defaultCheckIn);
   const [checkOut, setCheckOut] = useState(defaultCheckOut);
   const [guests, setGuests] = useState(defaultGuests);
-  const [roomSlug, setRoomSlug] = useState(defaultRoom);
+  const [roomSlug, setRoomSlug] = useState(defaultRoom ?? rooms[0]?.slug ?? "");
   const [submitted, setSubmitted] = useState(false);
 
   const room = rooms.find((r) => r.slug === roomSlug) ?? rooms[0];
   const nights = nightsBetween(checkIn, checkOut);
   const availability = useMemo(
-    () => (submitted ? mockAvailability(roomSlug, checkIn) : null),
-    [submitted, roomSlug, checkIn]
+    () => (submitted && room ? checkAvailability(room, checkIn) : null),
+    [submitted, room, checkIn]
   );
 
-  const subtotal = nights > 0 ? nights * room.price : 0;
+  const subtotal = nights > 0 && room ? nights * room.price : 0;
   const taxesAndFees = Math.round(subtotal * 0.12);
   const total = subtotal + taxesAndFees;
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSubmitted(true);
+  }
+
+  if (!room) {
+    return (
+      <div id="reserve" className="bg-charcoal-950 text-ivory-50 p-8 lg:p-10">
+        <p className="text-sm text-ivory-200/70">
+          No rooms are configured yet. Add one from the admin panel.
+        </p>
+      </div>
+    );
   }
 
   return (

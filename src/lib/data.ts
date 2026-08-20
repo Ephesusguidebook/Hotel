@@ -23,6 +23,8 @@ export type Room = {
   price: number;
   description: string;
   amenities: string[];
+  available: boolean;
+  unitsLeft: number;
 };
 
 export const rooms: Room[] = [
@@ -44,6 +46,8 @@ export const rooms: Room[] = [
     description:
       "An elegant room framed by floor-to-ceiling windows overlooking the bay, with a private balcony and hand-finished walnut furnishings.",
     amenities: ["Sea view balcony", "Rain shower", "Nespresso bar", "Free Wi-Fi", "Air conditioning"],
+    available: true,
+    unitsLeft: 3,
   },
   {
     slug: "signature-suite",
@@ -63,6 +67,8 @@ export const rooms: Room[] = [
     description:
       "A separate living area, soaking tub, and wraparound terrace make this suite the residence-away-from-home for longer stays.",
     amenities: ["Wraparound terrace", "Soaking tub", "Living area", "Butler service", "Mini bar"],
+    available: true,
+    unitsLeft: 1,
   },
   {
     slug: "executive-panorama",
@@ -82,6 +88,8 @@ export const rooms: Room[] = [
     description:
       "Perched on the top floor, this room pairs uninterrupted coastline views with a curated in-room library and writing desk.",
     amenities: ["Panoramic view", "Reading nook", "Espresso bar", "Turndown service", "Free Wi-Fi"],
+    available: true,
+    unitsLeft: 2,
   },
   {
     slug: "family-garden-room",
@@ -101,6 +109,8 @@ export const rooms: Room[] = [
     description:
       "Opening onto the hotel's citrus garden, this two-room layout gives families room to spread out without leaving the grounds.",
     amenities: ["Garden access", "Connecting layout", "Kids' welcome kit", "Free Wi-Fi", "Air conditioning"],
+    available: true,
+    unitsLeft: 3,
   },
 ];
 

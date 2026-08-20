@@ -4,7 +4,11 @@ import QuickSearch from "@/components/QuickSearch";
 import SectionHeading from "@/components/SectionHeading";
 import RoomCard from "@/components/RoomCard";
 import BlogCard from "@/components/BlogCard";
-import { hotel, rooms, addOns, blogPosts, testimonials } from "@/lib/data";
+import { hotel, blogPosts, testimonials } from "@/lib/data";
+import { getRooms } from "@/lib/rooms-repo";
+import { getAddOns } from "@/lib/addons-repo";
+
+export const dynamic = "force-dynamic";
 
 const highlights = [
   {
@@ -25,7 +29,9 @@ const highlights = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const [rooms, addOns] = await Promise.all([getRooms(), getAddOns()]);
+
   return (
     <>
       {/* Hero */}

@@ -2,9 +2,9 @@
 
 import { useMemo, useState } from "react";
 import TourCard from "@/components/TourCard";
-import { addOns } from "@/lib/data";
+import type { AddOn } from "@/lib/data";
 
-export default function AddOnsGrid() {
+export default function AddOnsGrid({ addOns }: { addOns: AddOn[] }) {
   const [selected, setSelected] = useState<string[]>([]);
   const [filter, setFilter] = useState<"All" | "Tour" | "Transfer">("All");
 
@@ -17,7 +17,7 @@ export default function AddOnsGrid() {
   const filtered = useMemo(
     () =>
       filter === "All" ? addOns : addOns.filter((a) => a.category === filter),
-    [filter]
+    [filter, addOns]
   );
 
   const selectedItems = addOns.filter((a) => selected.includes(a.slug));

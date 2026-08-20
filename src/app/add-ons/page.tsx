@@ -1,6 +1,9 @@
 import PageHero from "@/components/PageHero";
 import AddOnsGrid from "@/components/AddOnsGrid";
+import { getAddOns } from "@/lib/addons-repo";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Tours & Transfers — Aurelia Bay",
@@ -8,7 +11,9 @@ export const metadata: Metadata = {
     "Browse guided tours, sailing excursions, spa days, and private transfers to add to your stay.",
 };
 
-export default function AddOnsPage() {
+export default async function AddOnsPage() {
+  const addOns = await getAddOns();
+
   return (
     <>
       <PageHero
@@ -20,7 +25,7 @@ export default function AddOnsPage() {
 
       <section className="bg-ivory-50 py-24 px-6 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <AddOnsGrid />
+          <AddOnsGrid addOns={addOns} />
         </div>
       </section>
     </>

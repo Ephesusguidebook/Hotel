@@ -75,3 +75,18 @@ body {
   background: var(--color-gold-500);
   color: var(--color-charcoal-950);
 }
+
+/* Admin panel form controls */
+.input {
+  width: 100%;
+  border: 1px solid rgba(20, 18, 16, 0.15);
+  background: white;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-charcoal-900);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-gold-500);
+}

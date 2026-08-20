@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ImageGallery from "@/components/ImageGallery";
-import { addOns } from "@/lib/data";
+import { getAddOns, getAddOnBySlug } from "@/lib/addons-repo";
 import type { Metadata } from "next";
 
-type Params = Promise<{ slug: string }>;
+export const dynamic = "force-dynamic";
 
-export function generateStaticParams() {
-  return addOns.map((item) => ({ slug: item.slug }));
-}
+type Params = Promise<{ slug: string }>;
 
 export async function generateMetadata({
   params,
@@ -16,7 +14,7 @@ export async function generateMetadata({
   params: Params;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const item = addOns.find((a) => a.slug === slug);
+  const item = await getAddOnBySlug(slug);
   if (!item) return {};
   return {
     title: `${item.name} — Aurelia Bay`,
@@ -26,9 +24,10 @@ export async function generateMetadata({
 
 export default async function AddOnDetailPage({ params }: { params: Params }) {
   const { slug } = await params;
-  const item = addOns.find((a) => a.slug === slug);
+  const item = await getAddOnBySlug(slug);
   if (!item) notFound();
 
+  const addOns = await getAddOns();
   const more = addOns.filter((a) => a.slug !== slug).slice(0, 3);
 
   return (

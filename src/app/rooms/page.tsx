@@ -2,8 +2,10 @@ import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import ReservationPanel from "@/components/ReservationPanel";
 import ImageGallery from "@/components/ImageGallery";
-import { rooms } from "@/lib/data";
+import { getRooms } from "@/lib/rooms-repo";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Rooms & Suites — Aurelia Bay",
@@ -23,6 +25,7 @@ export default async function RoomsPage({
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
+  const rooms = await getRooms();
 
   return (
     <>
@@ -81,10 +84,11 @@ export default async function RoomsPage({
           <div className="lg:col-span-1">
             <div className="sticky top-28">
               <ReservationPanel
+                rooms={rooms}
                 defaultCheckIn={params.checkin ?? ""}
                 defaultCheckOut={params.checkout ?? ""}
                 defaultGuests={params.guests ?? "2"}
-                defaultRoom={params.room ?? rooms[0].slug}
+                defaultRoom={params.room ?? rooms[0]?.slug}
               />
             </div>
           </div>

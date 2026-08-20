@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import SiteChrome from "@/components/SiteChrome";
 import { hotel } from "@/lib/data";
 import "./globals.css";
 
@@ -36,9 +35,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <Navbar />
-        <main className="pt-20">{children}</main>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

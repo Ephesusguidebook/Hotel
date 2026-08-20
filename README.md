@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aurelia Bay — Hotel Website
 
-## Getting Started
+A luxury boutique hotel website built with Next.js 16 (App Router), TypeScript, and
+Tailwind CSS v4. All content, prices, and photography are **placeholders** —
+replace them with real data before launch (see "Replacing placeholder content"
+below).
 
-First, run the development server:
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser. `npm run build && npm run start`
+runs a production build.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Pages
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/` — Home (hero + quick search, highlights, featured rooms, tours teaser,
+  testimonials, journal teaser)
+- `/rooms` — Room & suite listing with a live "check availability" reservation
+  panel (mock pricing/availability, no backend yet)
+- `/add-ons` — Tours & transfers, filterable, with an "add to trip" running
+  total (client-side only)
+- `/about` — About Us / hotel story
+- `/contact` — Contact details + message form
+- `/blog` — Journal listing, with `/blog/[slug]` post pages
+- `/privacy` — Privacy Policy
+- `/terms` — Terms & Conditions
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/            route segments (one folder per page, App Router)
+  components/     shared UI (Navbar, Footer, cards, reservation panel, etc.)
+  lib/data.ts     all placeholder content: hotel info, rooms, add-ons, blog posts
+scripts/
+  generate_images.py   regenerates the placeholder imagery in public/images
+public/images/    generated placeholder photography (see below)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Replacing placeholder content
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Hotel details, rooms, tours/transfers, blog posts** all live in
+   `src/lib/data.ts` — update names, prices, descriptions, and copy there.
+2. **Images**: `public/images/*.jpg` are generated abstract gradient
+   placeholders (see `scripts/generate_images.py`), used so the site never
+   ships broken image links. Swap them for real photography — keep the same
+   filenames (e.g. `room-deluxe.jpg`) or update the `image` paths in
+   `src/lib/data.ts`.
+3. **Fonts**: loaded via Google Fonts `<link>` tags in `src/app/layout.tsx`
+   (Playfair Display + Inter). Swap for other Google Fonts, or migrate to
+   `next/font/google` / self-hosted files once you have reliable network
+   access to fonts.googleapis.com at build time.
+4. **Reservation & add-on booking**: `ReservationPanel` and `AddOnsGrid` are
+   fully interactive but not wired to a real booking system — pricing and
+   "availability" are mocked client-side. Connect them to a real
+   booking/PMS API before taking live reservations.
+5. **Contact form**: `ContactForm` shows a success state on submit but does
+   not send anything yet — wire it to an email/API endpoint.
 
-## Deploy on Vercel
+## Design system
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Colors, fonts, and a few utility classes (gold divider, hairline, tracking)
+are defined in `src/app/globals.css` using Tailwind v4's `@theme` block —
+edit the CSS variables there (charcoal / ivory / gold palette) to adjust the
+look sitewide.

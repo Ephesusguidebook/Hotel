@@ -13,6 +13,7 @@ import { upsertBlogPost, deleteBlogPost, type BlogPostInput } from "@/lib/blog-r
 import { updateSiteSettings } from "@/lib/settings-repo";
 import { updateAboutContent, textToValues } from "@/lib/about-repo";
 import { updateLegalPage, textToSections } from "@/lib/legal-repo";
+import { updatePaymentStatus, updateReservationStatus } from "@/lib/reservations-repo";
 import type { SiteSettings, AboutContent } from "@/lib/data";
 
 function toList(text: string): string[] {
@@ -178,4 +179,25 @@ export async function saveLegalAction(slug: "privacy" | "terms", formData: FormD
 
   await updateLegalPage(slug, { title, updated, sections });
   redirect(`/admin/legal/${slug}?saved=1`);
+}
+
+export async function updateReservationAction(
+  reservationId: number,
+  code: string,
+  formData: FormData
+) {
+  await requireAuthed();
+
+  const paymentStatus = String(formData.get("paymentStatus") ?? "unpaid");
+  const status = String(formData.get("status") ?? "confirmed");
+
+  await updatePaymentStatus(
+    reservationId,
+    paymentStatus === "paid" || paymentStatus === "refunded" ? paymentStatus : "unpaid"
+  );
+  await updateReservationStatus(
+    reservationId,
+    status === "pending" || status === "cancelled" ? status : "confirmed"
+  );
+  redirect(`/admin/reservations/${code}?saved=1`);
 }

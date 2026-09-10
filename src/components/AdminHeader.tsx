@@ -30,6 +30,9 @@ export default function AdminHeader({ title }: { title: string }) {
         <Link href="/admin/add-ons" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
           Tours & Transfers
         </Link>
+        <Link href="/admin/reservations" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
+          Reservations
+        </Link>
         <Link href="/admin/blog" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
           Journal
         </Link>

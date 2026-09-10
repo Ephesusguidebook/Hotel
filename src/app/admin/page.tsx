@@ -4,6 +4,7 @@ import { isAdminAuthed } from "@/lib/auth";
 import { getRooms } from "@/lib/rooms-repo";
 import { getAddOns } from "@/lib/addons-repo";
 import { getBlogPosts } from "@/lib/blog-repo";
+import { getAllReservations } from "@/lib/reservations-repo";
 import { getPool } from "@/lib/db";
 import AdminHeader from "@/components/AdminHeader";
 
@@ -13,11 +14,13 @@ export default async function AdminDashboard() {
   if (!(await isAdminAuthed())) redirect("/admin/login");
 
   const dbConfigured = !!getPool();
-  const [rooms, addOns, posts] = await Promise.all([
+  const [rooms, addOns, posts, reservations] = await Promise.all([
     getRooms(),
     getAddOns(),
     getBlogPosts(),
+    getAllReservations(),
   ]);
+  const unpaidCount = reservations.filter((r) => r.paymentStatus === "unpaid").length;
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
@@ -109,7 +112,7 @@ export default async function AdminDashboard() {
         <Link
           prefetch={false}
           href="/admin/settings"
-          className="block border border-charcoal-900/10 p-6 hover:border-gold-500 transition-colors sm:col-span-2"
+          className="block border border-charcoal-900/10 p-6 hover:border-gold-500 transition-colors"
         >
           <p className="text-xs tracking-widest-plus text-gold-600 mb-2">
             SITE SETTINGS
@@ -119,6 +122,22 @@ export default async function AdminDashboard() {
           </p>
           <p className="text-sm text-charcoal-700 mt-2">
             Powers the footer, the Contact page, and page titles.
+          </p>
+        </Link>
+
+        <Link
+          prefetch={false}
+          href="/admin/reservations"
+          className="block border border-charcoal-900/10 p-6 hover:border-gold-500 transition-colors sm:col-span-2"
+        >
+          <p className="text-xs tracking-widest-plus text-gold-600 mb-2">
+            RESERVATIONS
+          </p>
+          <p className="font-serif text-3xl text-charcoal-900">{reservations.length}</p>
+          <p className="text-sm text-charcoal-700 mt-2">
+            {unpaidCount > 0
+              ? `${unpaidCount} awaiting payment. Review guest bookings and mark payment status.`
+              : "Review guest bookings, itemized totals, and payment status."}
           </p>
         </Link>
       </div>

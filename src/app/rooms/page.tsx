@@ -2,6 +2,7 @@ import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import ReservationPanel from "@/components/ReservationPanel";
 import ImageGallery from "@/components/ImageGallery";
+import AddRoomToCartForm from "@/components/AddRoomToCartForm";
 import { getRooms } from "@/lib/rooms-repo";
 import type { Metadata } from "next";
 
@@ -17,6 +18,7 @@ type SearchParams = Promise<{
   checkout?: string;
   guests?: string;
   room?: string;
+  cartError?: string;
 }>;
 
 export default async function RoomsPage({
@@ -35,6 +37,16 @@ export default async function RoomsPage({
         title="Rooms & Suites"
         description="Four room types, each facing the water and finished with the same quiet attention to detail."
       />
+
+      {params.cartError && (
+        <div className="bg-ivory-50 pt-10 px-6 lg:px-10">
+          <div className="mx-auto max-w-7xl">
+            <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded px-4 py-3">
+              {params.cartError}
+            </p>
+          </div>
+        </div>
+      )}
 
       <section className="bg-ivory-50 py-24 px-6 lg:px-10">
         <div className="mx-auto max-w-7xl grid grid-cols-1 lg:grid-cols-3 gap-16">
@@ -76,6 +88,15 @@ export default async function RoomsPage({
                       </li>
                     ))}
                   </ul>
+
+                  <AddRoomToCartForm
+                    slug={room.slug}
+                    unitsLeft={room.unitsLeft}
+                    available={room.available}
+                    defaultCheckIn={params.checkin ?? ""}
+                    defaultCheckOut={params.checkout ?? ""}
+                    defaultGuests={params.guests ?? "2"}
+                  />
                 </div>
               </div>
             ))}

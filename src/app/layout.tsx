@@ -3,6 +3,8 @@ import SiteChrome from "@/components/SiteChrome";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getSiteSettings } from "@/lib/settings-repo";
+import { getCurrentCustomer } from "@/lib/customer-auth";
+import { getCartItems } from "@/lib/cart-repo";
 import "./globals.css";
 
 // Fonts are loaded via a standard <link> tag below (see head) rather than
@@ -18,11 +20,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const customer = await getCurrentCustomer();
+  const cartCount = customer ? (await getCartItems(customer.id)).length : 0;
+
   return (
     <html lang="en">
       <head>
@@ -40,7 +45,12 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <SiteChrome navbar={<Navbar />} footer={<Footer />}>
+        <SiteChrome
+          navbar={
+            <Navbar customerName={customer?.name ?? null} cartCount={cartCount} />
+          }
+          footer={<Footer />}
+        >
           {children}
         </SiteChrome>
       </body>

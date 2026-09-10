@@ -11,8 +11,13 @@ export const metadata: Metadata = {
     "Browse guided tours, sailing excursions, spa days, and private transfers to add to your stay.",
 };
 
-export default async function AddOnsPage() {
+export default async function AddOnsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ cartError?: string }>;
+}) {
   const addOns = await getAddOns();
+  const { cartError } = await searchParams;
 
   return (
     <>
@@ -25,6 +30,11 @@ export default async function AddOnsPage() {
 
       <section className="bg-ivory-50 py-24 px-6 lg:px-10">
         <div className="mx-auto max-w-7xl">
+          {cartError && (
+            <p className="mb-10 text-sm text-red-700 bg-red-50 border border-red-300 rounded px-4 py-3">
+              {cartError}
+            </p>
+          )}
           <AddOnsGrid addOns={addOns} />
         </div>
       </section>

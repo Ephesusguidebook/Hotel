@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ImageGallery from "@/components/ImageGallery";
 import { getAddOns, getAddOnBySlug } from "@/lib/addons-repo";
+import { addAddOnToCartAction } from "@/app/account/actions";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -105,16 +106,33 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
                   </div>
                 </div>
 
-                <Link
-                  href="/add-ons"
-                  className="mt-8 block text-center bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-xs tracking-widest-plus py-4 transition-colors"
-                >
-                  ADD TO TRIP
-                </Link>
+                <form action={addAddOnToCartAction.bind(null, item.slug)} className="mt-8">
+                  <label className="block mb-4">
+                    <span className="text-[11px] tracking-widest-plus text-ivory-200/60">
+                      QUANTITY
+                    </span>
+                    <select
+                      name="quantity"
+                      defaultValue="1"
+                      className="mt-2 w-full bg-transparent border-b border-ivory-200/30 py-2 text-sm focus:outline-none focus:border-gold-400 [color-scheme:dark]"
+                    >
+                      {[1, 2, 3, 4, 5, 6].map((n) => (
+                        <option key={n} value={n} className="text-charcoal-900">
+                          {n}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <button
+                    type="submit"
+                    className="block w-full text-center bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-xs tracking-widest-plus py-4 transition-colors"
+                  >
+                    ADD TO CART
+                  </button>
+                </form>
                 <p className="mt-4 text-[11px] text-ivory-200/40 leading-relaxed">
-                  This is a design preview — booking is not yet connected to a
-                  live reservation system. Add this experience from the Tours
-                  & Transfers page to build your trip total.
+                  Sign in to add this experience to your cart alongside your
+                  room reservation.
                 </p>
               </div>
             </div>

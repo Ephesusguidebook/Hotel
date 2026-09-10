@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { AddOn } from "@/lib/data";
 import ImageGallery from "@/components/ImageGallery";
+import { addAddOnToCartAction } from "@/app/account/actions";
 
 type Props = {
   item: AddOn;
@@ -59,6 +60,15 @@ export default function TourCard({ item, added, onToggle }: Props) {
             {added ? "ADDED ✓" : "ADD TO TRIP"}
           </button>
         </div>
+        <form action={addAddOnToCartAction.bind(null, item.slug)} className="mt-3">
+          <input type="hidden" name="quantity" value="1" />
+          <button
+            type="submit"
+            className="w-full text-xs tracking-widest-plus px-4 py-2.5 border border-gold-500 text-gold-600 hover:bg-gold-500 hover:text-charcoal-950 transition-colors"
+          >
+            ADD TO CART
+          </button>
+        </form>
       </div>
     </div>
   );

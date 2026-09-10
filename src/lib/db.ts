@@ -24,6 +24,10 @@ export function getPool() {
       maxIdle: 5,
       idleTimeout: 60000,
       connectTimeout: 8000,
+      // Return DATE/DATETIME/TIMESTAMP columns as plain "YYYY-MM-DD[ HH:MM:SS]"
+      // strings instead of JS Date objects — several repos (reservations,
+      // cart) pass these straight into JSX, which can't render a Date.
+      dateStrings: true,
     });
   }
   return pool;
@@ -46,5 +50,37 @@ export async function safeQuery<T = unknown>(
   } catch (err) {
     console.error("[db] query failed, falling back to static data:", err);
     return null;
+  }
+}
+
+/**
+ * Run a callback inside a transaction on a dedicated connection. Used for
+ * multi-statement writes that must be all-or-nothing (checkout: decrement
+ * room stock, create the reservation, clear the cart). Returns `null` if the
+ * DB isn't configured. If the callback throws, the transaction is rolled
+ * back and the error is re-thrown (callers can catch it to distinguish
+ * "sold out" from a generic failure) — `null` from this function itself
+ * means only "no database configured".
+ */
+export async function withTransaction<T>(
+  fn: (conn: mysql.PoolConnection) => Promise<T>
+): Promise<T | null> {
+  const p = getPool();
+  if (!p) return null;
+  const conn = await p.getConnection();
+  try {
+    await conn.beginTransaction();
+    const result = await fn(conn);
+    await conn.commit();
+    return result;
+  } catch (err) {
+    try {
+      await conn.rollback();
+    } catch {
+      // connection may already be broken — nothing more to do
+    }
+    throw err;
+  } finally {
+    conn.release();
   }
 }

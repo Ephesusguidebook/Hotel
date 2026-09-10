@@ -51,7 +51,7 @@ export default function Navbar({ customerName = null, cartCount = 0 }: Props) {
             >
               Cart
               {cartCount > 0 && (
-                <span className="ml-1.5 inline-flex items-center justify-center text-[10px] bg-gold-500 text-charcoal-950 rounded-full w-4 h-4 align-middle">
+                <span className="ml-1.5 inline-flex items-center justify-center text-xs bg-gold-500 text-charcoal-950 rounded-full w-4 h-4 align-middle">
                   {cartCount}
                 </span>
               )}
@@ -64,7 +64,7 @@ export default function Navbar({ customerName = null, cartCount = 0 }: Props) {
             </Link>
             <Link
               href="/rooms"
-              className="inline-flex items-center border border-gold-500 px-5 py-2.5 text-xs tracking-widest-plus text-gold-400 hover:bg-gold-500 hover:text-charcoal-950 transition-colors"
+              className="inline-flex items-center border border-gold-500 px-5 py-2.5 text-sm tracking-widest-plus text-gold-400 hover:bg-gold-500 hover:text-charcoal-950 transition-colors"
             >
               BOOK NOW
             </Link>
@@ -126,7 +126,7 @@ export default function Navbar({ customerName = null, cartCount = 0 }: Props) {
             </Link>
             <Link
               href="/rooms"
-              className="mt-2 inline-flex w-fit items-center border border-gold-500 px-5 py-2.5 text-xs tracking-widest-plus text-gold-400"
+              className="mt-2 inline-flex w-fit items-center border border-gold-500 px-5 py-2.5 text-sm tracking-widest-plus text-gold-400"
               onClick={() => setOpen(false)}
             >
               BOOK NOW

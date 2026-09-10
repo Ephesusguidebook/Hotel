@@ -1,3 +1,4 @@
+import { isMediaUrl } from "@/lib/media-url";
 import Image from "next/image";
 import Link from "next/link";
 import QuickSearch from "@/components/QuickSearch";
@@ -55,7 +56,7 @@ export default async function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal-950/70 via-charcoal-950/40 to-charcoal-950/85" />
 
         <div className="relative mx-auto max-w-7xl w-full px-6 lg:px-10 pt-16">
-          <p className="text-xs md:text-sm tracking-widest-plus text-gold-400 mb-5">
+          <p className="text-sm md:text-sm tracking-widest-plus text-gold-400 mb-5">
             {hotel.city.toUpperCase()}
           </p>
           <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-ivory-50 max-w-3xl leading-[1.1]">
@@ -89,7 +90,7 @@ export default async function Home() {
                 <h3 className="mt-6 font-serif text-lg text-charcoal-900">
                   {h.title}
                 </h3>
-                <p className="mt-3 text-sm text-charcoal-700 leading-relaxed">
+                <p className="mt-3 text-base text-charcoal-700 leading-relaxed">
                   {h.text}
                 </p>
               </div>
@@ -110,7 +111,7 @@ export default async function Home() {
             />
             <Link
               href="/rooms"
-              className="shrink-0 text-xs tracking-widest-plus text-gold-400 hover:text-gold-300 inline-flex items-center gap-2"
+              className="shrink-0 text-sm tracking-widest-plus text-gold-400 hover:text-gold-300 inline-flex items-center gap-2"
             >
               VIEW ALL ROOMS <span aria-hidden>&rarr;</span>
             </Link>
@@ -144,7 +145,7 @@ export default async function Home() {
             />
             <Link
               href="/about"
-              className="mt-8 inline-flex items-center gap-2 text-xs tracking-widest-plus text-gold-600 hover:text-gold-500"
+              className="mt-8 inline-flex items-center gap-2 text-sm tracking-widest-plus text-gold-600 hover:text-gold-500"
             >
               READ OUR STORY <span aria-hidden>&rarr;</span>
             </Link>
@@ -163,9 +164,13 @@ export default async function Home() {
           />
           <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {addOns.map((item) => (
-              <div key={item.slug} className="relative aspect-[4/5] group overflow-hidden">
+              <div
+                key={item.slug}
+                className="relative aspect-[4/5] group overflow-hidden"
+              >
                 <Image
                   src={item.image}
+                  unoptimized={isMediaUrl(item.image)}
                   alt={item.name}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -173,7 +178,7 @@ export default async function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/90 via-charcoal-950/20 to-transparent" />
                 <div className="absolute bottom-0 p-5">
-                  <p className="text-[11px] tracking-widest-plus text-gold-400">
+                  <p className="text-xs tracking-widest-plus text-gold-400">
                     {item.category.toUpperCase()}
                   </p>
                   <h3 className="mt-2 font-serif text-lg text-ivory-50">
@@ -186,7 +191,7 @@ export default async function Home() {
           <div className="mt-12 text-center">
             <Link
               href="/add-ons"
-              className="inline-flex items-center border border-gold-500 px-6 py-3 text-xs tracking-widest-plus text-gold-400 hover:bg-gold-500 hover:text-charcoal-950 transition-colors"
+              className="inline-flex items-center border border-gold-500 px-6 py-3 text-sm tracking-widest-plus text-gold-400 hover:bg-gold-500 hover:text-charcoal-950 transition-colors"
             >
               EXPLORE ALL EXPERIENCES
             </Link>
@@ -208,7 +213,7 @@ export default async function Home() {
                 <p className="font-serif text-lg text-charcoal-900 leading-relaxed">
                   &ldquo;{t.quote}&rdquo;
                 </p>
-                <p className="mt-5 text-xs tracking-widest-plus text-gold-600">
+                <p className="mt-5 text-sm tracking-widest-plus text-gold-600">
                   {t.author.toUpperCase()}
                 </p>
               </div>
@@ -224,7 +229,7 @@ export default async function Home() {
             <SectionHeading eyebrow="Journal" title="Notes from the coast" />
             <Link
               href="/blog"
-              className="shrink-0 text-xs tracking-widest-plus text-gold-600 hover:text-gold-500 inline-flex items-center gap-2"
+              className="shrink-0 text-sm tracking-widest-plus text-gold-600 hover:text-gold-500 inline-flex items-center gap-2"
             >
               VISIT THE JOURNAL <span aria-hidden>&rarr;</span>
             </Link>
@@ -252,12 +257,12 @@ export default async function Home() {
             Reserve your dates on the water
           </h2>
           <p className="mt-4 text-ivory-200/80">
-            Rooms are limited by design. Check availability and secure your
-            stay directly with us.
+            Rooms are limited by design. Check availability and secure your stay
+            directly with us.
           </p>
           <Link
             href="/rooms"
-            className="mt-8 inline-flex items-center bg-gold-500 hover:bg-gold-400 text-charcoal-950 px-8 py-3.5 text-xs tracking-widest-plus transition-colors"
+            className="mt-8 inline-flex items-center bg-gold-500 hover:bg-gold-400 text-charcoal-950 px-8 py-3.5 text-sm tracking-widest-plus transition-colors"
           >
             BOOK YOUR STAY
           </Link>

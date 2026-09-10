@@ -3,6 +3,8 @@ import { isAdminAuthed } from "@/lib/auth";
 import { getAboutContent } from "@/lib/about-repo";
 import { saveAboutAction } from "@/app/admin/actions";
 import AdminHeader from "@/components/AdminHeader";
+import RichTextEditor from "@/components/admin/RichTextEditor";
+import ImageField from "@/components/admin/ImageField";
 
 export const dynamic = "force-dynamic";
 
@@ -29,11 +31,11 @@ export default async function AdminAboutPage({
       )}
 
       <form action={saveAboutAction} className="space-y-8">
-        <Field label="HERO TITLE">
+        <Field label="Hero title">
           <input name="heroTitle" defaultValue={about.heroTitle} required className="input" />
         </Field>
 
-        <Field label="HERO DESCRIPTION">
+        <Field label="Hero description">
           <textarea
             name="heroDescription"
             defaultValue={about.heroDescription}
@@ -43,7 +45,7 @@ export default async function AdminAboutPage({
           />
         </Field>
 
-        <Field label="STORY SECTION HEADING">
+        <Field label="Story section heading">
           <input
             name="storyHeading"
             defaultValue={about.storyHeading}
@@ -52,21 +54,21 @@ export default async function AdminAboutPage({
           />
         </Field>
 
-        <Field label="STORY (one paragraph per line)">
-          <textarea
-            name="storyParagraphs"
-            defaultValue={about.storyParagraphs.join("\n")}
-            rows={6}
-            required
-            className="input font-mono text-xs"
-          />
-        </Field>
+        <RichTextEditor
+          name="story"
+          label="Our story"
+          defaultValue={about.story}
+          hint="Use headings, links and photos to tell the hotel's story."
+        />
 
-        <Field label="TEAM PHOTO URL">
-          <input name="teamImage" defaultValue={about.teamImage} required className="input" />
-        </Field>
+        <ImageField
+          name="teamImage"
+          label="Team photo"
+          defaultValue={about.teamImage ? [about.teamImage] : []}
+          multiple={false}
+        />
 
-        <Field label="WHAT WE VALUE (one per line, format: Title :: Description)">
+        <Field label="What we value (one per line — Title :: Description)">
           <textarea
             name="values"
             defaultValue={valuesText}
@@ -79,7 +81,7 @@ export default async function AdminAboutPage({
         <div className="pt-4 border-t border-charcoal-900/10">
           <button
             type="submit"
-            className="bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-xs tracking-widest-plus px-6 py-3.5"
+            className="bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-sm tracking-widest-plus px-6 py-3.5"
           >
             SAVE CHANGES
           </button>
@@ -92,7 +94,7 @@ export default async function AdminAboutPage({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">
+      <span className="text-sm font-medium text-charcoal-800">
         {label}
       </span>
       <div className="mt-2">{children}</div>

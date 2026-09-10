@@ -1,3 +1,4 @@
+import { isMediaUrl } from "@/lib/media-url";
 import Image from "next/image";
 
 type Props = {
@@ -7,11 +8,17 @@ type Props = {
   description?: string;
 };
 
-export default function PageHero({ image, eyebrow, title, description }: Props) {
+export default function PageHero({
+  image,
+  eyebrow,
+  title,
+  description,
+}: Props) {
   return (
     <section className="relative h-[46vh] min-h-[360px] flex items-end">
       <Image
         src={image}
+        unoptimized={isMediaUrl(image)}
         alt=""
         fill
         priority
@@ -20,7 +27,7 @@ export default function PageHero({ image, eyebrow, title, description }: Props) 
       />
       <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/50 to-charcoal-950/20" />
       <div className="relative mx-auto max-w-7xl w-full px-6 lg:px-10 pb-14">
-        <p className="text-xs tracking-widest-plus text-gold-400 mb-4">
+        <p className="text-sm tracking-widest-plus text-gold-400 mb-4">
           {eyebrow.toUpperCase()}
         </p>
         <h1 className="font-serif text-4xl md:text-5xl text-ivory-50 max-w-2xl">

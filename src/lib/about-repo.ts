@@ -1,5 +1,6 @@
 import { safeQuery } from "@/lib/db";
 import { aboutContentSeed, type AboutContent, type ValueBlock } from "@/lib/data";
+import { toHtml } from "@/lib/rich-text";
 
 type AboutRow = {
   hero_title: string;
@@ -15,10 +16,6 @@ function toList(text: string): string[] {
     .split("\n")
     .map((s) => s.trim())
     .filter(Boolean);
-}
-
-function fromList(items: string[]): string {
-  return items.map((s) => s.trim()).filter(Boolean).join("\n");
 }
 
 /** "Title :: Text" per line <-> ValueBlock[] */
@@ -41,7 +38,7 @@ function rowToAbout(row: AboutRow): AboutContent {
     heroTitle: row.hero_title,
     heroDescription: row.hero_description,
     storyHeading: row.story_heading,
-    storyParagraphs: toList(row.story_paragraphs),
+    story: toHtml(row.story_paragraphs),
     teamImage: row.team_image,
     values: textToValues(row.value_blocks),
   };
@@ -69,7 +66,7 @@ export async function updateAboutContent(input: AboutContent): Promise<boolean> 
       input.heroTitle,
       input.heroDescription,
       input.storyHeading,
-      fromList(input.storyParagraphs),
+      input.story,
       input.teamImage,
       valuesToText(input.values),
     ]

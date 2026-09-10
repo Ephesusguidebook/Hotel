@@ -34,7 +34,7 @@ export default async function AdminRoomsPage({
         <Link
           prefetch={false}
           href="/admin/rooms/new"
-          className="text-xs tracking-widest-plus bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 px-5 py-3"
+          className="text-sm tracking-widest-plus bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 px-5 py-3"
         >
           + ADD ROOM
         </Link>
@@ -50,12 +50,12 @@ export default async function AdminRoomsPage({
           >
             <div>
               <p className="font-serif text-lg text-charcoal-900">{room.name}</p>
-              <p className="text-xs text-charcoal-700/70 mt-1">
+              <p className="text-xs text-charcoal-500 mt-1">
                 ${room.price}/night &middot; {room.size} &middot;{" "}
                 {room.available ? `${room.unitsLeft} units available` : "Unavailable"}
               </p>
             </div>
-            <span className="text-xs tracking-widest-plus text-gold-600">
+            <span className="text-sm tracking-widest-plus text-gold-600">
               EDIT &rarr;
             </span>
           </Link>

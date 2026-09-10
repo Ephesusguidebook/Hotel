@@ -17,7 +17,7 @@ export default function SectionHeading({
   return (
     <div className={isCenter ? "text-center mx-auto max-w-2xl" : "max-w-2xl"}>
       {eyebrow && (
-        <p className="text-xs tracking-widest-plus text-gold-600 mb-3">
+        <p className="text-sm tracking-widest-plus text-gold-600 mb-3">
           {eyebrow.toUpperCase()}
         </p>
       )}

@@ -33,7 +33,7 @@ export default async function AdminReservationDetailPage({
       <Link
         prefetch={false}
         href="/admin/reservations"
-        className="text-xs tracking-widest-plus text-gold-600 hover:text-gold-500 inline-flex items-center gap-2"
+        className="text-sm tracking-widest-plus text-gold-600 hover:text-gold-500 inline-flex items-center gap-2"
       >
         <span aria-hidden>&larr;</span> BACK TO RESERVATIONS
       </Link>
@@ -45,7 +45,7 @@ export default async function AdminReservationDetailPage({
       )}
 
       <div className="mt-8 border border-charcoal-900/10 p-6">
-        <p className="text-[11px] tracking-widest-plus text-gold-600 mb-1">GUEST</p>
+        <p className="text-sm tracking-widest-plus text-gold-600 mb-1">GUEST</p>
         <p className="text-sm text-charcoal-900">
           {withContact?.customerName} &middot; {withContact?.customerEmail}
         </p>
@@ -62,11 +62,11 @@ export default async function AdminReservationDetailPage({
         {reservation.items.map((item) => (
           <div key={item.id} className="p-5 flex items-center justify-between gap-4">
             <div>
-              <p className="text-[11px] tracking-widest-plus text-gold-600 mb-1">
+              <p className="text-sm tracking-widest-plus text-gold-600 mb-1">
                 {item.itemType === "room" ? "ROOM" : "TOUR / TRANSFER"}
               </p>
               <p className="text-sm text-charcoal-900">{item.itemName}</p>
-              <p className="mt-1 text-xs text-charcoal-700/70">
+              <p className="mt-1 text-xs text-charcoal-500">
                 {item.itemType === "room"
                   ? `${item.checkIn} → ${item.checkOut} · $${item.unitPrice}/night × ${item.quantity}`
                   : `$${item.unitPrice} × ${item.quantity}`}
@@ -98,7 +98,7 @@ export default async function AdminReservationDetailPage({
       >
         <h2 className="font-serif text-lg text-charcoal-900">Update Status</h2>
         <label className="block">
-          <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">
+          <span className="text-sm font-medium text-charcoal-800">
             PAYMENT STATUS
           </span>
           <select
@@ -112,7 +112,7 @@ export default async function AdminReservationDetailPage({
           </select>
         </label>
         <label className="block">
-          <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">
+          <span className="text-sm font-medium text-charcoal-800">
             RESERVATION STATUS
           </span>
           <select
@@ -127,7 +127,7 @@ export default async function AdminReservationDetailPage({
         </label>
         <button
           type="submit"
-          className="bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-xs tracking-widest-plus px-8 py-3.5 transition-colors"
+          className="bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-sm tracking-widest-plus px-8 py-3.5 transition-colors"
         >
           SAVE
         </button>

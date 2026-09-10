@@ -1,5 +1,6 @@
 import { safeQuery } from "@/lib/db";
 import { blogPosts as seedBlogPosts, type BlogPost } from "@/lib/data";
+import { toHtml } from "@/lib/rich-text";
 
 type BlogRow = {
   slug: string;
@@ -10,17 +11,6 @@ type BlogRow = {
   content: string;
 };
 
-function toList(text: string): string[] {
-  return text
-    .split("\n")
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
-function fromList(items: string[]): string {
-  return items.map((s) => s.trim()).filter(Boolean).join("\n");
-}
-
 function rowToPost(row: BlogRow): BlogPost {
   return {
     slug: row.slug,
@@ -28,7 +18,7 @@ function rowToPost(row: BlogRow): BlogPost {
     image: row.image,
     date: row.post_date,
     excerpt: row.excerpt,
-    content: toList(row.content),
+    content: toHtml(row.content),
   };
 }
 
@@ -53,7 +43,8 @@ export type BlogPostInput = {
   image: string;
   date: string;
   excerpt: string;
-  content: string[];
+  /** Rich text (HTML), already sanitised by the caller. */
+  content: string;
 };
 
 /** Insert a post if its slug doesn't exist yet, otherwise update it. Returns false if the DB isn't configured. */
@@ -64,7 +55,7 @@ export async function upsertBlogPost(input: BlogPostInput): Promise<boolean> {
      ON DUPLICATE KEY UPDATE
        title = VALUES(title), image = VALUES(image), post_date = VALUES(post_date),
        excerpt = VALUES(excerpt), content = VALUES(content)`,
-    [input.slug, input.title, input.image, input.date, input.excerpt, fromList(input.content)]
+    [input.slug, input.title, input.image, input.date, input.excerpt, input.content]
   );
   return result !== null;
 }

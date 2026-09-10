@@ -52,13 +52,13 @@ export default async function CartPage({
               <div className="mt-6 flex justify-center gap-4">
                 <Link
                   href="/rooms"
-                  className="inline-flex items-center border border-charcoal-900 text-charcoal-900 hover:bg-charcoal-900 hover:text-ivory-50 px-5 py-2.5 text-xs tracking-widest-plus transition-colors"
+                  className="inline-flex items-center border border-charcoal-900 text-charcoal-900 hover:bg-charcoal-900 hover:text-ivory-50 px-5 py-2.5 text-sm tracking-widest-plus transition-colors"
                 >
                   BROWSE ROOMS
                 </Link>
                 <Link
                   href="/add-ons"
-                  className="inline-flex items-center border border-charcoal-900 text-charcoal-900 hover:bg-charcoal-900 hover:text-ivory-50 px-5 py-2.5 text-xs tracking-widest-plus transition-colors"
+                  className="inline-flex items-center border border-charcoal-900 text-charcoal-900 hover:bg-charcoal-900 hover:text-ivory-50 px-5 py-2.5 text-sm tracking-widest-plus transition-colors"
                 >
                   BROWSE TOURS & TRANSFERS
                 </Link>
@@ -73,7 +73,7 @@ export default async function CartPage({
                     className="border border-charcoal-900/10 p-6 flex flex-wrap items-center justify-between gap-4"
                   >
                     <div>
-                      <p className="text-[11px] tracking-widest-plus text-gold-600 mb-1">
+                      <p className="text-xs tracking-widest-plus text-gold-600 mb-1">
                         {item.itemType === "room" ? "ROOM" : "TOUR / TRANSFER"}
                       </p>
                       <p className="font-serif text-lg text-charcoal-900">{item.itemName}</p>
@@ -91,7 +91,7 @@ export default async function CartPage({
 
                     <div className="flex items-center gap-5">
                       <form action={updateCartItemAction.bind(null, item.id)} className="flex items-center gap-2">
-                        <label className="text-[11px] tracking-widest-plus text-charcoal-700/60">
+                        <label className="text-xs tracking-widest-plus text-charcoal-500">
                           {item.itemType === "room" ? "ROOMS" : "QTY"}
                         </label>
                         <input
@@ -103,7 +103,7 @@ export default async function CartPage({
                         />
                         <button
                           type="submit"
-                          className="text-[11px] tracking-widest-plus text-charcoal-700 hover:text-charcoal-900 border border-charcoal-900/20 px-3 py-2"
+                          className="text-xs tracking-widest-plus text-charcoal-700 hover:text-charcoal-900 border border-charcoal-900/20 px-3 py-2"
                         >
                           UPDATE
                         </button>
@@ -116,7 +116,7 @@ export default async function CartPage({
                       <form action={removeCartItemAction.bind(null, item.id)}>
                         <button
                           type="submit"
-                          className="text-xs text-charcoal-700/60 hover:text-red-600"
+                          className="text-sm text-charcoal-500 hover:text-red-600"
                         >
                           Remove
                         </button>
@@ -146,7 +146,7 @@ export default async function CartPage({
                   <form action={checkoutAction} className="flex-1">
                     <button
                       type="submit"
-                      className="w-full bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-xs tracking-widest-plus py-4 transition-colors"
+                      className="w-full bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-sm tracking-widest-plus py-4 transition-colors"
                     >
                       CONFIRM RESERVATION
                     </button>
@@ -154,13 +154,13 @@ export default async function CartPage({
                   <form action={clearCartAction}>
                     <ConfirmSubmitButton
                       confirmMessage="Empty your cart?"
-                      className="text-xs tracking-widest-plus text-ivory-200/60 hover:text-ivory-50 border border-ivory-200/20 px-5 py-4"
+                      className="text-sm tracking-widest-plus text-ivory-200/60 hover:text-ivory-50 border border-ivory-200/20 px-5 py-4"
                     >
                       CLEAR CART
                     </ConfirmSubmitButton>
                   </form>
                 </div>
-                <p className="mt-4 text-[11px] text-ivory-200/40 leading-relaxed">
+                <p className="mt-4 text-xs text-ivory-200/75 leading-relaxed">
                   Confirming creates your reservation and reserves your room(s) — payment is
                   collected and tracked separately by our front desk, not through this site.
                 </p>

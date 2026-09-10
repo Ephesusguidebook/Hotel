@@ -32,25 +32,25 @@ export default async function ContactPage() {
             <SectionHeading eyebrow="Get in Touch" title="Contact Details" />
             <div className="mt-8 space-y-6 text-sm text-charcoal-700">
               <div>
-                <p className="text-[11px] tracking-widest-plus text-gold-600 mb-1">
+                <p className="text-xs tracking-widest-plus text-gold-600 mb-1">
                   ADDRESS
                 </p>
                 <p>{hotel.address}</p>
               </div>
               <div>
-                <p className="text-[11px] tracking-widest-plus text-gold-600 mb-1">
+                <p className="text-xs tracking-widest-plus text-gold-600 mb-1">
                   PHONE
                 </p>
                 <p>{hotel.phone}</p>
               </div>
               <div>
-                <p className="text-[11px] tracking-widest-plus text-gold-600 mb-1">
+                <p className="text-xs tracking-widest-plus text-gold-600 mb-1">
                   EMAIL
                 </p>
                 <p>{hotel.email}</p>
               </div>
               <div>
-                <p className="text-[11px] tracking-widest-plus text-gold-600 mb-1">
+                <p className="text-xs tracking-widest-plus text-gold-600 mb-1">
                   FRONT DESK HOURS
                 </p>
                 <p>{hotel.frontDeskHours}</p>
@@ -58,7 +58,7 @@ export default async function ContactPage() {
             </div>
 
             <div className="mt-10 aspect-[4/3] bg-charcoal-900 flex items-center justify-center">
-              <p className="text-ivory-200/40 text-xs tracking-widest-plus">
+              <p className="text-ivory-200/75 text-sm tracking-widest-plus">
                 MAP PLACEHOLDER
               </p>
             </div>

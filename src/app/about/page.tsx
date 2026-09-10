@@ -1,6 +1,8 @@
+import { isMediaUrl } from "@/lib/media-url";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
+import RichText from "@/components/RichText";
 import { getSiteSettings } from "@/lib/settings-repo";
 import { getAboutContent } from "@/lib/about-repo";
 import type { Metadata } from "next";
@@ -31,15 +33,12 @@ export default async function AboutPage() {
         <div className="mx-auto max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <SectionHeading eyebrow="Our Story" title={about.storyHeading} />
-            <div className="mt-6 space-y-5 text-charcoal-700 leading-relaxed text-sm">
-              {about.storyParagraphs.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
+            <RichText html={about.story} className="mt-6" />
           </div>
           <div className="relative aspect-[4/5]">
             <Image
               src={about.teamImage}
+              unoptimized={isMediaUrl(about.teamImage)}
               alt="Team"
               fill
               className="object-cover"
@@ -61,7 +60,7 @@ export default async function AboutPage() {
             {about.values.map((v) => (
               <div key={v.title} className="border-t border-gold-500/40 pt-6">
                 <h3 className="font-serif text-xl text-ivory-50">{v.title}</h3>
-                <p className="mt-3 text-sm text-ivory-200/75 leading-relaxed">
+                <p className="mt-3 text-base text-ivory-200/75 leading-relaxed">
                   {v.text}
                 </p>
               </div>

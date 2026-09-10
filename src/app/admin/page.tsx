@@ -44,7 +44,7 @@ export default async function AdminDashboard() {
           href="/admin/rooms"
           className="block border border-charcoal-900/10 p-6 hover:border-gold-500 transition-colors"
         >
-          <p className="text-xs tracking-widest-plus text-gold-600 mb-2">
+          <p className="text-sm tracking-widest-plus text-gold-600 mb-2">
             ROOMS & SUITES
           </p>
           <p className="font-serif text-3xl text-charcoal-900">{rooms.length}</p>
@@ -58,7 +58,7 @@ export default async function AdminDashboard() {
           href="/admin/add-ons"
           className="block border border-charcoal-900/10 p-6 hover:border-gold-500 transition-colors"
         >
-          <p className="text-xs tracking-widest-plus text-gold-600 mb-2">
+          <p className="text-sm tracking-widest-plus text-gold-600 mb-2">
             TOURS & TRANSFERS
           </p>
           <p className="font-serif text-3xl text-charcoal-900">{addOns.length}</p>
@@ -72,7 +72,7 @@ export default async function AdminDashboard() {
           href="/admin/blog"
           className="block border border-charcoal-900/10 p-6 hover:border-gold-500 transition-colors"
         >
-          <p className="text-xs tracking-widest-plus text-gold-600 mb-2">
+          <p className="text-sm tracking-widest-plus text-gold-600 mb-2">
             JOURNAL
           </p>
           <p className="font-serif text-3xl text-charcoal-900">{posts.length}</p>
@@ -86,7 +86,7 @@ export default async function AdminDashboard() {
           href="/admin/about"
           className="block border border-charcoal-900/10 p-6 hover:border-gold-500 transition-colors"
         >
-          <p className="text-xs tracking-widest-plus text-gold-600 mb-2">
+          <p className="text-sm tracking-widest-plus text-gold-600 mb-2">
             ABOUT US
           </p>
           <p className="font-serif text-lg text-charcoal-900">Story & values</p>
@@ -100,7 +100,7 @@ export default async function AdminDashboard() {
           href="/admin/legal"
           className="block border border-charcoal-900/10 p-6 hover:border-gold-500 transition-colors"
         >
-          <p className="text-xs tracking-widest-plus text-gold-600 mb-2">
+          <p className="text-sm tracking-widest-plus text-gold-600 mb-2">
             LEGAL PAGES
           </p>
           <p className="font-serif text-lg text-charcoal-900">Privacy & Terms</p>
@@ -114,7 +114,7 @@ export default async function AdminDashboard() {
           href="/admin/settings"
           className="block border border-charcoal-900/10 p-6 hover:border-gold-500 transition-colors"
         >
-          <p className="text-xs tracking-widest-plus text-gold-600 mb-2">
+          <p className="text-sm tracking-widest-plus text-gold-600 mb-2">
             SITE SETTINGS
           </p>
           <p className="font-serif text-lg text-charcoal-900">
@@ -130,7 +130,7 @@ export default async function AdminDashboard() {
           href="/admin/reservations"
           className="block border border-charcoal-900/10 p-6 hover:border-gold-500 transition-colors sm:col-span-2"
         >
-          <p className="text-xs tracking-widest-plus text-gold-600 mb-2">
+          <p className="text-sm tracking-widest-plus text-gold-600 mb-2">
             RESERVATIONS
           </p>
           <p className="font-serif text-3xl text-charcoal-900">{reservations.length}</p>

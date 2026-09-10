@@ -42,7 +42,7 @@ export default async function RegisterPage({
                 </p>
               )}
               <label className="block">
-                <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">FULL NAME</span>
+                <span className="text-xs tracking-widest-plus text-charcoal-500">FULL NAME</span>
                 <input
                   type="text"
                   name="name"
@@ -51,7 +51,7 @@ export default async function RegisterPage({
                 />
               </label>
               <label className="block">
-                <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">EMAIL</span>
+                <span className="text-xs tracking-widest-plus text-charcoal-500">EMAIL</span>
                 <input
                   type="email"
                   name="email"
@@ -60,7 +60,7 @@ export default async function RegisterPage({
                 />
               </label>
               <label className="block">
-                <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">PHONE (OPTIONAL)</span>
+                <span className="text-xs tracking-widest-plus text-charcoal-500">PHONE (OPTIONAL)</span>
                 <input
                   type="tel"
                   name="phone"
@@ -68,7 +68,7 @@ export default async function RegisterPage({
                 />
               </label>
               <label className="block">
-                <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">PASSWORD</span>
+                <span className="text-xs tracking-widest-plus text-charcoal-500">PASSWORD</span>
                 <input
                   type="password"
                   name="password"
@@ -76,11 +76,11 @@ export default async function RegisterPage({
                   minLength={8}
                   className="mt-2 w-full border-b border-charcoal-900/20 py-2 text-sm bg-transparent focus:outline-none focus:border-gold-500"
                 />
-                <span className="mt-1 block text-[11px] text-charcoal-700/50">At least 8 characters.</span>
+                <span className="mt-1 block text-xs text-charcoal-700/50">At least 8 characters.</span>
               </label>
               <button
                 type="submit"
-                className="w-full bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-xs tracking-widest-plus py-3.5 transition-colors"
+                className="w-full bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-sm tracking-widest-plus py-3.5 transition-colors"
               >
                 CREATE ACCOUNT
               </button>

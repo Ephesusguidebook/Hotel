@@ -6,7 +6,7 @@ export default function AdminHeader({ title }: { title: string }) {
     <div className="border-b border-charcoal-900/10 mb-10">
       <div className="flex items-center justify-between py-6">
         <div>
-          <p className="text-xs tracking-widest-plus text-gold-600 mb-1">
+          <p className="text-sm tracking-widest-plus text-gold-600 mb-1">
             AURELIA BAY ADMIN
           </p>
           <h1 className="font-serif text-2xl text-charcoal-900">{title}</h1>
@@ -14,7 +14,7 @@ export default function AdminHeader({ title }: { title: string }) {
         <form action={logoutAction}>
           <button
             type="submit"
-            className="text-xs tracking-widest-plus text-charcoal-700 hover:text-charcoal-900 border border-charcoal-900/20 px-4 py-2.5"
+            className="text-sm tracking-widest-plus text-charcoal-700 hover:text-charcoal-900 border border-charcoal-900/20 px-4 py-2.5"
           >
             SIGN OUT
           </button>
@@ -32,6 +32,9 @@ export default function AdminHeader({ title }: { title: string }) {
         </Link>
         <Link href="/admin/reservations" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
           Reservations
+        </Link>
+        <Link href="/admin/media" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
+          Photos
         </Link>
         <Link href="/admin/blog" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
           Journal

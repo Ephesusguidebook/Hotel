@@ -26,14 +26,14 @@ export default async function Footer() {
               {hotel.hotelName.toUpperCase()}
             </div>
             <div className="gold-divider my-4" />
-            <p className="text-sm leading-relaxed max-w-xs">
+            <p className="text-base leading-relaxed max-w-xs">
               {hotel.tagline}. A small collection of rooms and suites on the{" "}
               {hotel.city}.
             </p>
           </div>
 
           <div>
-            <h3 className="text-xs tracking-widest-plus text-gold-400 mb-5">
+            <h3 className="text-sm tracking-widest-plus text-gold-400 mb-5">
               EXPLORE
             </h3>
             <ul className="space-y-3 text-sm">
@@ -48,7 +48,7 @@ export default async function Footer() {
           </div>
 
           <div>
-            <h3 className="text-xs tracking-widest-plus text-gold-400 mb-5">
+            <h3 className="text-sm tracking-widest-plus text-gold-400 mb-5">
               GUEST INFO
             </h3>
             <ul className="space-y-3 text-sm">
@@ -63,7 +63,7 @@ export default async function Footer() {
           </div>
 
           <div>
-            <h3 className="text-xs tracking-widest-plus text-gold-400 mb-5">
+            <h3 className="text-sm tracking-widest-plus text-gold-400 mb-5">
               CONTACT
             </h3>
             <ul className="space-y-3 text-sm">
@@ -76,7 +76,7 @@ export default async function Footer() {
 
         <div className="hairline mt-14 mb-8" />
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-ivory-200/50">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-ivory-200/75">
           <p>
             &copy; {new Date().getFullYear()} {hotel.hotelName}. All rights
             reserved.

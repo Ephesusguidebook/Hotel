@@ -3,6 +3,11 @@
 -- Multi-value fields (images, amenities, includes, long_description) are stored
 -- one item per line — the app splits/joins on newlines, no JSON needed.
 
+-- Import with UTF-8 so accented characters and symbols (m², °C, Turkish
+-- letters) survive. Without this a client defaulting to latin1 stores
+-- them double-encoded, which shows up as "mÂ²" on the site.
+SET NAMES utf8mb4;
+
 CREATE TABLE IF NOT EXISTS rooms (
   id INT AUTO_INCREMENT PRIMARY KEY,
   slug VARCHAR(191) NOT NULL UNIQUE,

@@ -65,16 +65,16 @@ export default async function RoomsPage({
                   />
                 </div>
                 <div>
-                  <p className="text-xs tracking-widest-plus text-gold-600 mb-3">
+                  <p className="text-sm tracking-widest-plus text-gold-600 mb-3">
                     FROM ${room.price} / NIGHT
                   </p>
                   <h2 className="font-serif text-2xl md:text-3xl text-charcoal-900">
                     {room.name}
                   </h2>
-                  <p className="mt-2 text-xs tracking-wide text-charcoal-700/70">
+                  <p className="mt-2 text-sm tracking-wide text-charcoal-500">
                     {room.size} &middot; {room.occupancy} &middot; {room.bed}
                   </p>
-                  <p className="mt-5 text-sm text-charcoal-700 leading-relaxed">
+                  <p className="mt-5 text-base text-charcoal-700 leading-relaxed">
                     {room.description}
                   </p>
                   <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-2">
@@ -126,19 +126,19 @@ export default async function RoomsPage({
           />
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
             <div>
-              <p className="text-xs tracking-widest-plus text-gold-400 mb-2">
+              <p className="text-sm tracking-widest-plus text-gold-400 mb-2">
                 CHECK-IN
               </p>
               <p className="text-ivory-200/80 text-sm">From 3:00 PM</p>
             </div>
             <div>
-              <p className="text-xs tracking-widest-plus text-gold-400 mb-2">
+              <p className="text-sm tracking-widest-plus text-gold-400 mb-2">
                 CHECK-OUT
               </p>
               <p className="text-ivory-200/80 text-sm">Until 11:00 AM</p>
             </div>
             <div>
-              <p className="text-xs tracking-widest-plus text-gold-400 mb-2">
+              <p className="text-sm tracking-widest-plus text-gold-400 mb-2">
                 CANCELLATION
               </p>
               <p className="text-ivory-200/80 text-sm">

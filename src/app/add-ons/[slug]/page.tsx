@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ImageGallery from "@/components/ImageGallery";
+import RichText from "@/components/RichText";
 import { getAddOns, getAddOnBySlug } from "@/lib/addons-repo";
 import { addAddOnToCartAction } from "@/app/account/actions";
 import type { Metadata } from "next";
@@ -37,7 +38,7 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
         <div className="mx-auto max-w-7xl">
           <Link
             href="/add-ons"
-            className="text-xs tracking-widest-plus text-gold-600 hover:text-gold-500 inline-flex items-center gap-2"
+            className="text-sm tracking-widest-plus text-gold-600 hover:text-gold-500 inline-flex items-center gap-2"
           >
             <span aria-hidden>&larr;</span> BACK TO TOURS & TRANSFERS
           </Link>
@@ -52,23 +53,17 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
                 priority
               />
 
-              <p className="mt-8 text-xs tracking-widest-plus text-gold-600">
+              <p className="mt-8 text-sm tracking-widest-plus text-gold-600">
                 {item.category.toUpperCase()} &middot; {item.duration.toUpperCase()}
               </p>
               <h1 className="mt-3 font-serif text-3xl md:text-4xl text-charcoal-900">
                 {item.name}
               </h1>
 
-              <div className="mt-6 space-y-4">
-                {item.longDescription.map((para, i) => (
-                  <p key={i} className="text-sm text-charcoal-700 leading-relaxed">
-                    {para}
-                  </p>
-                ))}
-              </div>
+              <RichText html={item.longDescription} className="mt-6" />
 
               <div className="mt-10">
-                <h2 className="text-xs tracking-widest-plus text-gold-600 mb-4">
+                <h2 className="text-sm tracking-widest-plus text-gold-600 mb-4">
                   WHAT&apos;S INCLUDED
                 </h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
@@ -87,7 +82,7 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
 
             <div className="lg:col-span-2">
               <div className="sticky top-28 bg-charcoal-950 text-ivory-50 p-8">
-                <p className="text-xs tracking-widest-plus text-gold-400 mb-2">
+                <p className="text-sm tracking-widest-plus text-gold-400 mb-2">
                   {item.category.toUpperCase()}
                 </p>
                 <div className="flex items-baseline gap-2">
@@ -108,7 +103,7 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
 
                 <form action={addAddOnToCartAction.bind(null, item.slug)} className="mt-8">
                   <label className="block mb-4">
-                    <span className="text-[11px] tracking-widest-plus text-ivory-200/60">
+                    <span className="text-xs tracking-widest-plus text-ivory-200/60">
                       QUANTITY
                     </span>
                     <select
@@ -125,12 +120,12 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
                   </label>
                   <button
                     type="submit"
-                    className="block w-full text-center bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-xs tracking-widest-plus py-4 transition-colors"
+                    className="block w-full text-center bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-sm tracking-widest-plus py-4 transition-colors"
                   >
                     ADD TO CART
                   </button>
                 </form>
-                <p className="mt-4 text-[11px] text-ivory-200/40 leading-relaxed">
+                <p className="mt-4 text-sm text-ivory-200/75 leading-relaxed">
                   Sign in to add this experience to your cart alongside your
                   room reservation.
                 </p>
@@ -143,7 +138,7 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
       {more.length > 0 && (
         <section className="bg-charcoal-900 py-20 px-6 lg:px-10">
           <div className="mx-auto max-w-7xl">
-            <p className="text-xs tracking-widest-plus text-gold-400 mb-10">
+            <p className="text-sm tracking-widest-plus text-gold-400 mb-10">
               MORE EXPERIENCES
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
@@ -161,7 +156,7 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
                   <h3 className="mt-4 font-serif text-lg text-ivory-50 group-hover:text-gold-400 transition-colors">
                     {a.name}
                   </h3>
-                  <p className="mt-1 text-xs tracking-wide text-ivory-200/50">
+                  <p className="mt-1 text-sm tracking-wide text-ivory-200/75">
                     ${a.price} {a.unit}
                   </p>
                 </Link>

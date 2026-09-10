@@ -34,7 +34,7 @@ export default async function AdminAddOnsPage({
         <Link
           prefetch={false}
           href="/admin/add-ons/new"
-          className="text-xs tracking-widest-plus bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 px-5 py-3"
+          className="text-sm tracking-widest-plus bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 px-5 py-3"
         >
           + ADD EXPERIENCE
         </Link>
@@ -50,12 +50,12 @@ export default async function AdminAddOnsPage({
           >
             <div>
               <p className="font-serif text-lg text-charcoal-900">{item.name}</p>
-              <p className="text-xs text-charcoal-700/70 mt-1">
+              <p className="text-xs text-charcoal-500 mt-1">
                 {item.category} &middot; ${item.price} {item.unit} &middot;{" "}
                 {item.duration}
               </p>
             </div>
-            <span className="text-xs tracking-widest-plus text-gold-600">
+            <span className="text-sm tracking-widest-plus text-gold-600">
               EDIT &rarr;
             </span>
           </Link>

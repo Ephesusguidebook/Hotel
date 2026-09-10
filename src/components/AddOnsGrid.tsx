@@ -31,7 +31,7 @@ export default function AddOnsGrid({ addOns }: { addOns: AddOn[] }) {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`text-xs tracking-widest-plus px-4 py-2.5 border transition-colors ${
+              className={`text-sm tracking-widest-plus px-4 py-2.5 border transition-colors ${
                 filter === f
                   ? "bg-charcoal-900 border-charcoal-900 text-ivory-50"
                   : "border-charcoal-900/30 text-charcoal-700 hover:border-charcoal-900"
@@ -70,7 +70,7 @@ export default function AddOnsGrid({ addOns }: { addOns: AddOn[] }) {
 
       {selected.length > 0 && (
         <div className="mt-16 bg-charcoal-950 text-ivory-50 p-8 lg:p-10">
-          <p className="text-xs tracking-widest-plus text-gold-400 mb-6">
+          <p className="text-sm tracking-widest-plus text-gold-400 mb-6">
             YOUR TRIP ADD-ONS
           </p>
           <div className="space-y-3">
@@ -81,13 +81,13 @@ export default function AddOnsGrid({ addOns }: { addOns: AddOn[] }) {
               >
                 <span>
                   {item.name}{" "}
-                  <span className="text-ivory-200/50">({item.unit})</span>
+                  <span className="text-ivory-200/75">({item.unit})</span>
                 </span>
                 <div className="flex items-center gap-4">
                   <span>${item.price}</span>
                   <button
                     onClick={() => toggle(item.slug)}
-                    className="text-ivory-200/50 hover:text-gold-400 text-xs"
+                    className="text-ivory-200/75 hover:text-gold-400 text-sm"
                     aria-label={`Remove ${item.name}`}
                   >
                     Remove
@@ -100,7 +100,7 @@ export default function AddOnsGrid({ addOns }: { addOns: AddOn[] }) {
             <span>Estimated Total</span>
             <span>${total}</span>
           </div>
-          <p className="mt-4 text-[11px] text-ivory-200/40 leading-relaxed">
+          <p className="mt-4 text-xs text-ivory-200/75 leading-relaxed">
             Add-ons can be attached to your room reservation at checkout — a
             member of our concierge team will confirm exact timing.
           </p>

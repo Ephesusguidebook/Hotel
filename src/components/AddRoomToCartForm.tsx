@@ -22,7 +22,7 @@ export default function AddRoomToCartForm({
 }: Props) {
   if (!available || unitsLeft <= 0) {
     return (
-      <p className="mt-8 text-sm text-charcoal-700/60 border-t border-charcoal-900/10 pt-6">
+      <p className="mt-8 text-sm text-charcoal-500 border-t border-charcoal-900/10 pt-6">
         This room isn&apos;t available to book right now.
       </p>
     );
@@ -33,10 +33,10 @@ export default function AddRoomToCartForm({
       action={addRoomToCartAction.bind(null, slug)}
       className="mt-8 border-t border-charcoal-900/10 pt-6"
     >
-      <p className="text-[11px] tracking-widest-plus text-gold-600 mb-4">ADD TO YOUR TRIP</p>
+      <p className="text-xs tracking-widest-plus text-gold-600 mb-4">ADD TO YOUR TRIP</p>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 items-end">
         <label className="block">
-          <span className="text-[11px] tracking-widest-plus text-charcoal-700/60">CHECK-IN</span>
+          <span className="text-xs tracking-widest-plus text-charcoal-500">CHECK-IN</span>
           <input
             type="date"
             name="checkIn"
@@ -46,7 +46,7 @@ export default function AddRoomToCartForm({
           />
         </label>
         <label className="block">
-          <span className="text-[11px] tracking-widest-plus text-charcoal-700/60">CHECK-OUT</span>
+          <span className="text-xs tracking-widest-plus text-charcoal-500">CHECK-OUT</span>
           <input
             type="date"
             name="checkOut"
@@ -56,7 +56,7 @@ export default function AddRoomToCartForm({
           />
         </label>
         <label className="block">
-          <span className="text-[11px] tracking-widest-plus text-charcoal-700/60">GUESTS</span>
+          <span className="text-xs tracking-widest-plus text-charcoal-500">GUESTS</span>
           <select
             name="guests"
             defaultValue={defaultGuests}
@@ -70,7 +70,7 @@ export default function AddRoomToCartForm({
           </select>
         </label>
         <label className="block">
-          <span className="text-[11px] tracking-widest-plus text-charcoal-700/60">ROOMS</span>
+          <span className="text-xs tracking-widest-plus text-charcoal-500">ROOMS</span>
           <select
             name="quantity"
             defaultValue="1"
@@ -86,7 +86,7 @@ export default function AddRoomToCartForm({
       </div>
       <button
         type="submit"
-        className="mt-5 w-full sm:w-auto bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-xs tracking-widest-plus px-8 py-3.5 transition-colors"
+        className="mt-5 w-full sm:w-auto bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-sm tracking-widest-plus px-8 py-3.5 transition-colors"
       >
         ADD TO CART
       </button>

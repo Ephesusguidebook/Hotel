@@ -41,7 +41,7 @@ export default async function AccountLoginPage({
                 </p>
               )}
               <label className="block">
-                <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">EMAIL</span>
+                <span className="text-xs tracking-widest-plus text-charcoal-500">EMAIL</span>
                 <input
                   type="email"
                   name="email"
@@ -51,7 +51,7 @@ export default async function AccountLoginPage({
                 />
               </label>
               <label className="block">
-                <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">PASSWORD</span>
+                <span className="text-xs tracking-widest-plus text-charcoal-500">PASSWORD</span>
                 <input
                   type="password"
                   name="password"
@@ -61,7 +61,7 @@ export default async function AccountLoginPage({
               </label>
               <button
                 type="submit"
-                className="w-full bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-xs tracking-widest-plus py-3.5 transition-colors"
+                className="w-full bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-sm tracking-widest-plus py-3.5 transition-colors"
               >
                 SIGN IN
               </button>

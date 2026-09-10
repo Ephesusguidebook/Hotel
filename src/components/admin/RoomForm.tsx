@@ -1,5 +1,6 @@
 import { saveRoomAction, deleteRoomAction } from "@/app/admin/actions";
 import ConfirmSubmitButton from "@/components/ConfirmSubmitButton";
+import ImageField from "@/components/admin/ImageField";
 import type { Room } from "@/lib/data";
 
 const emptyRoom: Room = {
@@ -27,7 +28,7 @@ export default function RoomForm({ room }: { room?: Room }) {
     <>
     <form action={boundSave} className="space-y-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <Field label="SLUG (URL-friendly id)">
+        <Field label="URL slug">
           <input
             name="slug"
             defaultValue={initial.slug}
@@ -37,13 +38,13 @@ export default function RoomForm({ room }: { room?: Room }) {
             className="input"
           />
         </Field>
-        <Field label="NAME">
+        <Field label="Name">
           <input name="name" defaultValue={initial.name} required className="input" />
         </Field>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <Field label="PRICE PER NIGHT ($)">
+        <Field label="Price per night ($)">
           <input
             type="number"
             name="price"
@@ -53,10 +54,10 @@ export default function RoomForm({ room }: { room?: Room }) {
             className="input"
           />
         </Field>
-        <Field label="SIZE">
+        <Field label="Size">
           <input name="size" defaultValue={initial.size} placeholder="38 m²" className="input" />
         </Field>
-        <Field label="OCCUPANCY">
+        <Field label="Occupancy">
           <input
             name="occupancy"
             defaultValue={initial.occupancy}
@@ -66,11 +67,11 @@ export default function RoomForm({ room }: { room?: Room }) {
         </Field>
       </div>
 
-      <Field label="BED CONFIGURATION">
+      <Field label="Bed configuration">
         <input name="bed" defaultValue={initial.bed} placeholder="1 King bed" className="input" />
       </Field>
 
-      <Field label="DESCRIPTION">
+      <Field label="Description">
         <textarea
           name="description"
           defaultValue={initial.description}
@@ -79,7 +80,7 @@ export default function RoomForm({ room }: { room?: Room }) {
         />
       </Field>
 
-      <Field label="AMENITIES (one per line)">
+      <Field label="Amenities (one per line)">
         <textarea
           name="amenities"
           defaultValue={initial.amenities.join("\n")}
@@ -88,14 +89,12 @@ export default function RoomForm({ room }: { room?: Room }) {
         />
       </Field>
 
-      <Field label="IMAGES (one URL per line — first is the cover photo)">
-        <textarea
-          name="images"
-          defaultValue={initial.images.join("\n")}
-          rows={5}
-          className="input font-mono text-xs"
-        />
-      </Field>
+      <ImageField
+        name="images"
+        label="Photos"
+        defaultValue={initial.images}
+        hint="The first photo is the cover shown on the rooms page. Use the arrows to reorder."
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end">
         <label className="flex items-center gap-3">
@@ -107,7 +106,7 @@ export default function RoomForm({ room }: { room?: Room }) {
           />
           <span className="text-sm text-charcoal-900">Available for booking</span>
         </label>
-        <Field label="UNITS LEFT">
+        <Field label="Units left">
           <input
             type="number"
             name="unitsLeft"
@@ -121,7 +120,7 @@ export default function RoomForm({ room }: { room?: Room }) {
       <div className="pt-4 border-t border-charcoal-900/10">
         <button
           type="submit"
-          className="bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-xs tracking-widest-plus px-6 py-3.5"
+          className="bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-sm tracking-widest-plus px-6 py-3.5"
         >
           {isNew ? "CREATE ROOM" : "SAVE CHANGES"}
         </button>
@@ -132,7 +131,7 @@ export default function RoomForm({ room }: { room?: Room }) {
         <form action={boundDelete} className="mt-4">
           <ConfirmSubmitButton
             confirmMessage={`Delete "${initial.name}"? This can't be undone.`}
-            className="text-xs tracking-widest-plus text-red-700 hover:text-red-800"
+            className="text-sm tracking-widest-plus text-red-700 hover:text-red-800"
           >
             DELETE ROOM
           </ConfirmSubmitButton>
@@ -145,7 +144,7 @@ export default function RoomForm({ room }: { room?: Room }) {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">
+      <span className="text-sm font-medium text-charcoal-800">
         {label}
       </span>
       <div className="mt-2">{children}</div>

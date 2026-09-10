@@ -45,7 +45,7 @@ export default async function AdminReservationsPage() {
               </div>
               <div className="text-right">
                 <span
-                  className={`inline-block text-[11px] tracking-widest-plus border px-3 py-1.5 rounded ${
+                  className={`inline-block text-sm tracking-widest-plus border px-3 py-1.5 rounded ${
                     PAYMENT_STYLE[r.paymentStatus] ?? PAYMENT_STYLE.unpaid
                   }`}
                 >

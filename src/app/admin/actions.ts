@@ -12,7 +12,8 @@ import { upsertAddOn, deleteAddOn, type AddOnInput } from "@/lib/addons-repo";
 import { upsertBlogPost, deleteBlogPost, type BlogPostInput } from "@/lib/blog-repo";
 import { updateSiteSettings } from "@/lib/settings-repo";
 import { updateAboutContent, textToValues } from "@/lib/about-repo";
-import { updateLegalPage, textToSections } from "@/lib/legal-repo";
+import { updateLegalPage } from "@/lib/legal-repo";
+import { sanitizeRichText } from "@/lib/rich-text";
 import { updatePaymentStatus, updateReservationStatus } from "@/lib/reservations-repo";
 import type { SiteSettings, AboutContent } from "@/lib/data";
 
@@ -89,7 +90,7 @@ export async function saveAddOnAction(originalSlug: string, formData: FormData) 
     price: Number(formData.get("price") ?? 0),
     unit: String(formData.get("unit") ?? "").trim(),
     description: String(formData.get("description") ?? "").trim(),
-    longDescription: toList(String(formData.get("longDescription") ?? "")),
+    longDescription: sanitizeRichText(String(formData.get("longDescription") ?? "")),
     includes: toList(String(formData.get("includes") ?? "")),
     meetingPoint: String(formData.get("meetingPoint") ?? "").trim(),
     images: toList(String(formData.get("images") ?? "")),
@@ -118,7 +119,7 @@ export async function saveBlogPostAction(originalSlug: string, formData: FormDat
     image: String(formData.get("image") ?? "").trim(),
     date: String(formData.get("date") ?? "").trim(),
     excerpt: String(formData.get("excerpt") ?? "").trim(),
-    content: toList(String(formData.get("content") ?? "")),
+    content: sanitizeRichText(String(formData.get("content") ?? "")),
   };
 
   if (originalSlug && originalSlug !== input.slug) {
@@ -161,7 +162,7 @@ export async function saveAboutAction(formData: FormData) {
     heroTitle: String(formData.get("heroTitle") ?? "").trim(),
     heroDescription: String(formData.get("heroDescription") ?? "").trim(),
     storyHeading: String(formData.get("storyHeading") ?? "").trim(),
-    storyParagraphs: toList(String(formData.get("storyParagraphs") ?? "")),
+    story: sanitizeRichText(String(formData.get("story") ?? "")),
     teamImage: String(formData.get("teamImage") ?? "").trim(),
     values: textToValues(String(formData.get("values") ?? "")),
   };
@@ -175,9 +176,9 @@ export async function saveLegalAction(slug: "privacy" | "terms", formData: FormD
 
   const title = String(formData.get("title") ?? "").trim();
   const updated = String(formData.get("updated") ?? "").trim();
-  const sections = textToSections(String(formData.get("sections") ?? ""));
+  const content = sanitizeRichText(String(formData.get("content") ?? ""));
 
-  await updateLegalPage(slug, { title, updated, sections });
+  await updateLegalPage(slug, { title, updated, content });
   redirect(`/admin/legal/${slug}?saved=1`);
 }
 

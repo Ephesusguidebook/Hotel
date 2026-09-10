@@ -32,7 +32,7 @@ export default async function AdminSettingsPage({
 
       <form action={saveSettingsAction} className="space-y-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <Field label="HOTEL NAME">
+          <Field label="Hotel name">
             <input
               name="hotelName"
               defaultValue={settings.hotelName}
@@ -40,7 +40,7 @@ export default async function AdminSettingsPage({
               className="input"
             />
           </Field>
-          <Field label="TAGLINE">
+          <Field label="Tagline">
             <input
               name="tagline"
               defaultValue={settings.tagline}
@@ -50,15 +50,15 @@ export default async function AdminSettingsPage({
           </Field>
         </div>
 
-        <Field label="CITY / REGION">
+        <Field label="City / region">
           <input name="city" defaultValue={settings.city} required className="input" />
         </Field>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <Field label="PHONE">
+          <Field label="Phone">
             <input name="phone" defaultValue={settings.phone} required className="input" />
           </Field>
-          <Field label="EMAIL">
+          <Field label="Email">
             <input
               type="email"
               name="email"
@@ -69,12 +69,12 @@ export default async function AdminSettingsPage({
           </Field>
         </div>
 
-        <Field label="ADDRESS">
+        <Field label="Address">
           <input name="address" defaultValue={settings.address} required className="input" />
         </Field>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <Field label="CHECK-IN">
+          <Field label="Check-in">
             <input
               name="checkIn"
               defaultValue={settings.checkIn}
@@ -82,7 +82,7 @@ export default async function AdminSettingsPage({
               className="input"
             />
           </Field>
-          <Field label="CHECK-OUT">
+          <Field label="Check-out">
             <input
               name="checkOut"
               defaultValue={settings.checkOut}
@@ -90,7 +90,7 @@ export default async function AdminSettingsPage({
               className="input"
             />
           </Field>
-          <Field label="FRONT DESK HOURS">
+          <Field label="Front desk hours">
             <input
               name="frontDeskHours"
               defaultValue={settings.frontDeskHours}
@@ -103,7 +103,7 @@ export default async function AdminSettingsPage({
         <div className="pt-4 border-t border-charcoal-900/10">
           <button
             type="submit"
-            className="bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-xs tracking-widest-plus px-6 py-3.5"
+            className="bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-sm tracking-widest-plus px-6 py-3.5"
           >
             SAVE CHANGES
           </button>
@@ -116,7 +116,7 @@ export default async function AdminSettingsPage({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">
+      <span className="text-sm font-medium text-charcoal-800">
         {label}
       </span>
       <div className="mt-2">{children}</div>

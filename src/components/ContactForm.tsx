@@ -27,7 +27,7 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <label className="block">
-          <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">
+          <span className="text-xs tracking-widest-plus text-charcoal-500">
             FULL NAME
           </span>
           <input
@@ -37,7 +37,7 @@ export default function ContactForm() {
           />
         </label>
         <label className="block">
-          <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">
+          <span className="text-xs tracking-widest-plus text-charcoal-500">
             EMAIL
           </span>
           <input
@@ -48,7 +48,7 @@ export default function ContactForm() {
         </label>
       </div>
       <label className="block">
-        <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">
+        <span className="text-xs tracking-widest-plus text-charcoal-500">
           SUBJECT
         </span>
         <input
@@ -57,7 +57,7 @@ export default function ContactForm() {
         />
       </label>
       <label className="block">
-        <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">
+        <span className="text-xs tracking-widest-plus text-charcoal-500">
           MESSAGE
         </span>
         <textarea
@@ -68,7 +68,7 @@ export default function ContactForm() {
       </label>
       <button
         type="submit"
-        className="bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-xs tracking-widest-plus px-8 py-3.5 transition-colors"
+        className="bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-sm tracking-widest-plus px-8 py-3.5 transition-colors"
       >
         SEND MESSAGE
       </button>

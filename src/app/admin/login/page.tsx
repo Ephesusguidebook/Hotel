@@ -14,7 +14,7 @@ export default async function AdminLoginPage({
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-6">
       <div className="w-full max-w-sm">
-        <p className="text-xs tracking-widest-plus text-gold-600 mb-2 text-center">
+        <p className="text-sm tracking-widest-plus text-gold-600 mb-2 text-center">
           AURELIA BAY
         </p>
         <h1 className="font-serif text-2xl text-charcoal-900 text-center mb-8">
@@ -37,7 +37,7 @@ export default async function AdminLoginPage({
               </p>
             )}
             <label className="block">
-              <span className="text-[11px] tracking-widest-plus text-charcoal-700/70">
+              <span className="text-sm font-medium text-charcoal-800">
                 PASSWORD
               </span>
               <input
@@ -50,7 +50,7 @@ export default async function AdminLoginPage({
             </label>
             <button
               type="submit"
-              className="w-full bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-xs tracking-widest-plus py-3.5 transition-colors"
+              className="w-full bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-sm tracking-widest-plus py-3.5 transition-colors"
             >
               SIGN IN
             </button>

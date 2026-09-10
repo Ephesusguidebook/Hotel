@@ -24,7 +24,7 @@ export default function QuickSearch() {
       className="bg-charcoal-950/85 backdrop-blur-sm border border-gold-500/30 px-6 py-6 md:px-8 md:py-7 grid grid-cols-2 md:grid-cols-5 gap-5 md:gap-4 items-end w-full"
     >
       <label className="flex flex-col gap-2 col-span-1">
-        <span className="text-[11px] tracking-widest-plus text-gold-400">
+        <span className="text-xs tracking-widest-plus text-gold-400">
           CHECK-IN
         </span>
         <input
@@ -36,7 +36,7 @@ export default function QuickSearch() {
       </label>
 
       <label className="flex flex-col gap-2 col-span-1">
-        <span className="text-[11px] tracking-widest-plus text-gold-400">
+        <span className="text-xs tracking-widest-plus text-gold-400">
           CHECK-OUT
         </span>
         <input
@@ -48,7 +48,7 @@ export default function QuickSearch() {
       </label>
 
       <label className="flex flex-col gap-2 col-span-1">
-        <span className="text-[11px] tracking-widest-plus text-gold-400">
+        <span className="text-xs tracking-widest-plus text-gold-400">
           GUESTS
         </span>
         <select
@@ -66,7 +66,7 @@ export default function QuickSearch() {
 
       <button
         type="submit"
-        className="col-span-2 md:col-span-2 bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-xs tracking-widest-plus py-3.5 px-6 transition-colors"
+        className="col-span-2 md:col-span-2 bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-sm tracking-widest-plus py-3.5 px-6 transition-colors"
       >
         CHECK AVAILABILITY
       </button>

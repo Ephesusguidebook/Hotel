@@ -45,13 +45,13 @@ export default async function AccountPage() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/account/cart"
-                className="inline-flex items-center border border-gold-500 px-5 py-2.5 text-xs tracking-widest-plus text-gold-600 hover:bg-gold-500 hover:text-charcoal-950 transition-colors"
+                className="inline-flex items-center border border-gold-500 px-5 py-2.5 text-sm tracking-widest-plus text-gold-600 hover:bg-gold-500 hover:text-charcoal-950 transition-colors"
               >
                 VIEW CART
               </Link>
               <Link
                 href="/rooms"
-                className="inline-flex items-center border border-charcoal-900/20 px-5 py-2.5 text-xs tracking-widest-plus text-charcoal-700 hover:border-charcoal-900 transition-colors"
+                className="inline-flex items-center border border-charcoal-900/20 px-5 py-2.5 text-sm tracking-widest-plus text-charcoal-700 hover:border-charcoal-900 transition-colors"
               >
                 BROWSE ROOMS
               </Link>
@@ -59,7 +59,7 @@ export default async function AccountPage() {
             <form action={logoutAction}>
               <button
                 type="submit"
-                className="text-xs tracking-widest-plus text-charcoal-700 hover:text-charcoal-900 border border-charcoal-900/20 px-4 py-2.5"
+                className="text-sm tracking-widest-plus text-charcoal-700 hover:text-charcoal-900 border border-charcoal-900/20 px-4 py-2.5"
               >
                 SIGN OUT
               </button>
@@ -101,7 +101,7 @@ export default async function AccountPage() {
                     </div>
                     <div className="text-right">
                       <span
-                        className={`inline-block text-[11px] tracking-widest-plus border px-3 py-1.5 rounded ${
+                        className={`inline-block text-xs tracking-widest-plus border px-3 py-1.5 rounded ${
                           PAYMENT_STYLE[r.paymentStatus] ?? PAYMENT_STYLE.unpaid
                         }`}
                       >

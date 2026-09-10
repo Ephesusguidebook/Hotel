@@ -27,7 +27,7 @@ export default async function RegisteredPage({
 
       <section className="bg-ivory-50 py-24 px-6 lg:px-10">
         <div className="mx-auto max-w-md text-center">
-          <p className="text-sm text-charcoal-700 leading-relaxed">
+          <p className="text-base text-charcoal-700 leading-relaxed">
             We&apos;ve sent a confirmation link to <span className="text-charcoal-900">{email}</span>.
             Click the link in that email to activate your account, then sign in.
           </p>
@@ -46,7 +46,7 @@ export default async function RegisteredPage({
             <input type="hidden" name="email" value={email} />
             <button
               type="submit"
-              className="text-xs tracking-widest-plus text-charcoal-700 hover:text-charcoal-900 border border-charcoal-900/20 px-5 py-3"
+              className="text-sm tracking-widest-plus text-charcoal-700 hover:text-charcoal-900 border border-charcoal-900/20 px-5 py-3"
             >
               RESEND CONFIRMATION EMAIL
             </button>

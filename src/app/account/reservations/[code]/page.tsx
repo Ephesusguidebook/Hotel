@@ -48,7 +48,7 @@ export default async function ReservationDetailPage({
         <div className="mx-auto max-w-3xl">
           <Link
             href="/account"
-            className="text-xs tracking-widest-plus text-gold-600 hover:text-gold-500 inline-flex items-center gap-2"
+            className="text-sm tracking-widest-plus text-gold-600 hover:text-gold-500 inline-flex items-center gap-2"
           >
             <span aria-hidden>&larr;</span> BACK TO ACCOUNT
           </Link>
@@ -61,7 +61,7 @@ export default async function ReservationDetailPage({
 
           <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-[11px] tracking-widest-plus text-charcoal-700/60 mb-1">
+              <p className="text-xs tracking-widest-plus text-charcoal-500 mb-1">
                 {reservation.checkIn && reservation.checkOut
                   ? `${reservation.checkIn} → ${reservation.checkOut}`
                   : "RESERVATION DATE"}
@@ -69,7 +69,7 @@ export default async function ReservationDetailPage({
               <p className="text-sm text-charcoal-700">Placed {reservation.createdAt}</p>
             </div>
             <span
-              className={`inline-block text-[11px] tracking-widest-plus border px-3 py-1.5 rounded ${
+              className={`inline-block text-xs tracking-widest-plus border px-3 py-1.5 rounded ${
                 PAYMENT_STYLE[reservation.paymentStatus] ?? PAYMENT_STYLE.unpaid
               }`}
             >
@@ -82,11 +82,11 @@ export default async function ReservationDetailPage({
             {reservation.items.map((item) => (
               <div key={item.id} className="p-5 flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-[11px] tracking-widest-plus text-gold-600 mb-1">
+                  <p className="text-xs tracking-widest-plus text-gold-600 mb-1">
                     {item.itemType === "room" ? "ROOM" : "TOUR / TRANSFER"}
                   </p>
                   <p className="text-sm text-charcoal-900">{item.itemName}</p>
-                  <p className="mt-1 text-xs text-charcoal-700/70">
+                  <p className="mt-1 text-sm text-charcoal-500">
                     {item.itemType === "room"
                       ? `${item.checkIn} → ${item.checkOut} · $${item.unitPrice}/night × ${item.quantity} room${item.quantity === 1 ? "" : "s"}`
                       : `$${item.unitPrice} × ${item.quantity}`}

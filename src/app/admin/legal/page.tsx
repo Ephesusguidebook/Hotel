@@ -27,11 +27,11 @@ export default async function AdminLegalPage() {
           >
             <div>
               <p className="font-serif text-lg text-charcoal-900">{page.title}</p>
-              <p className="text-xs text-charcoal-700/70 mt-1">
-                Last updated: {page.updated} &middot; {page.sections.length} sections
+              <p className="text-xs text-charcoal-500 mt-1">
+                Last updated: {page.updated}
               </p>
             </div>
-            <span className="text-xs tracking-widest-plus text-gold-600">
+            <span className="text-sm tracking-widest-plus text-gold-600">
               EDIT &rarr;
             </span>
           </Link>

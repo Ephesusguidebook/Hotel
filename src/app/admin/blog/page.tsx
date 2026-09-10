@@ -34,7 +34,7 @@ export default async function AdminBlogPage({
         <Link
           prefetch={false}
           href="/admin/blog/new"
-          className="text-xs tracking-widest-plus bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 px-5 py-3"
+          className="text-sm tracking-widest-plus bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 px-5 py-3"
         >
           + ADD POST
         </Link>
@@ -50,9 +50,9 @@ export default async function AdminBlogPage({
           >
             <div>
               <p className="font-serif text-lg text-charcoal-900">{post.title}</p>
-              <p className="text-xs text-charcoal-700/70 mt-1">{post.date}</p>
+              <p className="text-xs text-charcoal-500 mt-1">{post.date}</p>
             </div>
-            <span className="text-xs tracking-widest-plus text-gold-600">
+            <span className="text-sm tracking-widest-plus text-gold-600">
               EDIT &rarr;
             </span>
           </Link>

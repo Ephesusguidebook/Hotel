@@ -1,5 +1,6 @@
 import { safeQuery } from "@/lib/db";
-import { legalPagesSeed, type LegalPage, type LegalSection } from "@/lib/data";
+import { legalPagesSeed, type LegalPage } from "@/lib/data";
+import { legalToHtml } from "@/lib/rich-text";
 
 type LegalRow = {
   slug: "privacy" | "terms";
@@ -8,36 +9,12 @@ type LegalRow = {
   sections: string;
 };
 
-/** Sections are stored as blocks separated by a blank line: first line of
- *  each block is the heading, the rest are body paragraphs. Keeps the field
- *  editable in a plain textarea, no JSON needed. */
-export function textToSections(text: string): LegalSection[] {
-  return text
-    .split(/\n\s*\n/)
-    .map((block) => {
-      const lines = block
-        .split("\n")
-        .map((l) => l.trim())
-        .filter(Boolean);
-      const [heading, ...body] = lines;
-      return { heading: heading ?? "", body };
-    })
-    .filter((s) => s.heading);
-}
-
-export function sectionsToText(sections: LegalSection[]): string {
-  return sections
-    .filter((s) => s.heading.trim())
-    .map((s) => [s.heading.trim(), ...s.body.map((p) => p.trim()).filter(Boolean)].join("\n"))
-    .join("\n\n");
-}
-
 function rowToLegalPage(row: LegalRow): LegalPage {
   return {
     slug: row.slug,
     title: row.title,
     updated: row.updated_label,
-    sections: textToSections(row.sections),
+    content: legalToHtml(row.sections),
   };
 }
 
@@ -54,7 +31,8 @@ export async function getLegalPage(slug: "privacy" | "terms"): Promise<LegalPage
 export type LegalPageInput = {
   title: string;
   updated: string;
-  sections: LegalSection[];
+  /** Rich text (HTML), already sanitised by the caller. */
+  content: string;
 };
 
 /** Update a legal page. Returns false if the DB isn't configured. */
@@ -67,7 +45,7 @@ export async function updateLegalPage(
      VALUES (?, ?, ?, ?)
      ON DUPLICATE KEY UPDATE
        title = VALUES(title), updated_label = VALUES(updated_label), sections = VALUES(sections)`,
-    [slug, input.title, input.updated, sectionsToText(input.sections)]
+    [slug, input.title, input.updated, input.content]
   );
   return result !== null;
 }

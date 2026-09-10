@@ -78,14 +78,14 @@ export default function ReservationPanel({
 
   return (
     <div id="reserve" className="bg-charcoal-950 text-ivory-50 p-8 lg:p-10">
-      <p className="text-xs tracking-widest-plus text-gold-400 mb-2">
+      <p className="text-sm tracking-widest-plus text-gold-400 mb-2">
         RESERVATION
       </p>
       <h3 className="font-serif text-2xl mb-8">Check Availability</h3>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-[11px] tracking-widest-plus text-ivory-200/60 mb-2">
+          <label className="block text-xs tracking-widest-plus text-ivory-200/60 mb-2">
             ROOM TYPE
           </label>
           <select
@@ -106,7 +106,7 @@ export default function ReservationPanel({
 
         <div className="grid grid-cols-2 gap-5">
           <div>
-            <label className="block text-[11px] tracking-widest-plus text-ivory-200/60 mb-2">
+            <label className="block text-xs tracking-widest-plus text-ivory-200/60 mb-2">
               CHECK-IN
             </label>
             <input
@@ -120,7 +120,7 @@ export default function ReservationPanel({
             />
           </div>
           <div>
-            <label className="block text-[11px] tracking-widest-plus text-ivory-200/60 mb-2">
+            <label className="block text-xs tracking-widest-plus text-ivory-200/60 mb-2">
               CHECK-OUT
             </label>
             <input
@@ -136,7 +136,7 @@ export default function ReservationPanel({
         </div>
 
         <div>
-          <label className="block text-[11px] tracking-widest-plus text-ivory-200/60 mb-2">
+          <label className="block text-xs tracking-widest-plus text-ivory-200/60 mb-2">
             GUESTS
           </label>
           <select
@@ -155,13 +155,13 @@ export default function ReservationPanel({
         <button
           type="submit"
           disabled={!checkIn || !checkOut || nights <= 0}
-          className="w-full bg-gold-500 hover:bg-gold-400 disabled:opacity-40 disabled:cursor-not-allowed text-charcoal-950 text-xs tracking-widest-plus py-4 transition-colors"
+          className="w-full bg-gold-500 hover:bg-gold-400 disabled:opacity-40 disabled:cursor-not-allowed text-charcoal-950 text-sm tracking-widest-plus py-4 transition-colors"
         >
           CHECK AVAILABILITY
         </button>
 
         {checkIn && checkOut && nights <= 0 && (
-          <p className="text-xs text-gold-400">
+          <p className="text-sm text-gold-400">
             Check-out date must be after check-in.
           </p>
         )}
@@ -194,11 +194,11 @@ export default function ReservationPanel({
               </div>
               <button
                 type="button"
-                className="mt-6 w-full border border-gold-500 text-gold-400 hover:bg-gold-500 hover:text-charcoal-950 text-xs tracking-widest-plus py-3.5 transition-colors"
+                className="mt-6 w-full border border-gold-500 text-gold-400 hover:bg-gold-500 hover:text-charcoal-950 text-sm tracking-widest-plus py-3.5 transition-colors"
               >
                 CONTINUE TO BOOK
               </button>
-              <p className="mt-3 text-[11px] text-ivory-200/40 leading-relaxed">
+              <p className="mt-3 text-xs text-ivory-200/75 leading-relaxed">
                 This is a design preview — booking is not yet connected to a
                 live reservation system.
               </p>

@@ -1,5 +1,6 @@
 import { safeQuery } from "@/lib/db";
 import { addOns as seedAddOns, type AddOn } from "@/lib/data";
+import { toHtml } from "@/lib/rich-text";
 
 type AddOnRow = {
   slug: string;
@@ -36,7 +37,7 @@ function rowToAddOn(row: AddOnRow): AddOn {
     price: row.price,
     unit: row.unit,
     description: row.description,
-    longDescription: toList(row.long_description),
+    longDescription: toHtml(row.long_description),
     includes: toList(row.includes),
     meetingPoint: row.meeting_point,
     images,
@@ -67,7 +68,8 @@ export type AddOnInput = {
   price: number;
   unit: string;
   description: string;
-  longDescription: string[];
+  /** Rich text (HTML), already sanitised by the caller. */
+  longDescription: string;
   includes: string[];
   meetingPoint: string;
   images: string[];
@@ -91,7 +93,7 @@ export async function upsertAddOn(input: AddOnInput): Promise<boolean> {
       input.price,
       input.unit,
       input.description,
-      fromList(input.longDescription),
+      input.longDescription,
       fromList(input.includes),
       input.meetingPoint,
       fromList(input.images),

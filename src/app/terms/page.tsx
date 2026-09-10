@@ -21,7 +21,7 @@ export default async function TermsPage() {
         title={page.title}
       />
       <section className="bg-ivory-50 py-24 px-6">
-        <LegalContent updated={page.updated} sections={page.sections} />
+        <LegalContent updated={page.updated} content={page.content} />
       </section>
     </>
   );

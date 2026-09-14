@@ -5,6 +5,7 @@ import RichText from "@/components/RichText";
 import { getAddOns, getAddOnBySlug } from "@/lib/addons-repo";
 import { addAddOnToCartAction } from "@/app/account/actions";
 import type { Metadata } from "next";
+import { getSiteSettings } from "@/lib/settings-repo";
 
 export const dynamic = "force-dynamic";
 
@@ -15,11 +16,12 @@ export async function generateMetadata({
 }: {
   params: Params;
 }): Promise<Metadata> {
+  const settings = await getSiteSettings();
   const { slug } = await params;
   const item = await getAddOnBySlug(slug);
   if (!item) return {};
   return {
-    title: `${item.name} — Aurelia Bay`,
+    title: `${item.name} — ${settings.hotelName}`,
     description: item.description,
   };
 }
@@ -54,9 +56,10 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
               />
 
               <p className="mt-8 text-sm tracking-widest-plus text-gold-600">
-                {item.category.toUpperCase()} &middot; {item.duration.toUpperCase()}
+                {item.category.toUpperCase()} &middot;{" "}
+                {item.duration.toUpperCase()}
               </p>
-              <h1 className="mt-3 font-serif text-3xl md:text-4xl text-charcoal-900">
+              <h1 className="mt-3 font-serif text-3xl md:text-4xl text-navy-900">
                 {item.name}
               </h1>
 
@@ -70,7 +73,7 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
                   {item.includes.map((inc) => (
                     <li
                       key={inc}
-                      className="text-sm text-charcoal-700 flex items-center gap-2"
+                      className="text-sm text-navy-700 flex items-center gap-2"
                     >
                       <span className="w-1 h-1 rounded-full bg-gold-500 shrink-0" />
                       {inc}
@@ -81,7 +84,7 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
             </div>
 
             <div className="lg:col-span-2">
-              <div className="sticky top-28 bg-charcoal-950 text-ivory-50 p-8">
+              <div className="sticky top-28 bg-navy-950 text-ivory-50 p-8">
                 <p className="text-sm tracking-widest-plus text-gold-400 mb-2">
                   {item.category.toUpperCase()}
                 </p>
@@ -96,12 +99,17 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
                     <span>{item.duration}</span>
                   </div>
                   <div className="flex justify-between gap-4">
-                    <span className="text-ivory-200/60 shrink-0">Meeting point</span>
+                    <span className="text-ivory-200/60 shrink-0">
+                      Meeting point
+                    </span>
                     <span className="text-right">{item.meetingPoint}</span>
                   </div>
                 </div>
 
-                <form action={addAddOnToCartAction.bind(null, item.slug)} className="mt-8">
+                <form
+                  action={addAddOnToCartAction.bind(null, item.slug)}
+                  className="mt-8"
+                >
                   <label className="block mb-4">
                     <span className="text-xs tracking-widest-plus text-ivory-200/60">
                       QUANTITY
@@ -112,7 +120,7 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
                       className="mt-2 w-full bg-transparent border-b border-ivory-200/30 py-2 text-sm focus:outline-none focus:border-gold-400 [color-scheme:dark]"
                     >
                       {[1, 2, 3, 4, 5, 6].map((n) => (
-                        <option key={n} value={n} className="text-charcoal-900">
+                        <option key={n} value={n} className="text-navy-900">
                           {n}
                         </option>
                       ))}
@@ -120,7 +128,7 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
                   </label>
                   <button
                     type="submit"
-                    className="block w-full text-center bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-sm tracking-widest-plus py-4 transition-colors"
+                    className="block w-full text-center bg-gold-500 hover:bg-gold-400 text-navy-950 text-sm tracking-widest-plus py-4 transition-colors"
                   >
                     ADD TO CART
                   </button>
@@ -136,7 +144,7 @@ export default async function AddOnDetailPage({ params }: { params: Params }) {
       </section>
 
       {more.length > 0 && (
-        <section className="bg-charcoal-900 py-20 px-6 lg:px-10">
+        <section className="bg-navy-900 py-20 px-6 lg:px-10">
           <div className="mx-auto max-w-7xl">
             <p className="text-sm tracking-widest-plus text-gold-400 mb-10">
               MORE EXPERIENCES

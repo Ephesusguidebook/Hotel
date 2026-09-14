@@ -31,7 +31,7 @@ export default async function AdminNearbyPage({
       )}
 
       <div className="mb-6 flex items-center justify-between gap-6">
-        <p className="max-w-xl text-base leading-relaxed text-charcoal-700">
+        <p className="max-w-xl text-base leading-relaxed text-navy-700">
           The sights guests ask about at reception. These appear on{" "}
           <Link
             href="/nearby"
@@ -47,13 +47,13 @@ export default async function AdminNearbyPage({
         <Link
           prefetch={false}
           href="/admin/nearby/new"
-          className="shrink-0 bg-charcoal-900 px-5 py-3 text-sm tracking-widest-plus text-ivory-50 hover:bg-charcoal-800"
+          className="shrink-0 bg-navy-900 px-5 py-3 text-sm tracking-widest-plus text-ivory-50 hover:bg-navy-800"
         >
           + ADD PLACE
         </Link>
       </div>
 
-      <div className="divide-y divide-charcoal-900/10 border border-charcoal-900/10">
+      <div className="divide-y divide-navy-900/10 border border-navy-900/10">
         {attractions.map((item) => (
           <Link
             key={item.slug}
@@ -62,10 +62,10 @@ export default async function AdminNearbyPage({
             className="flex items-center justify-between px-6 py-5 transition-colors hover:bg-ivory-100"
           >
             <div>
-              <p className="font-serif text-lg text-charcoal-900">
+              <p className="font-serif text-lg text-navy-900">
                 {item.name}
               </p>
-              <p className="mt-1 text-sm text-charcoal-500">
+              <p className="mt-1 text-sm text-navy-500">
                 {item.category} &middot; {item.distance}
                 {item.travelTime ? ` · ${item.travelTime}` : ""}
               </p>
@@ -76,7 +76,7 @@ export default async function AdminNearbyPage({
           </Link>
         ))}
         {attractions.length === 0 && (
-          <p className="px-6 py-8 text-base text-charcoal-700">
+          <p className="px-6 py-8 text-base text-navy-700">
             No places yet — add the first one to get started.
           </p>
         )}

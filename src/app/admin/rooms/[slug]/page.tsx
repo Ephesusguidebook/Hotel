@@ -24,7 +24,7 @@ export default async function EditRoomPage({
       <Link
         href={`/admin/rooms/${room.slug}/calendar`}
         prefetch={false}
-        className="mb-8 inline-block border border-charcoal-900/25 px-5 py-3 text-sm tracking-widest-plus text-charcoal-800 hover:border-gold-500"
+        className="mb-8 inline-block border border-navy-900/25 px-5 py-3 text-sm tracking-widest-plus text-navy-800 hover:border-gold-500"
       >
         PRICES &amp; AVAILABILITY CALENDAR &rarr;
       </Link>

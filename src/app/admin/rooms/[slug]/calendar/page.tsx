@@ -4,6 +4,7 @@ import { isAdminAuthed } from "@/lib/auth";
 import { getRoomBySlug } from "@/lib/rooms-repo";
 import { getRatePlans, getRoomRates, rateForNight } from "@/lib/rates-repo";
 import { getRoomCalendar } from "@/lib/availability-repo";
+import { schemaReady } from "@/lib/setup-check";
 import {
   addRoomRateAction,
   deleteRoomRateAction,
@@ -45,6 +46,11 @@ export default async function RoomCalendarPage({
   const room = await getRoomBySlug(slug);
   if (!room) notFound();
 
+  const ready = await schemaReady([
+    "rate_plans",
+    "room_rates",
+    "room_availability",
+  ]);
   const plans = await getRatePlans();
   const activePlan =
     plans.find((p) => String(p.id) === query.plan) ?? plans[0] ?? null;
@@ -97,14 +103,25 @@ export default async function RoomCalendarPage({
         >
           &larr; Back to room details
         </Link>
-        <p className="text-sm text-charcoal-500">
+        <p className="text-sm text-navy-500">
           Standing stock: {room.unitsLeft}{" "}
           {room.unitsLeft === 1 ? "room" : "rooms"} · change it on the room
           details page
         </p>
       </div>
 
-      {plans.length === 0 ? (
+      {!ready ? (
+        <div className="border border-amber-300 bg-amber-50 px-5 py-4">
+          <p className="text-base font-medium text-amber-900">
+            The pricing tables aren&apos;t in the database yet
+          </p>
+          <p className="mt-1.5 text-sm leading-relaxed text-amber-900">
+            This calendar needs the tables that{" "}
+            <code className="font-mono">sql/schema_v6.sql</code> creates. Import
+            that file in phpMyAdmin, then reload.
+          </p>
+        </div>
+      ) : plans.length === 0 ? (
         <p className="border border-amber-300 bg-amber-50 px-4 py-3 text-base text-amber-900">
           There are no rate plans yet, so nothing can be priced or sold.{" "}
           <Link href="/admin/rate-plans" className="underline">
@@ -130,8 +147,8 @@ export default async function RoomCalendarPage({
                   aria-current={isActive ? "page" : undefined}
                   className={`border px-4 py-2 text-sm transition-colors ${
                     isActive
-                      ? "border-charcoal-900 bg-charcoal-900 text-ivory-50"
-                      : "border-charcoal-900/25 text-charcoal-700 hover:border-charcoal-900"
+                      ? "border-navy-900 bg-navy-900 text-ivory-50"
+                      : "border-navy-900/25 text-navy-700 hover:border-navy-900"
                   }`}
                 >
                   {plan.name}
@@ -145,17 +162,17 @@ export default async function RoomCalendarPage({
             <Link
               href={monthHref(-1)}
               prefetch={false}
-              className="border border-charcoal-900/25 px-3 py-2 text-sm hover:border-charcoal-900"
+              className="border border-navy-900/25 px-3 py-2 text-sm hover:border-navy-900"
             >
               &larr; Previous
             </Link>
-            <h2 className="font-serif text-xl text-charcoal-900">
+            <h2 className="font-serif text-xl text-navy-900">
               {formatMonth(monthStart)}
             </h2>
             <Link
               href={monthHref(1)}
               prefetch={false}
-              className="border border-charcoal-900/25 px-3 py-2 text-sm hover:border-charcoal-900"
+              className="border border-navy-900/25 px-3 py-2 text-sm hover:border-navy-900"
             >
               Next &rarr;
             </Link>
@@ -164,11 +181,11 @@ export default async function RoomCalendarPage({
           {/* Calendar grid */}
           <div className="overflow-x-auto">
             <div className="min-w-[640px]">
-              <div className="grid grid-cols-7 gap-px border border-charcoal-900/10 bg-charcoal-900/10">
+              <div className="grid grid-cols-7 gap-px border border-navy-900/10 bg-navy-900/10">
                 {WEEKDAYS.map((day) => (
                   <div
                     key={day}
-                    className="bg-ivory-100 px-2 py-2 text-center text-sm font-medium text-charcoal-700"
+                    className="bg-ivory-100 px-2 py-2 text-center text-sm font-medium text-navy-700"
                   >
                     {day}
                   </div>
@@ -191,7 +208,7 @@ export default async function RoomCalendarPage({
                       }`}
                     >
                       <div className="flex items-start justify-between">
-                        <span className="text-sm font-medium text-charcoal-800">
+                        <span className="text-sm font-medium text-navy-800">
                           {Number(day.date.slice(8, 10))}
                         </span>
                         {day.closed ? (
@@ -211,16 +228,16 @@ export default async function RoomCalendarPage({
                         )}
                       </div>
 
-                      <p className="mt-2 text-sm text-charcoal-900">
+                      <p className="mt-2 text-sm text-navy-900">
                         {rate ? (
                           `$${rate.price}`
                         ) : (
-                          <span className="text-charcoal-500">No rate</span>
+                          <span className="text-navy-500">No rate</span>
                         )}
                       </p>
 
                       {day.booked > 0 && (
-                        <p className="mt-0.5 text-xs text-charcoal-500">
+                        <p className="mt-0.5 text-xs text-navy-500">
                           {day.booked} booked
                         </p>
                       )}
@@ -230,7 +247,7 @@ export default async function RoomCalendarPage({
                         </p>
                       )}
                       {day.note && (
-                        <p className="mt-0.5 truncate text-xs text-charcoal-500">
+                        <p className="mt-0.5 truncate text-xs text-navy-500">
                           {day.note}
                         </p>
                       )}
@@ -241,7 +258,7 @@ export default async function RoomCalendarPage({
             </div>
           </div>
 
-          <p className="mt-3 text-sm text-charcoal-500">
+          <p className="mt-3 text-sm text-navy-500">
             &ldquo;Left&rdquo; is the standing stock for that day (or the number
             you set by hand) minus rooms already booked. It moves on its own as
             reservations come in. A day with no rate can&apos;t be sold on this
@@ -251,11 +268,11 @@ export default async function RoomCalendarPage({
           {/* Two editors side by side */}
           <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* Prices */}
-            <section className="border border-charcoal-900/10 bg-white p-5">
-              <h3 className="font-serif text-lg text-charcoal-900">
+            <section className="border border-navy-900/10 bg-white p-5">
+              <h3 className="font-serif text-lg text-navy-900">
                 Set a price for a date range
               </h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-charcoal-500">
+              <p className="mt-1.5 text-sm leading-relaxed text-navy-500">
                 A shorter range beats a longer one, so you can lay a holiday
                 price straight over a season price without deleting anything.
               </p>
@@ -266,7 +283,7 @@ export default async function RoomCalendarPage({
               >
                 <input type="hidden" name="month" value={monthKey} />
                 <label className="block">
-                  <span className="text-sm font-medium text-charcoal-800">
+                  <span className="text-sm font-medium text-navy-800">
                     Rate plan
                   </span>
                   <select
@@ -284,7 +301,7 @@ export default async function RoomCalendarPage({
 
                 <div className="grid grid-cols-2 gap-4">
                   <label className="block">
-                    <span className="text-sm font-medium text-charcoal-800">
+                    <span className="text-sm font-medium text-navy-800">
                       From
                     </span>
                     <input
@@ -296,7 +313,7 @@ export default async function RoomCalendarPage({
                     />
                   </label>
                   <label className="block">
-                    <span className="text-sm font-medium text-charcoal-800">
+                    <span className="text-sm font-medium text-navy-800">
                       To
                     </span>
                     <input
@@ -311,7 +328,7 @@ export default async function RoomCalendarPage({
 
                 <div className="grid grid-cols-2 gap-4">
                   <label className="block">
-                    <span className="text-sm font-medium text-charcoal-800">
+                    <span className="text-sm font-medium text-navy-800">
                       Price per night ($)
                     </span>
                     <input
@@ -323,7 +340,7 @@ export default async function RoomCalendarPage({
                     />
                   </label>
                   <label className="block">
-                    <span className="text-sm font-medium text-charcoal-800">
+                    <span className="text-sm font-medium text-navy-800">
                       Label
                     </span>
                     <input
@@ -336,15 +353,15 @@ export default async function RoomCalendarPage({
 
                 <button
                   type="submit"
-                  className="bg-gold-500 px-5 py-2.5 text-sm tracking-widest-plus text-charcoal-950 hover:bg-gold-400"
+                  className="bg-gold-500 px-5 py-2.5 text-sm tracking-widest-plus text-navy-950 hover:bg-gold-400"
                 >
                   SAVE PRICE
                 </button>
               </form>
 
               {planRates.length > 0 && (
-                <div className="mt-6 border-t border-charcoal-900/10 pt-4">
-                  <h4 className="mb-3 text-sm font-medium text-charcoal-800">
+                <div className="mt-6 border-t border-navy-900/10 pt-4">
+                  <h4 className="mb-3 text-sm font-medium text-navy-800">
                     {activePlan?.name} prices
                   </h4>
                   <ul className="space-y-2">
@@ -353,8 +370,8 @@ export default async function RoomCalendarPage({
                         key={rate.id}
                         className="flex items-center justify-between gap-3 text-sm"
                       >
-                        <span className="min-w-0 text-charcoal-700">
-                          <strong className="text-charcoal-900">
+                        <span className="min-w-0 text-navy-700">
+                          <strong className="text-navy-900">
                             ${rate.price}
                           </strong>{" "}
                           · {formatDate(rate.startDate)} &ndash;{" "}
@@ -366,7 +383,7 @@ export default async function RoomCalendarPage({
                             null,
                             room.slug,
                             rate.id,
-                            monthKey
+                            monthKey,
                           )}
                         >
                           <ConfirmSubmitButton
@@ -384,11 +401,11 @@ export default async function RoomCalendarPage({
             </section>
 
             {/* Availability */}
-            <section className="border border-charcoal-900/10 bg-white p-5">
-              <h3 className="font-serif text-lg text-charcoal-900">
+            <section className="border border-navy-900/10 bg-white p-5">
+              <h3 className="font-serif text-lg text-navy-900">
                 Close dates or change stock
               </h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-charcoal-500">
+              <p className="mt-1.5 text-sm leading-relaxed text-navy-500">
                 Bookings already come off the calendar by themselves. Use this
                 for the rest: maintenance, an owner&apos;s block, or holding
                 rooms back for an agency.
@@ -402,7 +419,7 @@ export default async function RoomCalendarPage({
 
                 <div className="grid grid-cols-2 gap-4">
                   <label className="block">
-                    <span className="text-sm font-medium text-charcoal-800">
+                    <span className="text-sm font-medium text-navy-800">
                       From
                     </span>
                     <input
@@ -414,7 +431,7 @@ export default async function RoomCalendarPage({
                     />
                   </label>
                   <label className="block">
-                    <span className="text-sm font-medium text-charcoal-800">
+                    <span className="text-sm font-medium text-navy-800">
                       To
                     </span>
                     <input
@@ -428,10 +445,14 @@ export default async function RoomCalendarPage({
                 </div>
 
                 <label className="block">
-                  <span className="text-sm font-medium text-charcoal-800">
+                  <span className="text-sm font-medium text-navy-800">
                     What to do
                   </span>
-                  <select name="mode" defaultValue="close" className="input mt-1.5">
+                  <select
+                    name="mode"
+                    defaultValue="close"
+                    className="input mt-1.5"
+                  >
                     <option value="close">Close these dates</option>
                     <option value="units">Open, with this many rooms</option>
                     <option value="reset">
@@ -442,7 +463,7 @@ export default async function RoomCalendarPage({
 
                 <div className="grid grid-cols-2 gap-4">
                   <label className="block">
-                    <span className="text-sm font-medium text-charcoal-800">
+                    <span className="text-sm font-medium text-navy-800">
                       Rooms open
                     </span>
                     <input
@@ -454,7 +475,7 @@ export default async function RoomCalendarPage({
                     />
                   </label>
                   <label className="block">
-                    <span className="text-sm font-medium text-charcoal-800">
+                    <span className="text-sm font-medium text-navy-800">
                       Note
                     </span>
                     <input
@@ -467,7 +488,7 @@ export default async function RoomCalendarPage({
 
                 <button
                   type="submit"
-                  className="bg-charcoal-900 px-5 py-2.5 text-sm tracking-widest-plus text-ivory-50 hover:bg-charcoal-800"
+                  className="bg-navy-900 px-5 py-2.5 text-sm tracking-widest-plus text-ivory-50 hover:bg-navy-800"
                 >
                   APPLY
                 </button>

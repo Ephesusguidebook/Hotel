@@ -99,7 +99,7 @@ export default function ImageGallery({
             />
             <NavButton side="right" label="Next photo" onClick={() => go(1)} />
 
-            <div className="pointer-events-none absolute bottom-3 right-3 z-10 rounded-full bg-charcoal-950/70 px-2.5 py-1 text-xs text-ivory-50">
+            <div className="pointer-events-none absolute bottom-3 right-3 z-10 rounded-full bg-navy-950/70 px-2.5 py-1 text-xs text-ivory-50">
               {index + 1} / {images.length}
             </div>
 
@@ -158,7 +158,7 @@ function NavButton({
         e.stopPropagation();
         onClick();
       }}
-      className={`absolute top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-charcoal-950/55 text-ivory-50 backdrop-blur-sm transition-all hover:bg-charcoal-950/80 md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100 ${
+      className={`absolute top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-navy-950/55 text-ivory-50 backdrop-blur-sm transition-all hover:bg-navy-950/80 md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100 ${
         side === "left" ? "left-2" : "right-2"
       }`}
     >

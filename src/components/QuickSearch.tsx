@@ -21,7 +21,7 @@ export default function QuickSearch() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-charcoal-950/85 backdrop-blur-sm border border-gold-500/30 px-6 py-6 md:px-8 md:py-7 grid grid-cols-2 md:grid-cols-5 gap-5 md:gap-4 items-end w-full"
+      className="bg-navy-950/85 backdrop-blur-sm border border-gold-500/30 px-6 py-6 md:px-8 md:py-7 grid grid-cols-2 md:grid-cols-5 gap-5 md:gap-4 items-end w-full"
     >
       <label className="flex flex-col gap-2 col-span-1">
         <span className="text-xs tracking-widest-plus text-gold-400">
@@ -57,7 +57,7 @@ export default function QuickSearch() {
           className="bg-transparent border-b border-ivory-200/30 text-ivory-50 text-sm py-1.5 focus:outline-none focus:border-gold-400 [color-scheme:dark]"
         >
           {[1, 2, 3, 4, 5, 6].map((n) => (
-            <option key={n} value={n} className="text-charcoal-900">
+            <option key={n} value={n} className="text-navy-900">
               {n} {n === 1 ? "guest" : "guests"}
             </option>
           ))}
@@ -66,7 +66,7 @@ export default function QuickSearch() {
 
       <button
         type="submit"
-        className="col-span-2 md:col-span-2 bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-sm tracking-widest-plus py-3.5 px-6 transition-colors"
+        className="col-span-2 md:col-span-2 bg-gold-500 hover:bg-gold-400 text-navy-950 text-sm tracking-widest-plus py-3.5 px-6 transition-colors"
       >
         CHECK AVAILABILITY
       </button>

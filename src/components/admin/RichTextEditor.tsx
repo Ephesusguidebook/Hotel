@@ -95,14 +95,14 @@ export default function RichTextEditor({
 
   return (
     <div className="block">
-      <span className="text-sm font-medium text-charcoal-800">{label}</span>
-      {hint && <span className="mt-1 block text-sm text-charcoal-600">{hint}</span>}
+      <span className="text-sm font-medium text-navy-800">{label}</span>
+      {hint && <span className="mt-1 block text-sm text-navy-600">{hint}</span>}
 
       <input type="hidden" name={name} value={html} />
 
-      <div className="mt-2 overflow-hidden rounded-md border border-charcoal-900/20 bg-white focus-within:border-gold-500">
+      <div className="mt-2 overflow-hidden rounded-md border border-navy-900/20 bg-white focus-within:border-gold-500">
         {/* Toolbar */}
-        <div className="flex flex-wrap items-center gap-1 border-b border-charcoal-900/10 bg-ivory-50 px-2 py-2">
+        <div className="flex flex-wrap items-center gap-1 border-b border-navy-900/10 bg-ivory-50 px-2 py-2">
           <ToolbarButton
             label="Normal text"
             active={editor?.isActive("paragraph") && !editor?.isActive("heading")}
@@ -208,7 +208,7 @@ export default function RichTextEditor({
 
         {/* Link editor row */}
         {linkOpen && (
-          <div className="flex flex-wrap items-center gap-2 border-b border-charcoal-900/10 bg-gold-500/5 px-3 py-2.5">
+          <div className="flex flex-wrap items-center gap-2 border-b border-navy-900/10 bg-gold-500/5 px-3 py-2.5">
             <input
               autoFocus
               value={linkValue}
@@ -225,19 +225,19 @@ export default function RichTextEditor({
               }}
               placeholder="https://example.com  or  /rooms"
               data-testid={`link-input-${name}`}
-              className="min-w-0 flex-1 rounded border border-charcoal-900/20 bg-white px-3 py-1.5 text-sm"
+              className="min-w-0 flex-1 rounded border border-navy-900/20 bg-white px-3 py-1.5 text-sm"
             />
             <button
               type="button"
               onClick={applyLink}
-              className="rounded bg-charcoal-900 px-3 py-1.5 text-sm text-ivory-50 hover:bg-charcoal-800"
+              className="rounded bg-navy-900 px-3 py-1.5 text-sm text-ivory-50 hover:bg-navy-800"
             >
               Apply
             </button>
             <button
               type="button"
               onClick={() => setLinkOpen(false)}
-              className="rounded px-3 py-1.5 text-sm text-charcoal-700 hover:bg-charcoal-900/5"
+              className="rounded px-3 py-1.5 text-sm text-navy-700 hover:bg-navy-900/5"
             >
               Cancel
             </button>
@@ -262,7 +262,7 @@ export default function RichTextEditor({
 }
 
 function Divider() {
-  return <span className="mx-1 h-5 w-px bg-charcoal-900/15" aria-hidden />;
+  return <span className="mx-1 h-5 w-px bg-navy-900/15" aria-hidden />;
 }
 
 function ToolbarButton({
@@ -285,8 +285,8 @@ function ToolbarButton({
       onClick={onClick}
       className={`rounded px-2.5 py-1.5 text-sm transition-colors ${
         active
-          ? "bg-charcoal-900 text-ivory-50"
-          : "text-charcoal-700 hover:bg-charcoal-900/5 hover:text-charcoal-900"
+          ? "bg-navy-900 text-ivory-50"
+          : "text-navy-700 hover:bg-navy-900/5 hover:text-navy-900"
       }`}
     >
       {children}

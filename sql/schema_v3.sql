@@ -1,4 +1,4 @@
--- Aurelia Bay — customer accounts, cart, and reservations
+-- Ida Efes — customer accounts, cart, and reservations
 -- Run this once in phpMyAdmin (SQL tab) against the u876643594_otel_site database,
 -- AFTER schema.sql and schema_v2.sql have already been imported. Safe to re-run
 -- (IF NOT EXISTS). No seed data — these tables start empty.

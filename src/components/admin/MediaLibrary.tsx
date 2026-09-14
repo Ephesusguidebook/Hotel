@@ -190,7 +190,7 @@ export default function MediaLibrary({
         className={`rounded-lg border-2 border-dashed px-6 py-10 text-center transition-colors ${
           dragging
             ? "border-gold-500 bg-gold-500/5"
-            : "border-charcoal-900/15 bg-white"
+            : "border-navy-900/15 bg-white"
         }`}
       >
         <input
@@ -204,7 +204,7 @@ export default function MediaLibrary({
             e.target.value = "";
           }}
         />
-        <p className="text-base text-charcoal-800">
+        <p className="text-base text-navy-800">
           Drag photos here, or{" "}
           <button
             type="button"
@@ -214,7 +214,7 @@ export default function MediaLibrary({
             browse your computer
           </button>
         </p>
-        <p className="mt-2 text-sm text-charcoal-600">
+        <p className="mt-2 text-sm text-navy-600">
           Every photo is resized and converted to WebP in your browser before
           it&apos;s saved, so uploads stay small and fast.
         </p>
@@ -229,7 +229,7 @@ export default function MediaLibrary({
               className={`flex items-center justify-between gap-4 rounded-md border px-4 py-2.5 text-sm ${
                 job.status === "error"
                   ? "border-red-300 bg-red-50 text-red-800"
-                  : "border-charcoal-900/10 bg-white text-charcoal-700"
+                  : "border-navy-900/10 bg-white text-navy-700"
               }`}
             >
               <span className="truncate">{job.name}</span>
@@ -263,9 +263,9 @@ export default function MediaLibrary({
 
       {/* Grid */}
       {loading ? (
-        <p className="py-8 text-center text-sm text-charcoal-600">Loading…</p>
+        <p className="py-8 text-center text-sm text-navy-600">Loading…</p>
       ) : filtered.length === 0 ? (
-        <p className="py-8 text-center text-sm text-charcoal-600">
+        <p className="py-8 text-center text-sm text-navy-600">
           {items.length === 0
             ? "No photos yet — upload your first one above."
             : "No photos match that search."}
@@ -286,7 +286,7 @@ export default function MediaLibrary({
                   className={`group relative block w-full overflow-hidden rounded-md border bg-white text-left transition-shadow hover:shadow-md ${
                     chosen || activeId === item.id
                       ? "border-gold-500 ring-2 ring-gold-500/40"
-                      : "border-charcoal-900/10"
+                      : "border-navy-900/10"
                   }`}
                 >
                   <span className="block aspect-[4/3] overflow-hidden bg-ivory-100">
@@ -300,11 +300,11 @@ export default function MediaLibrary({
                       className="h-full w-full object-cover"
                     />
                   </span>
-                  <span className="block truncate px-2.5 py-2 text-xs text-charcoal-700">
+                  <span className="block truncate px-2.5 py-2 text-xs text-navy-700">
                     {item.filename}
                   </span>
                   {chosen && (
-                    <span className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-gold-500 text-charcoal-950">
+                    <span className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-gold-500 text-navy-950">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                         <path
                           d="M5 13l4 4L19 7"
@@ -325,27 +325,27 @@ export default function MediaLibrary({
 
       {/* Detail panel (manage mode only) */}
       {mode === "manage" && active && (
-        <div className="rounded-lg border border-charcoal-900/10 bg-white p-5">
+        <div className="rounded-lg border border-navy-900/10 bg-white p-5">
           <div className="flex flex-col gap-5 sm:flex-row">
             <div className="w-full shrink-0 sm:w-56">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={active.url}
                 alt={active.altText || active.filename}
-                className="w-full rounded-md border border-charcoal-900/10"
+                className="w-full rounded-md border border-navy-900/10"
               />
             </div>
             <div className="min-w-0 flex-1 space-y-4">
               <div>
-                <h3 className="text-lg text-charcoal-900">{active.filename}</h3>
-                <p className="mt-1 text-sm text-charcoal-600">
+                <h3 className="text-lg text-navy-900">{active.filename}</h3>
+                <p className="mt-1 text-sm text-navy-600">
                   {active.width} × {active.height} ·{" "}
                   {formatBytes(active.sizeBytes)} · {active.mimeType}
                 </p>
               </div>
 
               <label className="block">
-                <span className="text-sm font-medium text-charcoal-800">
+                <span className="text-sm font-medium text-navy-800">
                   Description for screen readers
                 </span>
                 <input
@@ -354,7 +354,7 @@ export default function MediaLibrary({
                   placeholder="e.g. Sea-view balcony at sunset"
                   className="input mt-1.5"
                 />
-                <span className="mt-1.5 block text-sm text-charcoal-600">
+                <span className="mt-1.5 block text-sm text-navy-600">
                   Saved automatically when you click away.
                 </span>
               </label>

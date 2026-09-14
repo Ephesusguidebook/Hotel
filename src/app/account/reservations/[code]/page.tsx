@@ -4,12 +4,16 @@ import PageHero from "@/components/PageHero";
 import { getCurrentCustomer } from "@/lib/customer-auth";
 import { getReservationByCode } from "@/lib/reservations-repo";
 import type { Metadata } from "next";
+import { getSiteSettings } from "@/lib/settings-repo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Reservation — Aurelia Bay",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  return {
+    title: `Reservation — ${settings.hotelName}`,
+  };
+}
 
 const PAYMENT_LABEL: Record<string, string> = {
   unpaid: "Payment due",
@@ -20,7 +24,7 @@ const PAYMENT_LABEL: Record<string, string> = {
 const PAYMENT_STYLE: Record<string, string> = {
   unpaid: "bg-amber-50 text-amber-800 border-amber-300",
   paid: "bg-green-50 text-green-800 border-green-300",
-  refunded: "bg-charcoal-100 text-charcoal-700 border-charcoal-300",
+  refunded: "bg-navy-100 text-navy-700 border-navy-300",
 };
 
 type Params = Promise<{ code: string }>;
@@ -35,14 +39,21 @@ export default async function ReservationDetailPage({
   const { code } = await params;
   const { placed } = await searchParams;
   const customer = await getCurrentCustomer();
-  if (!customer) redirect(`/account/login?next=${encodeURIComponent(`/account/reservations/${code}`)}`);
+  if (!customer)
+    redirect(
+      `/account/login?next=${encodeURIComponent(`/account/reservations/${code}`)}`,
+    );
 
   const reservation = await getReservationByCode(code, customer.id);
   if (!reservation) notFound();
 
   return (
     <>
-      <PageHero image="/images/hero-rooms.jpg" eyebrow="Reservation" title={reservation.code} />
+      <PageHero
+        image="/images/hero-rooms.jpg"
+        eyebrow="Reservation"
+        title={reservation.code}
+      />
 
       <section className="bg-ivory-50 py-20 px-6 lg:px-10">
         <div className="mx-auto max-w-3xl">
@@ -61,46 +72,58 @@ export default async function ReservationDetailPage({
 
           <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs tracking-widest-plus text-charcoal-500 mb-1">
+              <p className="text-xs tracking-widest-plus text-navy-500 mb-1">
                 {reservation.checkIn && reservation.checkOut
                   ? `${reservation.checkIn} → ${reservation.checkOut}`
                   : "RESERVATION DATE"}
               </p>
-              <p className="text-sm text-charcoal-700">Placed {reservation.createdAt}</p>
+              <p className="text-sm text-navy-700">
+                Placed {reservation.createdAt}
+              </p>
             </div>
             <span
               className={`inline-block text-xs tracking-widest-plus border px-3 py-1.5 rounded ${
                 PAYMENT_STYLE[reservation.paymentStatus] ?? PAYMENT_STYLE.unpaid
               }`}
             >
-              {(PAYMENT_LABEL[reservation.paymentStatus] ?? reservation.paymentStatus).toUpperCase()}
+              {(
+                PAYMENT_LABEL[reservation.paymentStatus] ??
+                reservation.paymentStatus
+              ).toUpperCase()}
             </span>
           </div>
 
-          <h2 className="mt-10 font-serif text-xl text-charcoal-900 mb-4">Itemized Accounting</h2>
-          <div className="border border-charcoal-900/10 divide-y divide-charcoal-900/10">
+          <h2 className="mt-10 font-serif text-xl text-navy-900 mb-4">
+            Itemized Accounting
+          </h2>
+          <div className="border border-navy-900/10 divide-y divide-navy-900/10">
             {reservation.items.map((item) => (
-              <div key={item.id} className="p-5 flex items-center justify-between gap-4">
+              <div
+                key={item.id}
+                className="p-5 flex items-center justify-between gap-4"
+              >
                 <div>
                   <p className="text-xs tracking-widest-plus text-gold-600 mb-1">
                     {item.itemType === "room" ? "ROOM" : "TOUR / TRANSFER"}
                   </p>
-                  <p className="text-sm text-charcoal-900">{item.itemName}</p>
-                      {item.ratePlanName && (
-                        <p className="text-sm text-gold-600">{item.ratePlanName}</p>
-                      )}
-                  <p className="mt-1 text-sm text-charcoal-500">
+                  <p className="text-sm text-navy-900">{item.itemName}</p>
+                  {item.ratePlanName && (
+                    <p className="text-sm text-gold-600">{item.ratePlanName}</p>
+                  )}
+                  <p className="mt-1 text-sm text-navy-500">
                     {item.itemType === "room"
                       ? `${item.checkIn} → ${item.checkOut} · $${item.unitPrice}/night × ${item.quantity} room${item.quantity === 1 ? "" : "s"}`
                       : `$${item.unitPrice} × ${item.quantity}`}
                   </p>
                 </div>
-                <p className="font-serif text-charcoal-900">${item.lineTotal}</p>
+                <p className="font-serif text-navy-900">
+                  ${item.lineTotal}
+                </p>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 ml-auto max-w-xs space-y-2 text-sm text-charcoal-700">
+          <div className="mt-6 ml-auto max-w-xs space-y-2 text-sm text-navy-700">
             <div className="flex justify-between">
               <span>Subtotal</span>
               <span>${reservation.subtotal}</span>
@@ -109,7 +132,7 @@ export default async function ReservationDetailPage({
               <span>Taxes & fees</span>
               <span>${reservation.taxesAndFees}</span>
             </div>
-            <div className="flex justify-between font-serif text-lg text-charcoal-900 pt-2 border-t border-charcoal-900/15">
+            <div className="flex justify-between font-serif text-lg text-navy-900 pt-2 border-t border-navy-900/15">
               <span>Total</span>
               <span>${reservation.total}</span>
             </div>

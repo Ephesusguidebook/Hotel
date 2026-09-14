@@ -1,4 +1,4 @@
--- Aurelia Bay — database schema + seed data
+-- Ida Efes — database schema + seed data
 -- Run this once in phpMyAdmin (SQL tab) against the u876643594_otel_site database.
 -- Multi-value fields (images, amenities, includes, long_description) are stored
 -- one item per line — the app splits/joins on newlines, no JSON needed.
@@ -47,7 +47,11 @@ CREATE TABLE IF NOT EXISTS add_ons (
 -- Seed data — mirrors the current placeholder content in src/lib/data.ts,
 -- so switching the site over to the database doesn't change what visitors see.
 
-INSERT INTO rooms (slug, name, price, size, occupancy, bed, description, amenities, images, available, units_left, sort_order) VALUES
+-- INSERT IGNORE, not a plain INSERT: this file is seed data, and re-running
+-- it must not fail on rows that are already there, nor overwrite anything the
+-- hotel has since edited in the admin panel. Rows whose slug already exists
+-- are simply skipped.
+INSERT IGNORE INTO rooms (slug, name, price, size, occupancy, bed, description, amenities, images, available, units_left, sort_order) VALUES
 ('deluxe-sea-view', 'Deluxe Sea View', 420, '38 m²', '2 guests', '1 King bed',
  'An elegant room framed by floor-to-ceiling windows overlooking the bay, with a private balcony and hand-finished walnut furnishings.',
  'Sea view balcony\nRain shower\nNespresso bar\nFree Wi-Fi\nAir conditioning',
@@ -69,7 +73,7 @@ INSERT INTO rooms (slug, name, price, size, occupancy, bed, description, ameniti
  '/images/room-family.jpg\n/images/room-family-2.jpg\n/images/room-family-3.jpg\n/images/room-family-4.jpg\n/images/room-family-5.jpg',
  1, 3, 4);
 
-INSERT INTO add_ons (slug, name, category, duration, price, unit, description, long_description, includes, meeting_point, images, sort_order) VALUES
+INSERT IGNORE INTO add_ons (slug, name, category, duration, price, unit, description, long_description, includes, meeting_point, images, sort_order) VALUES
 ('old-town-walking-tour', 'Old Town Walking Tour', 'Tour', '3 hours', 65, 'per guest',
  'A guided stroll through the old quarter''s cathedrals, ceramics workshops, and hidden piazzas with a local historian.',
  'This small-group walk starts just after breakfast, when the old quarter is quiet and the light is soft on the stonework.\nYour guide is a local historian who has led this route for years — expect stops at the cathedral, a family-run ceramics workshop, and a handful of piazzas most visitors walk straight past.\nThe pace is unhurried, with plenty of stops for photos and questions. Comfortable shoes are recommended.',
@@ -85,7 +89,7 @@ INSERT INTO add_ons (slug, name, category, duration, price, unit, description, l
  '/images/tour-sunset.jpg\n/images/tour-sunset-2.jpg\n/images/tour-sunset-3.jpg\n/images/tour-sunset-4.jpg',
  2),
 ('private-spa-day', 'Private Spa Day', 'Tour', 'Full day', 190, 'per guest',
- 'Full access to the thermal suite plus a 60-minute treatment of your choice at the Aurelia Bay spa.',
+ 'Full access to the thermal suite plus a 60-minute treatment of your choice at the Ida Efes spa.',
  'A full day at the spa, starting with the thermal suite — sauna, steam room, and a cold plunge overlooking the garden.\nYour 60-minute treatment can be booked for any time during the day; choose from massage, facial, or a regional herbal wrap.\nLight spa cuisine and herbal teas are available throughout the day in the relaxation lounge.',
  'Full thermal suite access\n60-minute treatment of choice\nSpa robe & slippers\nLight spa cuisine',
  'Spa reception, any time from 9:00 AM',

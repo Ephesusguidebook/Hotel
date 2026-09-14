@@ -1,5 +1,7 @@
+import Logo from "@/components/Logo";
 import { loginAction } from "@/app/admin/actions";
 import { adminPanelConfigured } from "@/lib/auth";
+import { getSiteSettings } from "@/lib/settings-repo";
 
 export const dynamic = "force-dynamic";
 
@@ -10,14 +12,13 @@ export default async function AdminLoginPage({
 }) {
   const { error } = await searchParams;
   const configured = adminPanelConfigured();
+  const { hotelName } = await getSiteSettings();
 
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-6">
       <div className="w-full max-w-sm">
-        <p className="text-sm tracking-widest-plus text-gold-600 mb-2 text-center">
-          AURELIA BAY
-        </p>
-        <h1 className="font-serif text-2xl text-charcoal-900 text-center mb-8">
+        <Logo variant="dark" alt={hotelName} className="mx-auto mb-5 h-12 w-auto" />
+        <h1 className="font-serif text-2xl text-navy-900 text-center mb-8">
           Admin Sign In
         </h1>
 
@@ -37,7 +38,7 @@ export default async function AdminLoginPage({
               </p>
             )}
             <label className="block">
-              <span className="text-sm font-medium text-charcoal-800">
+              <span className="text-sm font-medium text-navy-800">
                 PASSWORD
               </span>
               <input
@@ -45,12 +46,12 @@ export default async function AdminLoginPage({
                 name="password"
                 required
                 autoFocus
-                className="mt-2 w-full border-b border-charcoal-900/20 py-2 text-sm bg-transparent focus:outline-none focus:border-gold-500"
+                className="mt-2 w-full border-b border-navy-900/20 py-2 text-sm bg-transparent focus:outline-none focus:border-gold-500"
               />
             </label>
             <button
               type="submit"
-              className="w-full bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-sm tracking-widest-plus py-3.5 transition-colors"
+              className="w-full bg-navy-900 hover:bg-navy-800 text-ivory-50 text-sm tracking-widest-plus py-3.5 transition-colors"
             >
               SIGN IN
             </button>

@@ -26,7 +26,7 @@ export default function RoomOfferCard({
   return (
     <article
       id={room.slug}
-      className="scroll-mt-28 border border-charcoal-900/10 bg-white"
+      className="scroll-mt-28 border border-navy-900/10 bg-white"
     >
       <div className="grid grid-cols-1 md:grid-cols-5">
         <div className="md:col-span-2">
@@ -41,15 +41,15 @@ export default function RoomOfferCard({
         <div className="p-6 md:col-span-3 md:p-8">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <h2 className="font-serif text-2xl text-charcoal-900">
+              <h2 className="font-serif text-2xl text-navy-900">
                 {room.name}
               </h2>
-              <p className="mt-1.5 text-sm text-charcoal-500">
+              <p className="mt-1.5 text-sm text-navy-500">
                 {room.size} &middot; {room.occupancy} &middot; {room.bed}
               </p>
             </div>
             {soldOut ? (
-              <span className="border border-charcoal-900/20 px-3 py-1.5 text-sm text-charcoal-500">
+              <span className="border border-navy-900/20 px-3 py-1.5 text-sm text-navy-500">
                 Not available
               </span>
             ) : (
@@ -59,7 +59,7 @@ export default function RoomOfferCard({
             )}
           </div>
 
-          <p className="mt-4 text-base leading-relaxed text-charcoal-700">
+          <p className="mt-4 text-base leading-relaxed text-navy-700">
             {room.description}
           </p>
 
@@ -67,7 +67,7 @@ export default function RoomOfferCard({
             {room.amenities.slice(0, 6).map((amenity) => (
               <li
                 key={amenity}
-                className="flex items-center gap-2 text-sm text-charcoal-700"
+                className="flex items-center gap-2 text-sm text-navy-700"
               >
                 <span
                   aria-hidden
@@ -78,14 +78,14 @@ export default function RoomOfferCard({
             ))}
           </ul>
 
-          <div className="mt-7 border-t border-charcoal-900/10 pt-6">
+          <div className="mt-7 border-t border-navy-900/10 pt-6">
             {soldOut ? (
-              <p className="text-base text-charcoal-700">
+              <p className="text-base text-navy-700">
                 This room is fully booked for those dates. Try shifting them by
                 a night, or ask reception what else we can do.
               </p>
             ) : sellable.length === 0 ? (
-              <p className="text-base text-charcoal-700">
+              <p className="text-base text-navy-700">
                 We haven&apos;t published a rate for this room on those dates
                 yet. Please contact reception for a quote.
               </p>
@@ -94,14 +94,14 @@ export default function RoomOfferCard({
                 {sellable.map((planOffer) => (
                   <li
                     key={planOffer.plan.id}
-                    className="flex flex-col gap-4 border border-charcoal-900/10 p-4 sm:flex-row sm:items-center sm:justify-between"
+                    className="flex flex-col gap-4 border border-navy-900/10 p-4 sm:flex-row sm:items-center sm:justify-between"
                   >
                     <div className="min-w-0">
-                      <p className="text-base font-medium text-charcoal-900">
+                      <p className="text-base font-medium text-navy-900">
                         {planOffer.plan.name}
                       </p>
                       {planOffer.plan.description && (
-                        <p className="mt-1 text-sm leading-relaxed text-charcoal-500">
+                        <p className="mt-1 text-sm leading-relaxed text-navy-500">
                           {planOffer.plan.description}
                         </p>
                       )}
@@ -109,10 +109,10 @@ export default function RoomOfferCard({
 
                     <div className="flex shrink-0 items-end gap-5">
                       <div className="text-right">
-                        <p className="font-serif text-2xl text-charcoal-900">
+                        <p className="font-serif text-2xl text-navy-900">
                           ${planOffer.total}
                         </p>
-                        <p className="text-sm text-charcoal-500">
+                        <p className="text-sm text-navy-500">
                           ${planOffer.perNight} × {nights}{" "}
                           {nights === 1 ? "night" : "nights"}
                         </p>
@@ -131,7 +131,7 @@ export default function RoomOfferCard({
                           <input type="hidden" name="quantity" value="1" />
                           <button
                             type="submit"
-                            className="bg-gold-500 px-5 py-3 text-sm tracking-widest-plus text-charcoal-950 transition-colors hover:bg-gold-400"
+                            className="bg-gold-500 px-5 py-3 text-sm tracking-widest-plus text-navy-950 transition-colors hover:bg-gold-400"
                           >
                             ADD TO CART
                           </button>
@@ -141,7 +141,7 @@ export default function RoomOfferCard({
                           href={`/account/login?next=${encodeURIComponent(
                             `/rooms?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}#${room.slug}`
                           )}`}
-                          className="bg-charcoal-900 px-5 py-3 text-sm tracking-widest-plus text-ivory-50 transition-colors hover:bg-charcoal-800"
+                          className="bg-navy-900 px-5 py-3 text-sm tracking-widest-plus text-ivory-50 transition-colors hover:bg-navy-800"
                         >
                           SIGN IN TO BOOK
                         </a>

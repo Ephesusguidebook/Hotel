@@ -68,10 +68,10 @@ export default function BlogPostForm({ post }: { post?: BlogPost }) {
           minHeight="26rem"
         />
 
-        <div className="pt-4 border-t border-charcoal-900/10">
+        <div className="pt-4 border-t border-navy-900/10">
           <button
             type="submit"
-            className="bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-sm tracking-widest-plus px-6 py-3.5"
+            className="bg-gold-500 hover:bg-gold-400 text-navy-950 text-sm tracking-widest-plus px-6 py-3.5"
           >
             {isNew ? "PUBLISH POST" : "SAVE CHANGES"}
           </button>
@@ -95,7 +95,7 @@ export default function BlogPostForm({ post }: { post?: BlogPost }) {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-charcoal-800">
+      <span className="text-sm font-medium text-navy-800">
         {label}
       </span>
       <div className="mt-2">{children}</div>

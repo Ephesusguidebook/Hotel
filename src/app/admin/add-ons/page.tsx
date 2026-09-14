@@ -34,13 +34,13 @@ export default async function AdminAddOnsPage({
         <Link
           prefetch={false}
           href="/admin/add-ons/new"
-          className="text-sm tracking-widest-plus bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 px-5 py-3"
+          className="text-sm tracking-widest-plus bg-navy-900 hover:bg-navy-800 text-ivory-50 px-5 py-3"
         >
           + ADD EXPERIENCE
         </Link>
       </div>
 
-      <div className="border border-charcoal-900/10 divide-y divide-charcoal-900/10">
+      <div className="border border-navy-900/10 divide-y divide-navy-900/10">
         {addOns.map((item) => (
           <Link
             key={item.slug}
@@ -49,8 +49,10 @@ export default async function AdminAddOnsPage({
             className="flex items-center justify-between px-6 py-5 hover:bg-ivory-100 transition-colors"
           >
             <div>
-              <p className="font-serif text-lg text-charcoal-900">{item.name}</p>
-              <p className="text-xs text-charcoal-500 mt-1">
+              <p className="font-serif text-lg text-navy-900">
+                {item.name}
+              </p>
+              <p className="text-xs text-navy-500 mt-1">
                 {item.category} &middot; ${item.price} {item.unit} &middot;{" "}
                 {item.duration}
               </p>
@@ -61,7 +63,7 @@ export default async function AdminAddOnsPage({
           </Link>
         ))}
         {addOns.length === 0 && (
-          <p className="px-6 py-8 text-sm text-charcoal-700">
+          <p className="px-6 py-8 text-sm text-navy-700">
             No tours or transfers yet — add one to get started.
           </p>
         )}

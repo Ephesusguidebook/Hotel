@@ -1,4 +1,4 @@
-// Placeholder content for the Aurelia Bay hotel site.
+// Placeholder content for the Ida Efes hotel site.
 // Replace with real property data before launch.
 
 // Long-form body copy is rich text (HTML) so it can be edited in the admin
@@ -25,15 +25,21 @@ function sectionsHtml(sections: { heading: string; body: string[] }[]): string {
     .join("");
 }
 
+// Fallback identity, used only when the database is unreachable. The live
+// values come from the site_settings table and are edited at /admin/settings.
+//
+// The contact details below are deliberately left as obvious placeholders
+// rather than plausible-looking invented ones — a wrong phone number on a
+// hotel's own website is worse than a blank.
 export const hotel = {
-  name: "Aurelia Bay",
-  tagline: "A quiet luxury on the water's edge",
-  city: "Amalfi Coast, Italy",
-  phone: "+39 089 000 000",
-  email: "reservations@aureliabay.example",
-  address: "Via del Faro 12, 84010, Amalfi Coast, Italy",
-  checkIn: "3:00 PM",
-  checkOut: "11:00 AM",
+  name: "Ida Efes",
+  tagline: "A few minutes from Ephesus",
+  city: "Selçuk, İzmir",
+  phone: "+90 000 000 00 00",
+  email: "reservations@idaefes.example",
+  address: "Selçuk, İzmir, Türkiye",
+  checkIn: "2:00 PM",
+  checkOut: "12:00 PM",
 };
 
 // Site-wide settings — hotel identity + contact details shown in the Footer,
@@ -79,9 +85,9 @@ export const aboutContentSeed: AboutContent = {
   heroTitle: "A family project, twenty years in",
   heroDescription:
     "From a six-room guesthouse to a small coastal hotel, built one season at a time.",
-  storyHeading: "How Aurelia Bay began",
+  storyHeading: "How Ida Efes began",
   story: paras([
-    "Aurelia Bay opened in the early 2000s as a six-room guesthouse run by a single family out of a converted harborside villa. What guests kept coming back for wasn't the size of the rooms — it was the sense that someone had thought carefully about how they'd spend their days.",
+    "Ida Efes opened in the early 2000s as a six-room guesthouse run by a single family out of a converted harborside villa. What guests kept coming back for wasn't the size of the rooms — it was the sense that someone had thought carefully about how they'd spend their days.",
     "Over two decades, the property grew slowly: a few more rooms, a proper kitchen, a small spa built into the old cellar. Each addition was made with the same instinct that started the place — build for the guest who wants to slow down, not the one passing through.",
     "Today the team is larger, but the approach hasn't changed. Reservations are still answered by someone who knows the coastline personally, and the tours and transfers we recommend are the ones we'd take ourselves.",
   ]),
@@ -120,7 +126,7 @@ export const legalPagesSeed: Record<"privacy" | "terms", LegalPage> = {
       {
         heading: "1. Information We Collect",
         body: [
-          "When you make a reservation, contact us, or browse Aurelia Bay's website, we may collect information such as your name, email address, phone number, and stay preferences.",
+          "When you make a reservation, contact us, or browse Ida Efes's website, we may collect information such as your name, email address, phone number, and stay preferences.",
           "We also collect limited technical information (such as browser type and pages visited) to help us understand how the site is used and to keep it running smoothly.",
         ],
       },
@@ -146,13 +152,13 @@ export const legalPagesSeed: Record<"privacy" | "terms", LegalPage> = {
       {
         heading: "5. Your Rights",
         body: [
-          "You may request access to, correction of, or deletion of your personal information at any time by contacting us at reservations@aureliabay.example.",
+          "You may request access to, correction of, or deletion of your personal information at any time by contacting us at reservations@idaefes.example.",
         ],
       },
       {
         heading: "6. Contact",
         body: [
-          "Questions about this policy can be directed to reservations@aureliabay.example or +39 089 000 000.",
+          "Questions about this policy can be directed to reservations@idaefes.example or +39 089 000 000.",
         ],
       },
     ]),
@@ -195,7 +201,7 @@ export const legalPagesSeed: Record<"privacy" | "terms", LegalPage> = {
       {
         heading: "6. Liability",
         body: [
-          "Aurelia Bay is not responsible for loss or damage to personal belongings, except where required by law. Guests are encouraged to use in-room safes for valuables.",
+          "Ida Efes is not responsible for loss or damage to personal belongings, except where required by law. Guests are encouraged to use in-room safes for valuables.",
         ],
       },
       {
@@ -390,7 +396,7 @@ export const addOns: AddOn[] = [
     price: 190,
     unit: "per guest",
     description:
-      "Full access to the thermal suite plus a 60-minute treatment of your choice at the Aurelia Bay spa.",
+      "Full access to the thermal suite plus a 60-minute treatment of your choice at the Ida Efes spa.",
     longDescription: paras([
       "A full day at the spa, starting with the thermal suite — sauna, steam room, and a cold plunge overlooking the garden.",
       "Your 60-minute treatment can be booked for any time during the day; choose from massage, facial, or a regional herbal wrap.",

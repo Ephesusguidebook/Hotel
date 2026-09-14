@@ -1,4 +1,4 @@
--- Aurelia Bay — schema v4: media library
+-- Ida Efes — schema v4: media library
 --
 -- Run this AFTER schema.sql, schema_v2.sql and schema_v3.sql.
 --
@@ -36,4 +36,4 @@ CREATE TABLE IF NOT EXISTS media (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY uniq_media_source (source_path),
   KEY idx_media_created (created_at DESC)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

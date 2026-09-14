@@ -3,12 +3,16 @@ import PageHero from "@/components/PageHero";
 import { loginAction } from "@/app/account/actions";
 import { getPool } from "@/lib/db";
 import type { Metadata } from "next";
+import { getSiteSettings } from "@/lib/settings-repo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Sign In — Aurelia Bay",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  return {
+    title: `Sign In — ${settings.hotelName}`,
+  };
+}
 
 export default async function AccountLoginPage({
   searchParams,
@@ -16,6 +20,7 @@ export default async function AccountLoginPage({
   searchParams: Promise<{ error?: string; next?: string }>;
 }) {
   const { error, next = "/account" } = await searchParams;
+  const settings = await getSiteSettings();
   const configured = !!getPool();
 
   return (
@@ -30,7 +35,8 @@ export default async function AccountLoginPage({
         <div className="mx-auto max-w-sm">
           {!configured ? (
             <div className="border border-amber-300 bg-amber-50 text-amber-800 text-sm p-4 rounded">
-              Accounts aren&apos;t available yet — the database isn&apos;t configured.
+              Accounts aren&apos;t available yet — the database isn&apos;t
+              configured.
             </div>
           ) : (
             <form action={loginAction} className="space-y-5">
@@ -41,36 +47,43 @@ export default async function AccountLoginPage({
                 </p>
               )}
               <label className="block">
-                <span className="text-xs tracking-widest-plus text-charcoal-500">EMAIL</span>
+                <span className="text-xs tracking-widest-plus text-navy-500">
+                  EMAIL
+                </span>
                 <input
                   type="email"
                   name="email"
                   required
                   autoFocus
-                  className="mt-2 w-full border-b border-charcoal-900/20 py-2 text-sm bg-transparent focus:outline-none focus:border-gold-500"
+                  className="mt-2 w-full border-b border-navy-900/20 py-2 text-sm bg-transparent focus:outline-none focus:border-gold-500"
                 />
               </label>
               <label className="block">
-                <span className="text-xs tracking-widest-plus text-charcoal-500">PASSWORD</span>
+                <span className="text-xs tracking-widest-plus text-navy-500">
+                  PASSWORD
+                </span>
                 <input
                   type="password"
                   name="password"
                   required
-                  className="mt-2 w-full border-b border-charcoal-900/20 py-2 text-sm bg-transparent focus:outline-none focus:border-gold-500"
+                  className="mt-2 w-full border-b border-navy-900/20 py-2 text-sm bg-transparent focus:outline-none focus:border-gold-500"
                 />
               </label>
               <button
                 type="submit"
-                className="w-full bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 text-sm tracking-widest-plus py-3.5 transition-colors"
+                className="w-full bg-navy-900 hover:bg-navy-800 text-ivory-50 text-sm tracking-widest-plus py-3.5 transition-colors"
               >
                 SIGN IN
               </button>
             </form>
           )}
 
-          <p className="mt-6 text-sm text-charcoal-700 text-center">
-            New to Aurelia Bay?{" "}
-            <Link href="/account/register" className="text-gold-600 hover:text-gold-500">
+          <p className="mt-6 text-sm text-navy-700 text-center">
+            New to {settings.hotelName}?{" "}
+            <Link
+              href="/account/register"
+              className="text-gold-600 hover:text-gold-500"
+            >
               Create an account
             </Link>
           </p>

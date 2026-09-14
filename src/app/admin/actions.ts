@@ -251,13 +251,29 @@ export async function saveRatePlanAction(id: number, formData: FormData) {
     sortOrder: Number(formData.get("sortOrder") ?? 0) || 0,
   };
 
-  await upsertRatePlan(input, id > 0 ? id : undefined);
+  const ok = await upsertRatePlan(input, id > 0 ? id : undefined);
+  if (!ok) {
+    // The write didn't land — almost always because sql/schema_v6.sql hasn't
+    // been imported yet. Saying "saved" here would be a lie.
+    redirect(
+      "/admin/rate-plans?error=" +
+        encodeURIComponent(
+          "Could not save. The rate plan tables are missing — import sql/schema_v6.sql into the database first."
+        )
+    );
+  }
   redirect("/admin/rate-plans?saved=1");
 }
 
 export async function deleteRatePlanAction(id: number) {
   await requireAuthed();
-  await deleteRatePlan(id);
+  const ok = await deleteRatePlan(id);
+  if (!ok) {
+    redirect(
+      "/admin/rate-plans?error=" +
+        encodeURIComponent("Could not delete that plan. Please try again.")
+    );
+  }
   redirect("/admin/rate-plans?deleted=1");
 }
 
@@ -286,7 +302,7 @@ export async function addRoomRateAction(roomSlug: string, formData: FormData) {
   if (!ratePlanId) back("Please choose a rate plan.");
   if (!Number.isFinite(price) || price <= 0) back("Please give a nightly price.");
 
-  await addRoomRate({
+  const ok = await addRoomRate({
     roomSlug,
     ratePlanId,
     startDate,
@@ -294,6 +310,11 @@ export async function addRoomRateAction(roomSlug: string, formData: FormData) {
     price: Math.round(price),
     label: String(formData.get("label") ?? "").trim(),
   });
+  if (!ok) {
+    back(
+      "Could not save the price. The pricing tables are missing — import sql/schema_v6.sql first."
+    );
+  }
   back();
 }
 
@@ -345,7 +366,7 @@ export async function setAvailabilityAction(
     back();
   }
 
-  await setRangeOverride(
+  const written = await setRangeOverride(
     roomSlug,
     startDate,
     endDate,
@@ -353,6 +374,11 @@ export async function setAvailabilityAction(
     mode === "close",
     note
   );
+  if (written === 0) {
+    back(
+      "Could not update the calendar. The availability table is missing — import sql/schema_v6.sql first."
+    );
+  }
   back();
 }
 

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import SiteChrome from "@/components/SiteChrome";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -12,11 +12,30 @@ import "./globals.css";
 // fonts.googleapis.com at build time. Replace with next/font or self-hosted
 // files if you'd rather bundle them.
 
+// The address bar / task switcher colour, and the splash background when the
+// site is added to a phone's home screen. This is the logo's blue.
+export const viewport: Viewport = {
+  themeColor: "#10354B",
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   return {
     title: `${settings.hotelName} — ${settings.tagline}`,
-    description: `${settings.hotelName} is a boutique hotel on the ${settings.city}. Explore rooms, suites, tours, and transfers, and book your stay.`,
+    description: `${settings.hotelName} is a boutique hotel in ${settings.city}. Explore rooms, suites, tours, and transfers, and book your stay.`,
+    // The icon set that came with the logo. The SVG is what modern browsers
+    // pick up; the .ico is the fallback for older ones and for the bookmark
+    // bar, and apple-touch-icon is what iOS uses on the home screen.
+    icons: {
+      icon: [
+        { url: "/favicon.svg", type: "image/svg+xml" },
+        { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+        { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+        { url: "/favicon.ico", sizes: "48x48" },
+      ],
+      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    },
+    manifest: "/site.webmanifest",
   };
 }
 
@@ -25,6 +44,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await getSiteSettings();
   const customer = await getCurrentCustomer();
   const cartCount = customer ? (await getCartItems(customer.id)).length : 0;
 
@@ -47,7 +67,11 @@ export default async function RootLayout({
       <body className="antialiased">
         <SiteChrome
           navbar={
-            <Navbar customerName={customer?.name ?? null} cartCount={cartCount} />
+            <Navbar
+              hotelName={settings.hotelName}
+              customerName={customer?.name ?? null}
+              cartCount={cartCount}
+            />
           }
           footer={<Footer />}
         >

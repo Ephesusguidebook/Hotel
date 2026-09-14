@@ -41,7 +41,7 @@ export default function MediaPicker({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-charcoal-950/60 p-4 sm:p-8"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-navy-950/60 p-4 sm:p-8"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -52,12 +52,12 @@ export default function MediaPicker({
         aria-label={title}
         className="w-full max-w-5xl rounded-lg bg-ivory-50 shadow-xl"
       >
-        <div className="flex items-center justify-between border-b border-charcoal-900/10 px-6 py-4">
-          <h2 className="text-lg text-charcoal-900">{title}</h2>
+        <div className="flex items-center justify-between border-b border-navy-900/10 px-6 py-4">
+          <h2 className="text-lg text-navy-900">{title}</h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded px-3 py-1.5 text-sm text-charcoal-700 hover:bg-charcoal-900/5 hover:text-charcoal-900"
+            className="rounded px-3 py-1.5 text-sm text-navy-700 hover:bg-navy-900/5 hover:text-navy-900"
           >
             {multiple ? "Done" : "Close"}
           </button>

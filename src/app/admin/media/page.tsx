@@ -53,12 +53,12 @@ export default async function AdminMediaPage() {
         </p>
       ) : (
         <>
-          <p className="mb-8 max-w-2xl text-base leading-relaxed text-charcoal-700">
+          <p className="mb-8 max-w-2xl text-base leading-relaxed text-navy-700">
             Every photo on the site lives here. Upload once, then pick it
             wherever you need it — on a room, a tour, a journal post, or inside
             a page&apos;s text.
             {stats.count > 0 && (
-              <span className="mt-2 block text-sm text-charcoal-600">
+              <span className="mt-2 block text-sm text-navy-600">
                 {stats.count} photo{stats.count === 1 ? "" : "s"} ·{" "}
                 {formatBytes(stats.totalBytes)} stored
               </span>

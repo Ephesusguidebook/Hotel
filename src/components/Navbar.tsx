@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import Logo from "@/components/Logo";
 
 const links = [
   { href: "/", label: "Home" },
@@ -14,23 +15,26 @@ const links = [
 ];
 
 type Props = {
+  /** The hotel's name, from site settings — so renaming the hotel in the
+   *  admin panel renames it here too. */
+  hotelName: string;
   customerName?: string | null;
   cartCount?: number;
 };
 
-export default function Navbar({ customerName = null, cartCount = 0 }: Props) {
+export default function Navbar({
+  hotelName,
+  customerName = null,
+  cartCount = 0,
+}: Props) {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-charcoal-950/90 backdrop-blur-sm border-b border-charcoal-700/60">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-navy-950/90 backdrop-blur-sm border-b border-navy-700/60">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="flex h-20 items-center justify-between">
-          <Link
-            href="/"
-            className="font-serif text-xl md:text-2xl tracking-widest-plus text-ivory-50"
-            onClick={() => setOpen(false)}
-          >
-            AURELIA&nbsp;BAY
+          <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
+            <Logo alt={hotelName} className="h-9 w-auto md:h-11" />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-9">
@@ -52,7 +56,7 @@ export default function Navbar({ customerName = null, cartCount = 0 }: Props) {
             >
               Cart
               {cartCount > 0 && (
-                <span className="ml-1.5 inline-flex items-center justify-center text-xs bg-gold-500 text-charcoal-950 rounded-full w-4 h-4 align-middle">
+                <span className="ml-1.5 inline-flex items-center justify-center text-xs bg-gold-500 text-navy-950 rounded-full w-4 h-4 align-middle">
                   {cartCount}
                 </span>
               )}
@@ -93,7 +97,7 @@ export default function Navbar({ customerName = null, cartCount = 0 }: Props) {
       </div>
 
       {open && (
-        <div className="lg:hidden border-t border-charcoal-700/60 bg-charcoal-950">
+        <div className="lg:hidden border-t border-navy-700/60 bg-navy-950">
           <nav className="flex flex-col px-6 py-6 gap-5">
             {links.map((link) => (
               <Link

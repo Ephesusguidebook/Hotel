@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 const PAYMENT_STYLE: Record<string, string> = {
   unpaid: "bg-amber-50 text-amber-800 border-amber-300",
   paid: "bg-green-50 text-green-800 border-green-300",
-  refunded: "bg-charcoal-100 text-charcoal-700 border-charcoal-300",
+  refunded: "bg-navy-100 text-navy-700 border-navy-300",
 };
 
 export default async function AdminReservationsPage() {
@@ -22,9 +22,9 @@ export default async function AdminReservationsPage() {
       <AdminHeader title="Reservations" />
 
       {reservations.length === 0 ? (
-        <p className="text-sm text-charcoal-700">No reservations yet.</p>
+        <p className="text-sm text-navy-700">No reservations yet.</p>
       ) : (
-        <div className="border border-charcoal-900/10 divide-y divide-charcoal-900/10">
+        <div className="border border-navy-900/10 divide-y divide-navy-900/10">
           {reservations.map((r) => (
             <Link
               key={r.code}
@@ -33,12 +33,12 @@ export default async function AdminReservationsPage() {
               className="flex flex-wrap items-center justify-between gap-4 p-5 hover:bg-ivory-50 transition-colors"
             >
               <div>
-                <p className="font-serif text-lg text-charcoal-900">{r.code}</p>
-                <p className="mt-1 text-sm text-charcoal-700">
+                <p className="font-serif text-lg text-navy-900">{r.code}</p>
+                <p className="mt-1 text-sm text-navy-700">
                   {r.customerName} &middot; {r.customerEmail}
                 </p>
                 {r.checkIn && r.checkOut && (
-                  <p className="mt-1 text-xs text-charcoal-700/60">
+                  <p className="mt-1 text-xs text-navy-700/60">
                     {r.checkIn} → {r.checkOut}
                   </p>
                 )}
@@ -51,7 +51,9 @@ export default async function AdminReservationsPage() {
                 >
                   {r.paymentStatus.toUpperCase()}
                 </span>
-                <p className="mt-2 font-serif text-xl text-charcoal-900">${r.total}</p>
+                <p className="mt-2 font-serif text-xl text-navy-900">
+                  ${r.total}
+                </p>
               </div>
             </Link>
           ))}

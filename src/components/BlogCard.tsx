@@ -20,10 +20,10 @@ export default function BlogCard({ post }: { post: BlogPost }) {
         <p className="text-sm tracking-widest-plus text-gold-600">
           {post.date.toUpperCase()}
         </p>
-        <h3 className="mt-2 font-serif text-xl text-charcoal-900 group-hover:text-gold-600 transition-colors">
+        <h3 className="mt-2 font-serif text-xl text-navy-900 group-hover:text-gold-600 transition-colors">
           {post.title}
         </h3>
-        <p className="mt-2 text-base text-charcoal-700 leading-relaxed">
+        <p className="mt-2 text-base text-navy-700 leading-relaxed">
           {post.excerpt}
         </p>
       </div>

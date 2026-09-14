@@ -9,14 +9,18 @@ import { searchAvailability } from "@/lib/availability-repo";
 import { getCurrentCustomer } from "@/lib/customer-auth";
 import { isValidDate, today, formatDate } from "@/lib/dates";
 import type { Metadata } from "next";
+import { getSiteSettings } from "@/lib/settings-repo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Rooms & Suites — Aurelia Bay",
-  description:
-    "Check availability, compare rates, and book a room for your dates.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  return {
+    title: `Rooms & Suites — ${settings.hotelName}`,
+    description:
+      "Check availability, compare rates, and book a room for your dates.",
+  };
+}
 
 type SearchParams = Promise<{
   checkIn?: string;
@@ -82,7 +86,7 @@ export default async function RoomsPage({
         </div>
       </section>
 
-      <section className="bg-charcoal-900 px-6 py-20 lg:px-10">
+      <section className="bg-navy-900 px-6 py-20 lg:px-10">
         <div className="mx-auto max-w-4xl">
           <SectionHeading
             eyebrow="Good to Know"
@@ -118,7 +122,7 @@ async function SearchResults({
   const result = await searchAvailability(checkIn, checkOut, guests);
   const nights = result.nights.length;
   const availableCount = result.rooms.filter(
-    (r) => r.unitsFree > 0 && r.offers.some((o) => o.total !== null)
+    (r) => r.unitsFree > 0 && r.offers.some((o) => o.total !== null),
   ).length;
 
   // Rooms that can actually be booked come first; the rest stay on the page
@@ -133,10 +137,10 @@ async function SearchResults({
   return (
     <>
       <div className="mb-8 flex flex-wrap items-baseline justify-between gap-3">
-        <h2 className="font-serif text-2xl text-charcoal-900">
+        <h2 className="font-serif text-2xl text-navy-900">
           {formatDate(checkIn)} &ndash; {formatDate(checkOut)}
         </h2>
-        <p className="text-base text-charcoal-700">
+        <p className="text-base text-navy-700">
           {nights} {nights === 1 ? "night" : "nights"} &middot; {guests}{" "}
           {guests === 1 ? "guest" : "guests"} &middot;{" "}
           {availableCount === 0
@@ -148,7 +152,7 @@ async function SearchResults({
       </div>
 
       {availableCount === 0 && (
-        <p className="mb-8 border border-charcoal-900/15 bg-white px-5 py-4 text-base leading-relaxed text-charcoal-700">
+        <p className="mb-8 border border-navy-900/15 bg-white px-5 py-4 text-base leading-relaxed text-navy-700">
           Nothing is free across those exact dates. Shifting your arrival or
           departure by a night often opens something up — or call reception and
           we&apos;ll see what we can arrange.
@@ -179,7 +183,7 @@ async function RoomBrowse({ invalid }: { invalid: boolean }) {
 
   return (
     <>
-      <p className="mb-10 max-w-2xl text-base leading-relaxed text-charcoal-700">
+      <p className="mb-10 max-w-2xl text-base leading-relaxed text-navy-700">
         {invalid
           ? "Those dates didn't look right — please pick a check-in and a check-out above."
           : "Choose your dates above to see what's free and what it costs. Rates change through the season, so the figures below are the lowest we publish."}
@@ -198,20 +202,20 @@ async function RoomBrowse({ invalid }: { invalid: boolean }) {
               <p className="mt-5 text-sm tracking-widest-plus text-gold-600">
                 {from !== null ? `FROM $${from} / NIGHT` : "RATES ON REQUEST"}
               </p>
-              <h2 className="mt-2 font-serif text-2xl text-charcoal-900">
+              <h2 className="mt-2 font-serif text-2xl text-navy-900">
                 {room.name}
               </h2>
-              <p className="mt-1.5 text-sm text-charcoal-500">
+              <p className="mt-1.5 text-sm text-navy-500">
                 {room.size} &middot; {room.occupancy} &middot; {room.bed}
               </p>
-              <p className="mt-4 text-base leading-relaxed text-charcoal-700">
+              <p className="mt-4 text-base leading-relaxed text-navy-700">
                 {room.description}
               </p>
               <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2">
                 {room.amenities.slice(0, 6).map((amenity) => (
                   <li
                     key={amenity}
-                    className="flex items-center gap-2 text-sm text-charcoal-700"
+                    className="flex items-center gap-2 text-sm text-navy-700"
                   >
                     <span
                       aria-hidden

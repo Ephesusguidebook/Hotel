@@ -2,12 +2,14 @@ import PageHero from "@/components/PageHero";
 import LegalContent from "@/components/LegalContent";
 import { getLegalPage } from "@/lib/legal-repo";
 import type { Metadata } from "next";
+import { getSiteSettings } from "@/lib/settings-repo";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
   const page = await getLegalPage("privacy");
-  return { title: `${page.title} — Aurelia Bay` };
+  return { title: `${page.title} — ${settings.hotelName}` };
 }
 
 export default async function PrivacyPage() {

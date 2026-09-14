@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { getSiteSettings } from "@/lib/settings-repo";
 import type { Transporter } from "nodemailer";
 
 // Sends mail through Hostinger's own SMTP service (or any SMTP server) —
@@ -45,15 +46,18 @@ export async function sendVerificationEmail(
   const t = getTransporter();
   if (!t) return { sent: false, error: "SMTP not configured" };
 
-  const from = process.env.SMTP_FROM || process.env.SMTP_USER || "no-reply@aureliabay.example";
+  const settings = await getSiteSettings();
+  const hotel = settings.hotelName;
+  const from =
+    process.env.SMTP_FROM || process.env.SMTP_USER || "no-reply@example.com";
 
   try {
     await t.sendMail({
-      from: `"Aurelia Bay" <${from}>`,
+      from: `"${hotel}" <${from}>`,
       to,
-      subject: "Confirm your Aurelia Bay account",
-      text: `Hi ${name},\n\nPlease confirm your email address to activate your Aurelia Bay account:\n${verifyUrl}\n\nThis link expires in 24 hours.\n\n— Aurelia Bay`,
-      html: `<p>Hi ${name},</p><p>Please confirm your email address to activate your Aurelia Bay account:</p><p><a href="${verifyUrl}">${verifyUrl}</a></p><p>This link expires in 24 hours.</p><p>— Aurelia Bay</p>`,
+      subject: `Confirm your ${hotel} account`,
+      text: `Hi ${name},\n\nPlease confirm your email address to activate your ${hotel} account:\n${verifyUrl}\n\nThis link expires in 24 hours.\n\n— ${hotel}`,
+      html: `<p>Hi ${name},</p><p>Please confirm your email address to activate your ${hotel} account:</p><p><a href="${verifyUrl}">${verifyUrl}</a></p><p>This link expires in 24 hours.</p><p>— ${hotel}</p>`,
     });
     return { sent: true };
   } catch (err) {

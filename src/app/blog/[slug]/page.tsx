@@ -5,6 +5,7 @@ import RichText from "@/components/RichText";
 import { notFound } from "next/navigation";
 import { getBlogPostBySlug, getBlogPosts } from "@/lib/blog-repo";
 import type { Metadata } from "next";
+import { getSiteSettings } from "@/lib/settings-repo";
 
 export const dynamic = "force-dynamic";
 
@@ -15,11 +16,12 @@ export async function generateMetadata({
 }: {
   params: Params;
 }): Promise<Metadata> {
+  const settings = await getSiteSettings();
   const { slug } = await params;
   const post = await getBlogPostBySlug(slug);
   if (!post) return {};
   return {
-    title: `${post.title} — Aurelia Bay Journal`,
+    title: `${post.title} — ${settings.hotelName} Journal`,
     description: post.excerpt,
   };
 }
@@ -46,7 +48,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/50 to-charcoal-950/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/50 to-navy-950/20" />
         <div className="relative mx-auto max-w-3xl w-full px-6 pb-14">
           <p className="text-sm tracking-widest-plus text-gold-400 mb-4">
             {post.date.toUpperCase()}
@@ -70,7 +72,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
       </article>
 
       {more.length > 0 && (
-        <section className="bg-charcoal-950 py-20 px-6 lg:px-10">
+        <section className="bg-navy-950 py-20 px-6 lg:px-10">
           <div className="mx-auto max-w-7xl">
             <p className="text-sm tracking-widest-plus text-gold-400 mb-10">
               MORE FROM THE JOURNAL

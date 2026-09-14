@@ -34,13 +34,13 @@ export default async function AdminRoomsPage({
         <Link
           prefetch={false}
           href="/admin/rooms/new"
-          className="text-sm tracking-widest-plus bg-charcoal-900 hover:bg-charcoal-800 text-ivory-50 px-5 py-3"
+          className="text-sm tracking-widest-plus bg-navy-900 hover:bg-navy-800 text-ivory-50 px-5 py-3"
         >
           + ADD ROOM
         </Link>
       </div>
 
-      <div className="border border-charcoal-900/10 divide-y divide-charcoal-900/10">
+      <div className="border border-navy-900/10 divide-y divide-navy-900/10">
         {rooms.map((room) => (
           <Link
             key={room.slug}
@@ -49,10 +49,14 @@ export default async function AdminRoomsPage({
             className="flex items-center justify-between px-6 py-5 hover:bg-ivory-100 transition-colors"
           >
             <div>
-              <p className="font-serif text-lg text-charcoal-900">{room.name}</p>
-              <p className="text-xs text-charcoal-500 mt-1">
+              <p className="font-serif text-lg text-navy-900">
+                {room.name}
+              </p>
+              <p className="text-xs text-navy-500 mt-1">
                 ${room.price}/night &middot; {room.size} &middot;{" "}
-                {room.available ? `${room.unitsLeft} rooms of this type` : "Unavailable"}
+                {room.available
+                  ? `${room.unitsLeft} rooms of this type`
+                  : "Unavailable"}
               </p>
             </div>
             <span className="text-sm tracking-widest-plus text-gold-600">
@@ -61,7 +65,7 @@ export default async function AdminRoomsPage({
           </Link>
         ))}
         {rooms.length === 0 && (
-          <p className="px-6 py-8 text-sm text-charcoal-700">
+          <p className="px-6 py-8 text-sm text-navy-700">
             No rooms yet — add one to get started.
           </p>
         )}

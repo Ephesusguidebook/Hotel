@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import { getSiteSettings } from "@/lib/settings-repo";
 
 const explore = [
@@ -19,17 +20,14 @@ export default async function Footer() {
   const hotel = await getSiteSettings();
 
   return (
-    <footer className="bg-charcoal-950 text-ivory-200/80 border-t border-charcoal-700/60">
+    <footer className="bg-navy-950 text-ivory-200/80 border-t border-navy-700/60">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div>
-            <div className="font-serif text-xl tracking-widest-plus text-ivory-50">
-              {hotel.hotelName.toUpperCase()}
-            </div>
+            <Logo alt={hotel.hotelName} className="h-12 w-auto" />
             <div className="gold-divider my-4" />
             <p className="text-base leading-relaxed max-w-xs">
-              {hotel.tagline}. A small collection of rooms and suites on the{" "}
-              {hotel.city}.
+              {hotel.tagline}. {hotel.city}.
             </p>
           </div>
 

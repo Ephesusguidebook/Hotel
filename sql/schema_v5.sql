@@ -1,4 +1,4 @@
--- Aurelia Bay — schema v5: nearby places to visit
+-- Ida Efes — schema v5: nearby places to visit
 --
 -- Run this AFTER schema.sql, schema_v2.sql, schema_v3.sql and schema_v4.sql.
 --
@@ -36,13 +36,17 @@ CREATE TABLE IF NOT EXISTS attractions (
   sort_order INT NOT NULL DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Seed content for a hotel in Selçuk (Ephesus region, Türkiye).
 -- Fees and hours were checked against published 2026 sources; they move
 -- every season, so the admin panel is the place to keep them current and
 -- the pages tell guests to confirm at reception.
-INSERT INTO attractions (slug, name, category, distance, travel_time, description, long_description, highlights, opening_hours, entry_fee, best_time, map_url, images, sort_order) VALUES
+-- INSERT IGNORE, not a plain INSERT: this file is seed data, and re-running
+-- it must not fail on rows that are already there, nor overwrite anything the
+-- hotel has since edited in the admin panel. Rows whose slug already exists
+-- are simply skipped.
+INSERT IGNORE INTO attractions (slug, name, category, distance, travel_time, description, long_description, highlights, opening_hours, entry_fee, best_time, map_url, images, sort_order) VALUES
 ('ephesus-ancient-city', 'Ephesus Ancient City', 'Ancient Site', '3 km', '5 minutes by car',
  'One of the best-preserved classical cities in the Mediterranean, and the reason most people come to this valley.',
  'Ephesus was a port city of a quarter of a million people, and it still reads that way on the ground: you walk down a marble street with the drainage still beneath your feet, past the shopfronts, into a theatre built for 25,000.\nThe Library of Celsus is the photograph everyone takes, but the stretch of Curetes Street above it — with its fountains, latrines and mosaic pavements — is where the city feels lived in.\nThe Terrace Houses are a separate ticket and worth it: six Roman apartment blocks under a modern roof, with frescoes and floor mosaics still in place. Allow an extra hour.',

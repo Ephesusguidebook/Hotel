@@ -2,14 +2,18 @@ import PageHero from "@/components/PageHero";
 import AddOnsGrid from "@/components/AddOnsGrid";
 import { getAddOns } from "@/lib/addons-repo";
 import type { Metadata } from "next";
+import { getSiteSettings } from "@/lib/settings-repo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Tours & Transfers — Aurelia Bay",
-  description:
-    "Browse guided tours, sailing excursions, spa days, and private transfers to add to your stay.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  return {
+    title: `Tours & Transfers — ${settings.hotelName}`,
+    description:
+      "Browse guided tours, sailing excursions, spa days, and private transfers to add to your stay.",
+  };
+}
 
 export default async function AddOnsPage({
   searchParams,

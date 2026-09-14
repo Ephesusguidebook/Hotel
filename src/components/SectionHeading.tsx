@@ -23,7 +23,7 @@ export default function SectionHeading({
       )}
       <h2
         className={`font-serif text-3xl md:text-4xl leading-tight ${
-          light ? "text-ivory-50" : "text-charcoal-900"
+          light ? "text-ivory-50" : "text-navy-900"
         }`}
       >
         {title}
@@ -34,7 +34,7 @@ export default function SectionHeading({
       {description && (
         <p
           className={`text-base leading-relaxed ${
-            light ? "text-ivory-200/80" : "text-charcoal-700"
+            light ? "text-ivory-200/80" : "text-navy-700"
           }`}
         >
           {description}

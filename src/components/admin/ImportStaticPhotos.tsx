@@ -85,10 +85,10 @@ export default function ImportStaticPhotos({ pending }: Props) {
 
   return (
     <div className="mb-8 rounded-lg border border-gold-500/40 bg-gold-500/5 px-5 py-4">
-      <h2 className="text-base font-medium text-charcoal-900">
+      <h2 className="text-base font-medium text-navy-900">
         Bring the site&apos;s original photos into the library
       </h2>
-      <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-charcoal-700">
+      <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-navy-700">
         {pending.length} photo{pending.length === 1 ? "" : "s"} that came with
         the site {pending.length === 1 ? "is" : "are"} still stored as files.
         Importing converts {pending.length === 1 ? "it" : "them"} to WebP and
@@ -102,7 +102,7 @@ export default function ImportStaticPhotos({ pending }: Props) {
           type="button"
           onClick={() => void run()}
           disabled={running}
-          className="rounded-md bg-charcoal-900 px-5 py-2.5 text-sm text-ivory-50 hover:bg-charcoal-800 disabled:opacity-60"
+          className="rounded-md bg-navy-900 px-5 py-2.5 text-sm text-ivory-50 hover:bg-navy-800 disabled:opacity-60"
         >
           {running
             ? `Importing… ${done} of ${pending.length}`

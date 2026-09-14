@@ -4,14 +4,14 @@ import ImageGallery from "@/components/ImageGallery";
 
 export default function RoomCard({ room }: { room: Room }) {
   return (
-    <div className="bg-charcoal-950">
+    <div className="bg-navy-950">
       <div className="relative">
         <ImageGallery
           images={room.images}
           alt={room.name}
           sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
         />
-        <div className="absolute top-4 right-4 bg-charcoal-950/80 border border-gold-500/60 px-3 py-1.5 text-sm tracking-wide text-gold-400 pointer-events-none">
+        <div className="absolute top-4 right-4 bg-navy-950/80 border border-gold-500/60 px-3 py-1.5 text-sm tracking-wide text-gold-400 pointer-events-none">
           from ${room.price}/night
         </div>
       </div>

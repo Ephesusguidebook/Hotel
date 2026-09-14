@@ -25,7 +25,7 @@ export default function PageHero({
         className="object-cover"
         sizes="100vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/50 to-charcoal-950/20" />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/50 to-navy-950/20" />
       <div className="relative mx-auto max-w-7xl w-full px-6 lg:px-10 pb-14">
         <p className="text-sm tracking-widest-plus text-gold-400 mb-4">
           {eyebrow.toUpperCase()}

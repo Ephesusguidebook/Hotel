@@ -172,10 +172,10 @@ export default function AttractionForm({
           hint="The first photo is the cover shown on the listing page. Use the arrows to reorder."
         />
 
-        <div className="border-t border-charcoal-900/10 pt-4">
+        <div className="border-t border-navy-900/10 pt-4">
           <button
             type="submit"
-            className="bg-gold-500 px-6 py-3.5 text-sm tracking-widest-plus text-charcoal-950 hover:bg-gold-400"
+            className="bg-gold-500 px-6 py-3.5 text-sm tracking-widest-plus text-navy-950 hover:bg-gold-400"
           >
             {isNew ? "ADD PLACE" : "SAVE CHANGES"}
           </button>
@@ -205,7 +205,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-charcoal-800">{label}</span>
+      <span className="text-sm font-medium text-navy-800">{label}</span>
       <div className="mt-2">{children}</div>
     </label>
   );

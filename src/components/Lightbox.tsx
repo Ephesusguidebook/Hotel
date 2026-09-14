@@ -68,7 +68,7 @@ export default function Lightbox({
       aria-modal="true"
       aria-label={`${alt} — photo ${index + 1} of ${images.length}`}
       tabIndex={-1}
-      className="fixed inset-0 z-[100] flex flex-col bg-charcoal-950 outline-none"
+      className="fixed inset-0 z-[100] flex flex-col bg-navy-950 outline-none"
     >
       {/* Top bar */}
       <div className="flex shrink-0 items-center justify-between px-4 py-3 sm:px-6">

@@ -2,12 +2,16 @@ import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import { resendVerificationAction } from "@/app/account/actions";
 import type { Metadata } from "next";
+import { getSiteSettings } from "@/lib/settings-repo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Check Your Email — Aurelia Bay",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  return {
+    title: `Check Your Email — ${settings.hotelName}`,
+  };
+}
 
 export default async function RegisteredPage({
   searchParams,
@@ -27,15 +31,20 @@ export default async function RegisteredPage({
 
       <section className="bg-ivory-50 py-24 px-6 lg:px-10">
         <div className="mx-auto max-w-md text-center">
-          <p className="text-base text-charcoal-700 leading-relaxed">
-            We&apos;ve sent a confirmation link to <span className="text-charcoal-900">{email}</span>.
-            Click the link in that email to activate your account, then sign in.
+          <p className="text-base text-navy-700 leading-relaxed">
+            We&apos;ve sent a confirmation link to{" "}
+            <span className="text-navy-900">{email}</span>. Click the link
+            in that email to activate your account, then sign in.
           </p>
 
           {link && (
             <div className="mt-8 border border-amber-300 bg-amber-50 text-amber-900 text-sm p-5 rounded text-left">
-              <p className="font-medium mb-2">Email delivery isn&apos;t configured on this server yet.</p>
-              <p className="mb-3">You can confirm your account with this link instead:</p>
+              <p className="font-medium mb-2">
+                Email delivery isn&apos;t configured on this server yet.
+              </p>
+              <p className="mb-3">
+                You can confirm your account with this link instead:
+              </p>
               <Link href={link} className="text-gold-700 underline break-all">
                 {link}
               </Link>
@@ -46,15 +55,18 @@ export default async function RegisteredPage({
             <input type="hidden" name="email" value={email} />
             <button
               type="submit"
-              className="text-sm tracking-widest-plus text-charcoal-700 hover:text-charcoal-900 border border-charcoal-900/20 px-5 py-3"
+              className="text-sm tracking-widest-plus text-navy-700 hover:text-navy-900 border border-navy-900/20 px-5 py-3"
             >
               RESEND CONFIRMATION EMAIL
             </button>
           </form>
 
-          <p className="mt-8 text-sm text-charcoal-700">
+          <p className="mt-8 text-sm text-navy-700">
             Already confirmed?{" "}
-            <Link href="/account/login" className="text-gold-600 hover:text-gold-500">
+            <Link
+              href="/account/login"
+              className="text-gold-600 hover:text-gold-500"
+            >
               Sign in
             </Link>
           </p>

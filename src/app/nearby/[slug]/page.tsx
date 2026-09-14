@@ -51,7 +51,7 @@ export default async function AttractionDetailPage({
         <div className="mx-auto max-w-7xl">
           <Link
             href="/nearby"
-            className="inline-flex items-center gap-2 text-sm tracking-widest-plus text-gold-600 hover:text-charcoal-900"
+            className="inline-flex items-center gap-2 text-sm tracking-widest-plus text-gold-600 hover:text-navy-900"
           >
             <span aria-hidden>&larr;</span> BACK TO NEARBY PLACES
           </Link>
@@ -70,7 +70,7 @@ export default async function AttractionDetailPage({
                 {item.category.toUpperCase()} &middot;{" "}
                 {item.distance.toUpperCase()} FROM THE HOTEL
               </p>
-              <h1 className="mt-3 font-serif text-3xl text-charcoal-900 md:text-4xl">
+              <h1 className="mt-3 font-serif text-3xl text-navy-900 md:text-4xl">
                 {item.name}
               </h1>
 
@@ -85,7 +85,7 @@ export default async function AttractionDetailPage({
                     {item.highlights.map((highlight) => (
                       <li
                         key={highlight}
-                        className="flex items-start gap-2.5 text-base text-charcoal-700"
+                        className="flex items-start gap-2.5 text-base text-navy-700"
                       >
                         <span
                           aria-hidden
@@ -101,16 +101,16 @@ export default async function AttractionDetailPage({
 
             {/* Practical details */}
             <aside className="lg:col-span-2">
-              <div className="border border-charcoal-900/10 bg-white p-7">
+              <div className="border border-navy-900/10 bg-white p-7">
                 <h2 className="eyebrow mb-6 text-gold-600">Before you go</h2>
 
                 <dl className="space-y-5">
                   {facts.map((fact) => (
                     <div key={fact.label}>
-                      <dt className="text-sm font-medium text-charcoal-500">
+                      <dt className="text-sm font-medium text-navy-500">
                         {fact.label}
                       </dt>
-                      <dd className="mt-1 text-base leading-relaxed text-charcoal-800">
+                      <dd className="mt-1 text-base leading-relaxed text-navy-800">
                         {fact.value}
                       </dd>
                     </div>
@@ -122,13 +122,13 @@ export default async function AttractionDetailPage({
                     href={item.mapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-7 inline-flex w-full items-center justify-center bg-charcoal-900 px-6 py-3.5 text-sm tracking-widest-plus text-ivory-50 transition-colors hover:bg-charcoal-800"
+                    className="mt-7 inline-flex w-full items-center justify-center bg-navy-900 px-6 py-3.5 text-sm tracking-widest-plus text-ivory-50 transition-colors hover:bg-navy-800"
                   >
                     OPEN IN MAPS
                   </a>
                 )}
 
-                <p className="mt-5 text-sm leading-relaxed text-charcoal-500">
+                <p className="mt-5 text-sm leading-relaxed text-navy-500">
                   Hours and prices change with the season. Reception confirms
                   them each morning and can arrange a taxi or a driver.
                 </p>
@@ -138,7 +138,7 @@ export default async function AttractionDetailPage({
 
           {more.length > 0 && (
             <div className="mt-24">
-              <h2 className="font-serif text-2xl text-charcoal-900">
+              <h2 className="font-serif text-2xl text-navy-900">
                 Also close by
               </h2>
               <div className="gold-divider mt-4 mb-8" />
@@ -147,15 +147,15 @@ export default async function AttractionDetailPage({
                   <li key={other.slug}>
                     <Link
                       href={`/nearby/${other.slug}`}
-                      className="block h-full border border-charcoal-900/10 bg-white p-5 transition-colors hover:border-gold-500"
+                      className="block h-full border border-navy-900/10 bg-white p-5 transition-colors hover:border-gold-500"
                     >
                       <p className="text-sm tracking-widest-plus text-gold-600">
                         {other.category.toUpperCase()}
                       </p>
-                      <p className="mt-2 font-serif text-lg text-charcoal-900">
+                      <p className="mt-2 font-serif text-lg text-navy-900">
                         {other.name}
                       </p>
-                      <p className="mt-1.5 text-sm text-charcoal-500">
+                      <p className="mt-1.5 text-sm text-navy-500">
                         {other.distance} &middot; {other.travelTime}
                       </p>
                     </Link>

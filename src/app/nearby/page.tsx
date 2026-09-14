@@ -27,8 +27,7 @@ export default async function NearbyPage({
   // Filtering happens through the URL rather than client state, so a
   // filtered view can be linked to and shared, and the page stays a server
   // component.
-  const active =
-    category && categories.includes(category) ? category : null;
+  const active = category && categories.includes(category) ? category : null;
   const visible = active
     ? attractions.filter((a) => a.category === active)
     : attractions;
@@ -65,7 +64,7 @@ export default async function NearbyPage({
           )}
 
           {visible.length === 0 ? (
-            <p className="py-12 text-base text-charcoal-700">
+            <p className="py-12 text-base text-navy-700">
               Nothing listed here yet.
             </p>
           ) : (
@@ -76,7 +75,7 @@ export default async function NearbyPage({
             </div>
           )}
 
-          <p className="mt-14 max-w-3xl text-sm leading-relaxed text-charcoal-500">
+          <p className="mt-14 max-w-3xl text-sm leading-relaxed text-navy-500">
             Opening hours and entry fees change with the season and are worth
             confirming before you set out — reception checks them each morning
             and can arrange a taxi or a driver for anywhere on this page.
@@ -103,8 +102,8 @@ function FilterChip({
       aria-current={active ? "page" : undefined}
       className={`border px-4 py-2.5 text-sm tracking-widest-plus transition-colors ${
         active
-          ? "border-charcoal-900 bg-charcoal-900 text-ivory-50"
-          : "border-charcoal-900/30 text-charcoal-700 hover:border-charcoal-900"
+          ? "border-navy-900 bg-navy-900 text-ivory-50"
+          : "border-navy-900/30 text-navy-700 hover:border-navy-900"
       }`}
     >
       {children.toUpperCase()}

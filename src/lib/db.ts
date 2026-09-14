@@ -84,3 +84,32 @@ export async function withTransaction<T>(
     conn.release();
   }
 }
+
+/**
+ * Which of these tables don't exist in the current database.
+ *
+ * The admin panel uses this to say "you haven't imported schema_v6.sql yet"
+ * instead of quietly doing nothing. Returns null when the database isn't
+ * configured or can't be reached at all — a different problem, worth a
+ * different message.
+ */
+export async function missingTables(names: string[]): Promise<string[] | null> {
+  if (names.length === 0) return [];
+  const p = getPool();
+  if (!p) return null;
+  try {
+    const placeholders = names.map(() => "?").join(", ");
+    const [rows] = await p.query(
+      `SELECT table_name AS name FROM information_schema.tables
+       WHERE table_schema = DATABASE() AND table_name IN (${placeholders})`,
+      names
+    );
+    const present = new Set(
+      (rows as Array<{ name: string }>).map((r) => r.name.toLowerCase())
+    );
+    return names.filter((n) => !present.has(n.toLowerCase()));
+  } catch (err) {
+    console.error("[db] could not inspect tables:", err);
+    return null;
+  }
+}

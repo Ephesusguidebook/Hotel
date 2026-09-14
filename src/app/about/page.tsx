@@ -48,7 +48,7 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-charcoal-950 py-24 px-6 lg:px-10">
+      <section className="bg-navy-950 py-24 px-6 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="What We Value"

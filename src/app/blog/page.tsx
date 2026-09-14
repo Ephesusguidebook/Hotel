@@ -2,13 +2,17 @@ import PageHero from "@/components/PageHero";
 import BlogCard from "@/components/BlogCard";
 import { getBlogPosts } from "@/lib/blog-repo";
 import type { Metadata } from "next";
+import { getSiteSettings } from "@/lib/settings-repo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Journal — Aurelia Bay",
-  description: "Notes on the coast, the kitchen, and life around the hotel.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  return {
+    title: `Journal — ${settings.hotelName}`,
+    description: "Notes on the coast, the kitchen, and life around the hotel.",
+  };
+}
 
 export default async function BlogPage() {
   const blogPosts = await getBlogPosts();
@@ -28,7 +32,7 @@ export default async function BlogPage() {
             <BlogCard key={post.slug} post={post} />
           ))}
           {blogPosts.length === 0 && (
-            <p className="text-sm text-charcoal-700">
+            <p className="text-sm text-navy-700">
               No journal posts yet — check back soon.
             </p>
           )}

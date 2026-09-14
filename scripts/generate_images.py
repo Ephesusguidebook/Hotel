@@ -12,20 +12,26 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "public", "images")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# Luxury palette
-CHARCOAL_DARK = (16, 14, 11)
-CHARCOAL = (26, 22, 18)
-BRONZE = (58, 40, 24)
-BRONZE_LIGHT = (94, 64, 34)
-GOLD = (201, 162, 75)
-GOLD_SOFT = (168, 133, 68)
-IVORY = (243, 236, 223)
+# Brand palette, taken from the Ida Efes Otel logo:
+#   #10354B  deep petrol navy (the wordmark)
+#   #E6A93C  warm gold        (the mark above it)
+# These placeholders were originally warm charcoal and bronze, which fought
+# with the navy site once the logo arrived. Everything below is now in the
+# blue family, with the gold used only for the thin arc and line motifs.
+NAVY_DEEP = (7, 32, 46)  # #07202E
+NAVY = (16, 53, 75)  # #10354B
+NAVY_LIGHT = (28, 75, 103)  # #1C4B67
+GOLD = (230, 169, 60)  # #E6A93C
+GOLD_SOFT = (191, 138, 47)
+IVORY = (250, 248, 243)
 
+# Four variations on the same blue so a page of thumbnails doesn't look
+# identical, while still reading as one hotel.
 PALETTES = [
-    [(14, 13, 11), (42, 33, 22), (74, 52, 26)],   # warm charcoal -> bronze
-    [(12, 15, 14), (24, 34, 30), (46, 58, 44)],   # deep pine charcoal
-    [(15, 12, 14), (36, 24, 30), (62, 38, 42)],   # plum charcoal
-    [(13, 13, 15), (28, 28, 36), (48, 46, 58)],   # slate charcoal
+    [(6, 24, 35), (14, 48, 68), (27, 78, 105)],   # deep navy -> petrol
+    [(7, 27, 37), (13, 51, 63), (26, 82, 95)],    # navy -> teal
+    [(8, 26, 41), (20, 50, 78), (41, 77, 112)],   # navy -> slate blue
+    [(9, 24, 38), (26, 45, 74), (50, 70, 106)],   # navy -> dusk
 ]
 
 
@@ -190,11 +196,52 @@ generate("room-suite", 1200, 800, 1, motif="lines", monogram="S")
 generate("room-executive", 1200, 800, 2, motif="arcs", monogram="E")
 generate("room-family", 1200, 800, 3, motif="lines", monogram="F")
 
+# Extra gallery frames per room (bed, bath, view, detail) for the slider galleries
+ROOM_GALLERY = [
+    ("room-deluxe", 0, "D"),
+    ("room-suite", 1, "S"),
+    ("room-executive", 2, "E"),
+    ("room-family", 3, "F"),
+]
+GALLERY_ANGLES = [70, 160, 25, 200]
+for base, pal, mono in ROOM_GALLERY:
+    for i in range(2, 6):
+        motif = "arcs" if i % 2 == 0 else "lines"
+        generate(
+            f"{base}-{i}",
+            1200,
+            800,
+            pal,
+            motif=motif,
+            monogram=mono,
+            angle=GALLERY_ANGLES[(i - 2) % len(GALLERY_ANGLES)],
+        )
+
 # Tours / add-ons
 generate("tour-city", 1200, 800, 1, motif="arcs", monogram="C")
 generate("tour-sunset", 1200, 800, 2, motif="lines", monogram="S")
 generate("tour-spa", 1200, 800, 3, motif="arcs", monogram="S")
 generate("tour-transfer", 1200, 800, 0, motif="lines", monogram="T")
+
+# Extra gallery frames per add-on
+ADDON_GALLERY = [
+    ("tour-city", 1, "C"),
+    ("tour-sunset", 2, "S"),
+    ("tour-spa", 3, "S"),
+    ("tour-transfer", 0, "T"),
+]
+for base, pal, mono in ADDON_GALLERY:
+    for i in range(2, 5):
+        motif = "lines" if i % 2 == 0 else "arcs"
+        generate(
+            f"{base}-{i}",
+            1200,
+            800,
+            pal,
+            motif=motif,
+            monogram=mono,
+            angle=GALLERY_ANGLES[(i - 2) % len(GALLERY_ANGLES)],
+        )
 
 # Blog
 generate("blog-1", 1200, 800, 0, motif="lines", monogram="J")

@@ -17,7 +17,7 @@ export default async function AdminLegalPage() {
     <div className="mx-auto max-w-5xl px-6 py-10">
       <AdminHeader title="Legal Pages" />
 
-      <div className="border border-charcoal-900/10 divide-y divide-charcoal-900/10">
+      <div className="border border-navy-900/10 divide-y divide-navy-900/10">
         {[privacy, terms].map((page) => (
           <Link
             key={page.slug}
@@ -26,8 +26,10 @@ export default async function AdminLegalPage() {
             className="flex items-center justify-between px-6 py-5 hover:bg-ivory-100 transition-colors"
           >
             <div>
-              <p className="font-serif text-lg text-charcoal-900">{page.title}</p>
-              <p className="text-xs text-charcoal-500 mt-1">
+              <p className="font-serif text-lg text-navy-900">
+                {page.title}
+              </p>
+              <p className="text-xs text-navy-500 mt-1">
                 Last updated: {page.updated}
               </p>
             </div>

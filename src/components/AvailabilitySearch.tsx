@@ -30,7 +30,7 @@ export default function AvailabilitySearch({
       method="get"
       action="/rooms"
       className={`grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:items-end ${
-        compact ? "" : "border border-charcoal-900/10 bg-white p-6"
+        compact ? "" : "border border-navy-900/10 bg-white p-6"
       }`}
     >
       <Field label="Check-in">
@@ -67,7 +67,7 @@ export default function AvailabilitySearch({
 
       <button
         type="submit"
-        className="bg-charcoal-900 px-6 py-3 text-sm tracking-widest-plus text-ivory-50 transition-colors hover:bg-charcoal-800"
+        className="bg-navy-900 px-6 py-3 text-sm tracking-widest-plus text-ivory-50 transition-colors hover:bg-navy-800"
       >
         CHECK AVAILABILITY
       </button>
@@ -84,7 +84,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-charcoal-800">{label}</span>
+      <span className="text-sm font-medium text-navy-800">{label}</span>
       <div className="mt-1.5">{children}</div>
     </label>
   );

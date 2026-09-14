@@ -25,7 +25,7 @@ export default async function AdminSettingsPage({
         </p>
       )}
 
-      <p className="mb-8 text-sm text-charcoal-700">
+      <p className="mb-8 text-sm text-navy-700">
         These details power the footer, the Contact page, and the site&apos;s
         page titles.
       </p>
@@ -51,12 +51,22 @@ export default async function AdminSettingsPage({
         </div>
 
         <Field label="City / region">
-          <input name="city" defaultValue={settings.city} required className="input" />
+          <input
+            name="city"
+            defaultValue={settings.city}
+            required
+            className="input"
+          />
         </Field>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <Field label="Phone">
-            <input name="phone" defaultValue={settings.phone} required className="input" />
+            <input
+              name="phone"
+              defaultValue={settings.phone}
+              required
+              className="input"
+            />
           </Field>
           <Field label="Email">
             <input
@@ -70,7 +80,12 @@ export default async function AdminSettingsPage({
         </div>
 
         <Field label="Address">
-          <input name="address" defaultValue={settings.address} required className="input" />
+          <input
+            name="address"
+            defaultValue={settings.address}
+            required
+            className="input"
+          />
         </Field>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -100,10 +115,10 @@ export default async function AdminSettingsPage({
           </Field>
         </div>
 
-        <div className="pt-4 border-t border-charcoal-900/10">
+        <div className="pt-4 border-t border-navy-900/10">
           <button
             type="submit"
-            className="bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-sm tracking-widest-plus px-6 py-3.5"
+            className="bg-gold-500 hover:bg-gold-400 text-navy-950 text-sm tracking-widest-plus px-6 py-3.5"
           >
             SAVE CHANGES
           </button>
@@ -113,12 +128,16 @@ export default async function AdminSettingsPage({
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-charcoal-800">
-        {label}
-      </span>
+      <span className="text-sm font-medium text-navy-800">{label}</span>
       <div className="mt-2">{children}</div>
     </label>
   );

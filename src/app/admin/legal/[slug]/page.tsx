@@ -39,10 +39,20 @@ export default async function EditLegalPage({
       <form action={boundSave} className="space-y-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <Field label="Page title">
-            <input name="title" defaultValue={page.title} required className="input" />
+            <input
+              name="title"
+              defaultValue={page.title}
+              required
+              className="input"
+            />
           </Field>
           <Field label="“Last updated” label (e.g. August 2026)">
-            <input name="updated" defaultValue={page.updated} required className="input" />
+            <input
+              name="updated"
+              defaultValue={page.updated}
+              required
+              className="input"
+            />
           </Field>
         </div>
 
@@ -54,10 +64,10 @@ export default async function EditLegalPage({
           minHeight="30rem"
         />
 
-        <div className="pt-4 border-t border-charcoal-900/10">
+        <div className="pt-4 border-t border-navy-900/10">
           <button
             type="submit"
-            className="bg-gold-500 hover:bg-gold-400 text-charcoal-950 text-sm tracking-widest-plus px-6 py-3.5"
+            className="bg-gold-500 hover:bg-gold-400 text-navy-950 text-sm tracking-widest-plus px-6 py-3.5"
           >
             SAVE CHANGES
           </button>
@@ -67,12 +77,16 @@ export default async function EditLegalPage({
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-charcoal-800">
-        {label}
-      </span>
+      <span className="text-sm font-medium text-navy-800">{label}</span>
       <div className="mt-2">{children}</div>
     </label>
   );

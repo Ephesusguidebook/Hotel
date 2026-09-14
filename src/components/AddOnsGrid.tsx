@@ -33,8 +33,8 @@ export default function AddOnsGrid({ addOns }: { addOns: AddOn[] }) {
               onClick={() => setFilter(f)}
               className={`text-sm tracking-widest-plus px-4 py-2.5 border transition-colors ${
                 filter === f
-                  ? "bg-charcoal-900 border-charcoal-900 text-ivory-50"
-                  : "border-charcoal-900/30 text-charcoal-700 hover:border-charcoal-900"
+                  ? "bg-navy-900 border-navy-900 text-ivory-50"
+                  : "border-navy-900/30 text-navy-700 hover:border-navy-900"
               }`}
             >
               {f.toUpperCase()}
@@ -44,12 +44,12 @@ export default function AddOnsGrid({ addOns }: { addOns: AddOn[] }) {
         </div>
 
         {selected.length > 0 && (
-          <div className="text-sm text-charcoal-700">
-            <span className="font-serif text-lg text-charcoal-900">
+          <div className="text-sm text-navy-700">
+            <span className="font-serif text-lg text-navy-900">
               {selected.length}
             </span>{" "}
             added &middot;{" "}
-            <span className="font-serif text-lg text-charcoal-900">
+            <span className="font-serif text-lg text-navy-900">
               ${total}
             </span>{" "}
             estimated
@@ -69,7 +69,7 @@ export default function AddOnsGrid({ addOns }: { addOns: AddOn[] }) {
       </div>
 
       {selected.length > 0 && (
-        <div className="mt-16 bg-charcoal-950 text-ivory-50 p-8 lg:p-10">
+        <div className="mt-16 bg-navy-950 text-ivory-50 p-8 lg:p-10">
           <p className="text-sm tracking-widest-plus text-gold-400 mb-6">
             YOUR TRIP ADD-ONS
           </p>

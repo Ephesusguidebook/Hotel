@@ -1,4 +1,4 @@
--- Aurelia Bay — schema v6: rate plans, date-range pricing, availability calendar
+-- Ida Efes — schema v6: rate plans, date-range pricing, availability calendar
 --
 -- Run this AFTER schema.sql … schema_v5.sql.
 --
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS rate_plans (
   description VARCHAR(255) NOT NULL DEFAULT '',
   sort_order INT NOT NULL DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ---------------------------------------------------------------------------
 -- Date-range prices
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS room_rates (
   label VARCHAR(191) NOT NULL DEFAULT '',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   KEY idx_room_rates_lookup (room_slug, rate_plan_id, start_date, end_date)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ---------------------------------------------------------------------------
 -- Per-date availability overrides
@@ -80,42 +80,90 @@ CREATE TABLE IF NOT EXISTS room_availability (
   closed TINYINT(1) NOT NULL DEFAULT 0,
   note VARCHAR(191) NOT NULL DEFAULT '',
   UNIQUE KEY uniq_room_date (room_slug, date)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ---------------------------------------------------------------------------
 -- Carry the chosen plan onto cart lines and reservation lines
 -- ---------------------------------------------------------------------------
--- Added defensively so re-running this file is harmless; MySQL has no
--- "ADD COLUMN IF NOT EXISTS", so a second run reports a duplicate-column
--- error on these four statements only. That is safe to ignore.
--- `stay_total` is the price of ONE room for the WHOLE stay, worked out from
--- that stay's nightly rates and frozen at the moment it goes in the cart —
--- nights can be priced differently, so a single per-night figure cannot be
--- multiplied back up. `unit_price` stays alongside it as the average per
--- night, which is what a guest reads on the line. Add-ons leave it NULL.
-ALTER TABLE cart_items ADD COLUMN rate_plan_id INT NULL;
-ALTER TABLE cart_items ADD COLUMN rate_plan_name VARCHAR(191) NOT NULL DEFAULT '';
-ALTER TABLE cart_items ADD COLUMN stay_total INT NULL;
-ALTER TABLE reservation_items ADD COLUMN rate_plan_id INT NULL;
-ALTER TABLE reservation_items ADD COLUMN rate_plan_name VARCHAR(191) NOT NULL DEFAULT '';
-ALTER TABLE reservation_items ADD COLUMN stay_total INT NULL;
+-- MySQL has no "ADD COLUMN IF NOT EXISTS", and it stops dead on the first
+-- error — so a plain ALTER would abort the whole import on a second run and
+-- the seed data below would never be inserted. Each column is therefore
+-- added through a prepared statement that first checks whether it is already
+-- there, which makes this whole file safe to run as many times as you like.
+-- (`DO 0` is the do-nothing branch: it returns no result set, so a skipped
+-- column doesn't show up as an empty table in phpMyAdmin.)
+
+SET @sql = (SELECT IF(
+  (SELECT COUNT(*) FROM information_schema.COLUMNS
+   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'cart_items' AND COLUMN_NAME = 'rate_plan_id') > 0,
+  'DO 0',
+  'ALTER TABLE cart_items ADD COLUMN rate_plan_id INT NULL'));
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = (SELECT IF(
+  (SELECT COUNT(*) FROM information_schema.COLUMNS
+   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'cart_items' AND COLUMN_NAME = 'rate_plan_name') > 0,
+  'DO 0',
+  'ALTER TABLE cart_items ADD COLUMN rate_plan_name VARCHAR(191) NOT NULL DEFAULT '''''));
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = (SELECT IF(
+  (SELECT COUNT(*) FROM information_schema.COLUMNS
+   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'cart_items' AND COLUMN_NAME = 'stay_total') > 0,
+  'DO 0',
+  'ALTER TABLE cart_items ADD COLUMN stay_total INT NULL'));
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = (SELECT IF(
+  (SELECT COUNT(*) FROM information_schema.COLUMNS
+   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'reservation_items' AND COLUMN_NAME = 'rate_plan_id') > 0,
+  'DO 0',
+  'ALTER TABLE reservation_items ADD COLUMN rate_plan_id INT NULL'));
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = (SELECT IF(
+  (SELECT COUNT(*) FROM information_schema.COLUMNS
+   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'reservation_items' AND COLUMN_NAME = 'rate_plan_name') > 0,
+  'DO 0',
+  'ALTER TABLE reservation_items ADD COLUMN rate_plan_name VARCHAR(191) NOT NULL DEFAULT '''''));
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = (SELECT IF(
+  (SELECT COUNT(*) FROM information_schema.COLUMNS
+   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'reservation_items' AND COLUMN_NAME = 'stay_total') > 0,
+  'DO 0',
+  'ALTER TABLE reservation_items ADD COLUMN stay_total INT NULL'));
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
 -- ---------------------------------------------------------------------------
 -- Seed
 -- ---------------------------------------------------------------------------
-INSERT INTO rate_plans (slug, name, description, sort_order) VALUES
+-- IGNORE rather than ON DUPLICATE KEY UPDATE: if you've renamed a plan or
+-- rewritten its description, re-running this file must leave your version
+-- alone rather than resetting it.
+INSERT IGNORE INTO rate_plans (slug, name, description, sort_order) VALUES
 ('room-only', 'Room Only', 'Just the room — breakfast can be added at reception.', 10),
-('breakfast-included', 'Breakfast Included', 'Full breakfast for every guest, served until 10:30.', 20)
-ON DUPLICATE KEY UPDATE name = VALUES(name), description = VALUES(description);
+('breakfast-included', 'Breakfast Included', 'Full breakfast for every guest, served until 10:30.', 20);
 
 -- Two years of base rates from the start of 2026, so the site is sellable
 -- the moment the schema is imported. Breakfast is seeded at +$25 per night;
 -- change any of it from the room's calendar in the admin panel.
+-- NOT EXISTS keeps a second run from stacking duplicate rows on top.
+-- The COLLATE on both sides is deliberate. If these tables were created by an
+-- earlier version of this file they may carry a different collation from
+-- `rooms`, and comparing the two directly fails with "Illegal mix of
+-- collations". Slugs are plain ASCII, so comparing them as bytes is both
+-- correct and immune to whatever collation each table ended up with.
 INSERT INTO room_rates (room_slug, rate_plan_id, start_date, end_date, price, label)
 SELECT r.slug, p.id, '2026-01-01', '2027-12-31',
        r.price + IF(p.slug = 'breakfast-included', 25, 0),
        'Standard rate'
-FROM rooms r CROSS JOIN rate_plans p;
+FROM rooms r CROSS JOIN rate_plans p
+WHERE NOT EXISTS (
+  SELECT 1 FROM room_rates x
+  WHERE x.room_slug COLLATE utf8mb4_bin = r.slug COLLATE utf8mb4_bin
+    AND x.rate_plan_id = p.id AND x.label = 'Standard rate'
+);
 
 -- A worked example of a seasonal override: high summer costs more, and
 -- because this range is narrower than the one above it takes priority.
@@ -124,4 +172,9 @@ INSERT INTO room_rates (room_slug, rate_plan_id, start_date, end_date, price, la
 SELECT r.slug, p.id, '2027-07-01', '2027-08-31',
        ROUND(r.price * 1.35) + IF(p.slug = 'breakfast-included', 25, 0),
        'High season'
-FROM rooms r CROSS JOIN rate_plans p;
+FROM rooms r CROSS JOIN rate_plans p
+WHERE NOT EXISTS (
+  SELECT 1 FROM room_rates x
+  WHERE x.room_slug COLLATE utf8mb4_bin = r.slug COLLATE utf8mb4_bin
+    AND x.rate_plan_id = p.id AND x.label = 'High season'
+);

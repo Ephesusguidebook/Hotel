@@ -18,13 +18,14 @@ import { getPool } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 /** SVG is deliberately absent: it can carry scripts, and we serve these
- *  files inline from our own origin. */
-const ALLOWED_TYPES = new Set([
-  "image/webp",
-  "image/jpeg",
-  "image/png",
-  "image/avif",
-]);
+ *  files inline from our own origin.
+ *
+ *  AVIF is absent too. Next.js has had remote-code-execution advisories in
+ *  its image optimiser specifically around AVIF input (GHSA-2xp9-vwfh-vxw4),
+ *  and we gain nothing by accepting it: the browser converts every upload to
+ *  WebP before it reaches this route, so AVIF was only ever a theoretical
+ *  fallback. */
+const ALLOWED_TYPES = new Set(["image/webp", "image/jpeg", "image/png"]);
 
 /** The photo list, for the picker dialog that admin forms open. */
 export async function GET() {

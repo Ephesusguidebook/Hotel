@@ -7,6 +7,7 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/rooms", label: "Rooms" },
   { href: "/add-ons", label: "Tours & Transfers" },
+  { href: "/nearby", label: "Nearby" },
   { href: "/about", label: "About" },
   { href: "/blog", label: "Journal" },
   { href: "/contact", label: "Contact" },

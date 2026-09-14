@@ -507,3 +507,273 @@ export const testimonials = [
     author: "R. Fontaine",
   },
 ];
+
+// Nearby places to visit — the sights guests ask about at reception.
+// Purely informational: unlike add_ons these aren't booked or priced.
+// Editable from /admin/nearby.
+export type Attraction = {
+  slug: string;
+  name: string;
+  /** Free text ("Ancient Site", "Museum", "Beach"…). The listing page
+   *  builds its filter chips from whatever values are actually in use. */
+  category: string;
+  distance: string;
+  travelTime: string;
+  description: string;
+  /** Rich text (HTML). */
+  longDescription: string;
+  highlights: string[];
+  openingHours: string;
+  entryFee: string;
+  bestTime: string;
+  mapUrl: string;
+  image: string;
+  images: string[];
+};
+
+export const attractionsSeed: Attraction[] = [
+  {
+    slug: "ephesus-ancient-city",
+    name: "Ephesus Ancient City",
+    category: "Ancient Site",
+    distance: "3 km",
+    travelTime: "5 minutes by car",
+    description:
+      "One of the best-preserved classical cities in the Mediterranean, and the reason most people come to this valley.",
+    longDescription: paras([
+      "Ephesus was a port city of a quarter of a million people, and it still reads that way on the ground: you walk down a marble street with the drainage still beneath your feet, past the shopfronts, into a theatre built for 25,000.",
+      "The Library of Celsus is the photograph everyone takes, but the stretch of Curetes Street above it — with its fountains, latrines and mosaic pavements — is where the city feels lived in.",
+      "The Terrace Houses are a separate ticket and worth it: six Roman apartment blocks under a modern roof, with frescoes and floor mosaics still in place. Allow an extra hour.",
+    ]),
+    highlights: [
+      "Library of Celsus",
+      "Great Theatre",
+      "Curetes Street and the Trajan Fountain",
+      "Terrace Houses (separate ticket)",
+      "Marble Road and the Agora",
+    ],
+    openingHours:
+      "Summer roughly 08:00–19:00; shorter in winter. Last tickets about an hour before closing.",
+    entryFee:
+      "€40 (2026 season). Terrace Houses €15 extra. Covered by the Museum Pass Türkiye.",
+    bestTime:
+      "Right at opening or after 16:00 — the middle of the day is hot and busy with cruise groups.",
+    mapUrl: "https://maps.google.com/?q=Ephesus+Ancient+City+Selcuk",
+    image: "/images/hero-addons.jpg",
+    images: [
+      "/images/hero-addons.jpg",
+      "/images/tour-city.jpg",
+      "/images/tour-city-2.jpg",
+    ],
+  },
+  {
+    slug: "house-of-the-virgin-mary",
+    name: "House of the Virgin Mary",
+    category: "Religious Site",
+    distance: "9 km",
+    travelTime: "20 minutes by car",
+    description:
+      "A small stone chapel on Bülbül Mountain, believed by many to be where Mary spent her last years.",
+    longDescription: paras([
+      "The house sits in pine woods above Ephesus, at the end of a winding road. It is modest — a single vaulted room, a few candles, a queue that moves quietly.",
+      "The site was identified in the nineteenth century from the visions of a German nun who had never travelled here, and the ruins that were found matched her description closely enough that the place has been a pilgrimage site ever since. It has been visited by several popes.",
+      "Below the chapel is a wall where visitors tie written wishes, and a spring that many people stop to drink from. Whatever you make of the history, the walk through the trees is worth the drive on its own.",
+    ]),
+    highlights: [
+      "The chapel itself",
+      "The wishing wall",
+      "Spring water fountains",
+      "Views down the valley towards the sea",
+    ],
+    openingHours:
+      "Roughly 08:30–18:00, with the ticket office closing half an hour earlier.",
+    entryFee: "About 700 TL (2026 season).",
+    bestTime:
+      "Early morning, before the tour coaches arrive from the cruise port.",
+    mapUrl: "https://maps.google.com/?q=House+of+the+Virgin+Mary+Selcuk",
+    image: "/images/tour-spa.jpg",
+    images: ["/images/tour-spa.jpg", "/images/tour-spa-2.jpg"],
+  },
+  {
+    slug: "ephesus-archaeological-museum",
+    name: "Ephesus Archaeological Museum",
+    category: "Museum",
+    distance: "900 m",
+    travelTime: "10 minutes on foot",
+    description:
+      "Where everything portable from Ephesus ended up — including the two famous statues of Artemis.",
+    longDescription: paras([
+      "Visiting the museum after the site rather than before makes the ruins click into place: the friezes, household objects and portrait busts here were all lifted from the buildings you have just walked through.",
+      "The two cult statues of Artemis of Ephesus are the reason most people come. They are covered in rows of ovoid forms whose meaning is still argued over — breasts, bull testicles, or gourds, depending on whose paper you read.",
+      "It is a compact museum. An hour and a half is enough, and it is air-conditioned, which makes it a sensible stop in the middle of a hot afternoon.",
+    ]),
+    highlights: [
+      "The two Artemis statues",
+      "Finds from the Terrace Houses",
+      "The gladiator gravestones",
+      "Roman portrait sculpture",
+    ],
+    openingHours: "Roughly 08:30–19:00 in summer, shorter in winter.",
+    entryFee: "€10 (2026 season). Covered by the Museum Pass Türkiye.",
+    bestTime: "Mid-afternoon, when it is too hot to be out on the site.",
+    mapUrl: "https://maps.google.com/?q=Ephesus+Archaeological+Museum+Selcuk",
+    image: "/images/about-story.jpg",
+    images: ["/images/about-story.jpg"],
+  },
+  {
+    slug: "temple-of-artemis",
+    name: "Temple of Artemis",
+    category: "Ancient Site",
+    distance: "1 km",
+    travelTime: "12 minutes on foot",
+    description:
+      "One of the Seven Wonders of the Ancient World, now a single reassembled column in a field.",
+    longDescription: paras([
+      "There is almost nothing left, and that is rather the point. The temple was four times the footprint of the Parthenon, built and rebuilt over centuries, burned down on the night Alexander the Great was born — and today one column stands in a marshy field with a stork nesting on top of it.",
+      "It takes ten minutes to see. Go anyway, ideally with the museum fresh in your mind, and stand at the fence looking back towards Ayasuluk Hill: you get the mosque, the basilica and the castle stacked up behind the column, which is fifteen hundred years of the same valley in one view.",
+    ]),
+    highlights: [
+      "The surviving column",
+      "Storks nesting in summer",
+      "The view towards Ayasuluk Hill",
+      "Foundation outlines in the field",
+    ],
+    openingHours: "Open site, roughly 08:30–19:00.",
+    entryFee: "Free.",
+    bestTime: "Late afternoon, when the light comes across the field.",
+    mapUrl: "https://maps.google.com/?q=Temple+of+Artemis+Selcuk",
+    image: "/images/tour-sunset.jpg",
+    images: ["/images/tour-sunset.jpg", "/images/tour-sunset-2.jpg"],
+  },
+  {
+    slug: "basilica-of-st-john",
+    name: "Basilica of St John",
+    category: "Religious Site",
+    distance: "1 km",
+    travelTime: "12 minutes on foot",
+    description:
+      "The ruins of a great domed basilica built by Justinian over what is held to be the tomb of St John.",
+    longDescription: paras([
+      "Enough of the basilica survives — columns, the marble floor, the stepped tomb area — to read the shape of what was once one of the largest churches in the world.",
+      "It stands on Ayasuluk Hill, so the visit doubles as a viewpoint: the Temple of Artemis column below, the İsa Bey Mosque at the foot of the slope, and on a clear day the sea beyond the plain.",
+      "The ticket also covers Ayasuluk Fortress at the top of the hill, so allow time to walk up rather than turning back at the basilica.",
+    ]),
+    highlights: [
+      "The marble tomb of St John",
+      "Reconstructed columns of the nave",
+      "The baptistery",
+      "Views over Selçuk and the plain",
+    ],
+    openingHours: "Roughly 08:00–19:00 in summer, shorter in winter.",
+    entryFee: "€6 (2026 season), which also covers Ayasuluk Fortress.",
+    bestTime: "Late afternoon for the light and the view.",
+    mapUrl: "https://maps.google.com/?q=Basilica+of+St+John+Selcuk",
+    image: "/images/hero-about.jpg",
+    images: ["/images/hero-about.jpg"],
+  },
+  {
+    slug: "ayasuluk-fortress",
+    name: "Ayasuluk Fortress",
+    category: "Ancient Site",
+    distance: "1.2 km",
+    travelTime: "18 minutes on foot, uphill",
+    description:
+      "The walled citadel crowning the hill above town, on the same ticket as the basilica.",
+    longDescription: paras([
+      "The fortress has been rebuilt by nearly everyone who held this valley — Byzantines, the Aydınid emirate, the Ottomans — and the walls show it, with different stonework stacked in layers.",
+      "Inside there is a small mosque, cisterns and the outlines of a settlement, but the reason to climb is the circuit of the walls. From the top you can see the whole of Selçuk, the Artemision field, the plain running west to the sea, and the ridge that hides Ephesus.",
+      "It is a steady uphill walk from the basilica entrance. Take water; there is almost no shade.",
+    ]),
+    highlights: [
+      "The layered fortification walls",
+      "The panorama over the plain",
+      "The small fortress mosque",
+      "Sunset over the sea from the ramparts",
+    ],
+    openingHours: "Same hours as the Basilica of St John.",
+    entryFee: "Included with the Basilica of St John ticket.",
+    bestTime: "An hour before sunset.",
+    mapUrl: "https://maps.google.com/?q=Ayasuluk+Fortress+Selcuk",
+    image: "/images/hero-rooms.jpg",
+    images: ["/images/hero-rooms.jpg"],
+  },
+  {
+    slug: "isa-bey-mosque",
+    name: "İsa Bey Mosque",
+    category: "Religious Site",
+    distance: "1 km",
+    travelTime: "12 minutes on foot",
+    description:
+      "A fourteenth-century Seljuk-era mosque at the foot of Ayasuluk Hill, built partly from Ephesus.",
+    longDescription: paras([
+      "Built in 1375 for the Aydınid ruler İsa Bey, this is one of the oldest and most unusual mosques in Anatolia — an asymmetric plan, an ornate west façade, and a courtyard whose granite columns were carried up from the ruins of Ephesus and the harbour baths.",
+      "It is still a working mosque and still quiet. Dress modestly, take your shoes off at the door, and avoid prayer times.",
+      "It sits directly between the Temple of Artemis and the basilica, so it fits naturally into a walk up the hill rather than needing a trip of its own.",
+    ]),
+    highlights: [
+      "The carved marble west portal",
+      "Recycled columns from Ephesus",
+      "The courtyard and its fountain",
+      "Tilework in the prayer hall",
+    ],
+    openingHours: "Open outside prayer times; closed briefly five times a day.",
+    entryFee: "Free.",
+    bestTime: "Mid-morning, between prayers.",
+    mapUrl: "https://maps.google.com/?q=Isa+Bey+Mosque+Selcuk",
+    image: "/images/blog-3.jpg",
+    images: ["/images/blog-3.jpg"],
+  },
+  {
+    slug: "sirince-village",
+    name: "Şirince Village",
+    category: "Village",
+    distance: "8 km",
+    travelTime: "20 minutes by car",
+    description:
+      "A hillside village of Greek stone houses, known for its fruit wines and its Sunday crowds.",
+    longDescription: paras([
+      "Şirince was a Greek village until the population exchange of 1923, and the houses — whitewashed, wood-framed, stacked up two facing slopes — have survived largely intact.",
+      "The village makes fruit wine, and nearly every other doorway offers a tasting: apple, peach, blackberry, pomegranate. There is a covered market of olive oil, soap and dried fruit, a couple of old churches, and a lot of cats.",
+      "Go on a weekday. On summer Sundays the lanes fill with day-trippers from İzmir and the charm is harder to find. A minibus runs from Selçuk bus station every twenty minutes if you would rather not drive the hill road.",
+    ]),
+    highlights: [
+      "Fruit wine tastings",
+      "The old Greek houses",
+      "St John the Baptist church",
+      "The village market",
+      "Hillside restaurants with valley views",
+    ],
+    openingHours: "Village is always open; shops roughly 09:00–19:00.",
+    entryFee: "Free (parking charged on busy days).",
+    bestTime: "A weekday morning. Avoid summer Sundays.",
+    mapUrl: "https://maps.google.com/?q=Sirince+Selcuk",
+    image: "/images/blog-1.jpg",
+    images: ["/images/blog-1.jpg", "/images/blog-2.jpg"],
+  },
+  {
+    slug: "pamucak-beach",
+    name: "Pamucak Beach",
+    category: "Beach",
+    distance: "7 km",
+    travelTime: "12 minutes by car",
+    description:
+      "A long, open stretch of sand west of Ephesus — the quietest beach within easy reach.",
+    longDescription: paras([
+      "Pamucak is where the plain finally meets the Aegean, and because it has never been built up the way the resorts further south have, it stays comparatively empty even in August.",
+      "The sand is coarse and dark, the beach is long enough that you can always walk away from other people, and the water shelves gently. There is little natural shade, so take an umbrella or use one of the beach clubs at the northern end.",
+      "It faces west, which makes it the obvious place to end a day of ruins: the sun goes down over the water, straight ahead.",
+    ]),
+    highlights: [
+      "Several kilometres of open sand",
+      "Sunset over the Aegean",
+      "Beach clubs at the north end",
+      "Quiet even in high summer",
+    ],
+    openingHours: "Open all day, year round.",
+    entryFee: "Free. Sunbeds and parking charged at the beach clubs.",
+    bestTime: "Late afternoon through sunset.",
+    mapUrl: "https://maps.google.com/?q=Pamucak+Beach+Selcuk",
+    image: "/images/hero-home.jpg",
+    images: ["/images/hero-home.jpg", "/images/hero-contact.jpg"],
+  },
+];

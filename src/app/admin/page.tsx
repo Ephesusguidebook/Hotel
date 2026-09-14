@@ -3,6 +3,7 @@ import Link from "next/link";
 import { isAdminAuthed } from "@/lib/auth";
 import { getRooms } from "@/lib/rooms-repo";
 import { getAddOns } from "@/lib/addons-repo";
+import { getAttractions } from "@/lib/attractions-repo";
 import { getBlogPosts } from "@/lib/blog-repo";
 import { getAllReservations } from "@/lib/reservations-repo";
 import { getPool } from "@/lib/db";
@@ -14,9 +15,10 @@ export default async function AdminDashboard() {
   if (!(await isAdminAuthed())) redirect("/admin/login");
 
   const dbConfigured = !!getPool();
-  const [rooms, addOns, posts, reservations] = await Promise.all([
+  const [rooms, addOns, attractions, posts, reservations] = await Promise.all([
     getRooms(),
     getAddOns(),
+    getAttractions(),
     getBlogPosts(),
     getAllReservations(),
   ]);
@@ -64,6 +66,20 @@ export default async function AdminDashboard() {
           <p className="font-serif text-3xl text-charcoal-900">{addOns.length}</p>
           <p className="text-sm text-charcoal-700 mt-2">
             Edit price, description, what&apos;s included and photos.
+          </p>
+        </Link>
+
+        <Link
+          prefetch={false}
+          href="/admin/nearby"
+          className="block border border-charcoal-900/10 p-6 hover:border-gold-500 transition-colors"
+        >
+          <p className="text-sm tracking-widest-plus text-gold-600 mb-2">
+            NEARBY PLACES
+          </p>
+          <p className="font-serif text-3xl text-charcoal-900">{attractions.length}</p>
+          <p className="text-sm text-charcoal-700 mt-2">
+            Sights around the hotel — distances, hours and what to look for.
           </p>
         </Link>
 

@@ -9,6 +9,11 @@ import {
 } from "@/lib/auth";
 import { upsertRoom, deleteRoom, type RoomInput } from "@/lib/rooms-repo";
 import { upsertAddOn, deleteAddOn, type AddOnInput } from "@/lib/addons-repo";
+import {
+  upsertAttraction,
+  deleteAttraction,
+  type AttractionInput,
+} from "@/lib/attractions-repo";
 import { upsertBlogPost, deleteBlogPost, type BlogPostInput } from "@/lib/blog-repo";
 import { updateSiteSettings } from "@/lib/settings-repo";
 import { updateAboutContent, textToValues } from "@/lib/about-repo";
@@ -108,6 +113,45 @@ export async function deleteAddOnAction(slug: string) {
   await requireAuthed();
   await deleteAddOn(slug);
   redirect("/admin/add-ons?deleted=1");
+}
+
+export async function saveAttractionAction(
+  originalSlug: string,
+  formData: FormData
+) {
+  await requireAuthed();
+
+  const input: AttractionInput = {
+    slug: String(formData.get("slug") ?? "").trim(),
+    name: String(formData.get("name") ?? "").trim(),
+    category: String(formData.get("category") ?? "").trim(),
+    distance: String(formData.get("distance") ?? "").trim(),
+    travelTime: String(formData.get("travelTime") ?? "").trim(),
+    description: String(formData.get("description") ?? "").trim(),
+    longDescription: sanitizeRichText(
+      String(formData.get("longDescription") ?? "")
+    ),
+    highlights: toList(String(formData.get("highlights") ?? "")),
+    openingHours: String(formData.get("openingHours") ?? "").trim(),
+    entryFee: String(formData.get("entryFee") ?? "").trim(),
+    bestTime: String(formData.get("bestTime") ?? "").trim(),
+    mapUrl: String(formData.get("mapUrl") ?? "").trim(),
+    images: toList(String(formData.get("images") ?? "")),
+  };
+
+  // Renaming the slug moves the page, so the old row has to go with it.
+  if (originalSlug && originalSlug !== input.slug) {
+    await deleteAttraction(originalSlug);
+  }
+
+  await upsertAttraction(input);
+  redirect("/admin/nearby?saved=1");
+}
+
+export async function deleteAttractionAction(slug: string) {
+  await requireAuthed();
+  await deleteAttraction(slug);
+  redirect("/admin/nearby?deleted=1");
 }
 
 export async function saveBlogPostAction(originalSlug: string, formData: FormData) {

@@ -4,6 +4,7 @@ import { getSiteSettings } from "@/lib/settings-repo";
 const explore = [
   { href: "/rooms", label: "Rooms & Suites" },
   { href: "/add-ons", label: "Tours & Transfers" },
+  { href: "/nearby", label: "Nearby Places" },
   { href: "/about", label: "About Us" },
   { href: "/blog", label: "Journal" },
 ];

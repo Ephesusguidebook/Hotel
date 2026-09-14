@@ -36,6 +36,9 @@ export default function AdminHeader({ title }: { title: string }) {
         <Link href="/admin/media" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
           Photos
         </Link>
+        <Link href="/admin/nearby" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
+          Nearby Places
+        </Link>
         <Link href="/admin/blog" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
           Journal
         </Link>

@@ -134,10 +134,26 @@ export async function addRoomToCartAction(slug: string, formData: FormData) {
   const checkOut = String(formData.get("checkOut") ?? "");
   const guests = Number(formData.get("guests") ?? 2);
   const quantity = Number(formData.get("quantity") ?? 1);
+  const ratePlanId = Number(formData.get("ratePlanId") ?? 0);
 
-  const error = await addRoomToCart({ customerId: customer.id, slug, checkIn, checkOut, guests, quantity });
+  const error = await addRoomToCart({
+    customerId: customer.id,
+    slug,
+    ratePlanId,
+    checkIn,
+    checkOut,
+    guests,
+    quantity,
+  });
   if (error) {
-    redirect(`/rooms?cartError=${encodeURIComponent(error)}#${slug}`);
+    // Send them back to the same search so the dates they picked survive.
+    const params = new URLSearchParams({
+      checkIn,
+      checkOut,
+      guests: String(guests),
+      cartError: error,
+    });
+    redirect(`/rooms?${params.toString()}#${slug}`);
   }
   redirect("/account/cart?added=1");
 }

@@ -63,12 +63,6 @@ export default function Navbar({ customerName = null, cartCount = 0 }: Props) {
             >
               {customerName ? customerName.split(" ")[0] : "Sign In"}
             </Link>
-            <Link
-              href="/rooms"
-              className="inline-flex items-center border border-gold-500 px-5 py-2.5 text-sm tracking-widest-plus text-gold-400 hover:bg-gold-500 hover:text-charcoal-950 transition-colors"
-            >
-              BOOK NOW
-            </Link>
           </div>
 
           <button
@@ -124,13 +118,6 @@ export default function Navbar({ customerName = null, cartCount = 0 }: Props) {
               onClick={() => setOpen(false)}
             >
               {customerName ? `My Account (${customerName.split(" ")[0]})` : "Sign In"}
-            </Link>
-            <Link
-              href="/rooms"
-              className="mt-2 inline-flex w-fit items-center border border-gold-500 px-5 py-2.5 text-sm tracking-widest-plus text-gold-400"
-              onClick={() => setOpen(false)}
-            >
-              BOOK NOW
             </Link>
           </nav>
         </div>

@@ -1,6 +1,8 @@
 import crypto from "crypto";
 import { safeQuery, withTransaction } from "@/lib/db";
 import { nightsBetween } from "@/lib/cart-repo";
+import { getRoomBySlug } from "@/lib/rooms-repo";
+import { unitsFreeForStay } from "@/lib/availability-repo";
 import type mysql from "mysql2/promise";
 
 const TAX_RATE = 0.12;
@@ -11,6 +13,7 @@ export type ReservationItem = {
   itemSlug: string;
   itemName: string;
   unitPrice: number;
+  ratePlanName: string;
   quantity: number;
   checkIn: string | null;
   checkOut: string | null;
@@ -53,6 +56,7 @@ type ReservationItemRow = {
   item_slug: string;
   item_name: string;
   unit_price: number;
+  rate_plan_name: string;
   quantity: number;
   check_in: string | null;
   check_out: string | null;
@@ -66,6 +70,7 @@ function rowToItem(row: ReservationItemRow): ReservationItem {
     itemSlug: row.item_slug,
     itemName: row.item_name,
     unitPrice: row.unit_price,
+    ratePlanName: row.rate_plan_name ?? "",
     quantity: row.quantity,
     checkIn: row.check_in,
     checkOut: row.check_out,
@@ -78,7 +83,8 @@ async function attachItems(rows: ReservationRow[]): Promise<Reservation[]> {
   const ids = rows.map((r) => r.id);
   const itemRows =
     (await safeQuery<ReservationItemRow>(
-      `SELECT id, reservation_id, item_type, item_slug, item_name, unit_price, quantity, check_in, check_out, line_total
+      `SELECT id, reservation_id, item_type, item_slug, item_name, unit_price,
+              rate_plan_name, quantity, check_in, check_out, line_total
        FROM reservation_items WHERE reservation_id IN (${ids.map(() => "?").join(",")}) ORDER BY id ASC`,
       ids
     )) ?? [];
@@ -187,7 +193,9 @@ export async function checkoutCart(customerId: number): Promise<CheckoutResult> 
   try {
     result = await withTransaction(async (conn) => {
     const [cartRows] = await conn.query(
-      "SELECT id, item_type, item_slug, item_name, unit_price, quantity, check_in, check_out FROM cart_items WHERE customer_id = ? ORDER BY id ASC",
+      `SELECT id, item_type, item_slug, item_name, unit_price, stay_total,
+              rate_plan_id, rate_plan_name, quantity, check_in, check_out
+       FROM cart_items WHERE customer_id = ? ORDER BY id ASC`,
       [customerId]
     );
     const items = cartRows as Array<{
@@ -196,6 +204,9 @@ export async function checkoutCart(customerId: number): Promise<CheckoutResult> 
       item_slug: string;
       item_name: string;
       unit_price: number;
+      stay_total: number | null;
+      rate_plan_id: number | null;
+      rate_plan_name: string;
       quantity: number;
       check_in: string | null;
       check_out: string | null;
@@ -205,26 +216,40 @@ export async function checkoutCart(customerId: number): Promise<CheckoutResult> 
       throw new Error("EMPTY_CART");
     }
 
-    // Lock and decrement stock for every room line first, so a sold-out
-    // room aborts the whole checkout before anything else is written.
+    // Check every room line against the calendar before anything is
+    // written. Nothing is decremented here: stock is derived from the
+    // reservations themselves (see availability-repo), so inserting the
+    // booking below is what consumes it.
+    //
+    // The room row is locked purely to serialise concurrent checkouts of
+    // the same room type. Without it two guests could both read "1 left"
+    // and both insert, overselling the last room.
     for (const item of items) {
-      if (item.item_type !== "room") continue;
-      const [roomRows] = await conn.query("SELECT units_left FROM rooms WHERE slug = ? FOR UPDATE", [
+      if (item.item_type !== "room" || !item.check_in || !item.check_out) continue;
+
+      await conn.query("SELECT id FROM rooms WHERE slug = ? FOR UPDATE", [
         item.item_slug,
       ]);
-      const room = (roomRows as Array<{ units_left: number }>)[0];
-      if (!room || room.units_left < item.quantity) {
+
+      const room = await getRoomBySlug(item.item_slug);
+      if (!room) throw new Error(`SOLD_OUT:${item.item_name}`);
+
+      const free = await unitsFreeForStay(
+        room,
+        item.check_in,
+        item.check_out,
+        conn
+      );
+      if (free < item.quantity) {
         throw new Error(`SOLD_OUT:${item.item_name}`);
       }
-      await conn.query("UPDATE rooms SET units_left = units_left - ? WHERE slug = ?", [
-        item.quantity,
-        item.item_slug,
-      ]);
     }
 
     const lineTotals = items.map((item) =>
       item.item_type === "room"
-        ? item.unit_price * nightsBetween(item.check_in, item.check_out) * item.quantity
+        ? (item.stay_total ??
+            item.unit_price * nightsBetween(item.check_in, item.check_out)) *
+          item.quantity
         : item.unit_price * item.quantity
     );
     const subtotal = lineTotals.reduce((sum, t) => sum + t, 0);
@@ -263,9 +288,24 @@ export async function checkoutCart(customerId: number): Promise<CheckoutResult> 
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       await conn.query(
-        `INSERT INTO reservation_items (reservation_id, item_type, item_slug, item_name, unit_price, quantity, check_in, check_out, line_total)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [insertId, item.item_type, item.item_slug, item.item_name, item.unit_price, item.quantity, item.check_in, item.check_out, lineTotals[i]]
+        `INSERT INTO reservation_items (reservation_id, item_type, item_slug, item_name,
+                                        unit_price, stay_total, rate_plan_id, rate_plan_name,
+                                        quantity, check_in, check_out, line_total)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          insertId,
+          item.item_type,
+          item.item_slug,
+          item.item_name,
+          item.unit_price,
+          item.stay_total,
+          item.rate_plan_id,
+          item.rate_plan_name ?? "",
+          item.quantity,
+          item.check_in,
+          item.check_out,
+          lineTotals[i],
+        ]
       );
     }
 

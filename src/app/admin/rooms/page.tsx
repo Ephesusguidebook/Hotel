@@ -52,7 +52,7 @@ export default async function AdminRoomsPage({
               <p className="font-serif text-lg text-charcoal-900">{room.name}</p>
               <p className="text-xs text-charcoal-500 mt-1">
                 ${room.price}/night &middot; {room.size} &middot;{" "}
-                {room.available ? `${room.unitsLeft} units available` : "Unavailable"}
+                {room.available ? `${room.unitsLeft} rooms of this type` : "Unavailable"}
               </p>
             </div>
             <span className="text-sm tracking-widest-plus text-gold-600">

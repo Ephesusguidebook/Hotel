@@ -1,13 +1,21 @@
 import { safeQuery } from "@/lib/db";
 import { getRoomBySlug } from "@/lib/rooms-repo";
 import { getAddOnBySlug } from "@/lib/addons-repo";
+import { getRatePlanById, getRoomRates, nightlyPrices, stayTotal } from "@/lib/rates-repo";
+import { unitsFreeForStay } from "@/lib/availability-repo";
+import { nightsOf, isValidDate, today } from "@/lib/dates";
 
 export type CartItem = {
   id: number;
   itemType: "room" | "addon";
   itemSlug: string;
   itemName: string;
+  /** Rooms: the average nightly rate. Add-ons: the item price. */
   unitPrice: number;
+  /** Rooms: the whole stay for one room, frozen when it was added. */
+  stayTotal: number | null;
+  ratePlanId: number | null;
+  ratePlanName: string;
   quantity: number;
   checkIn: string | null;
   checkOut: string | null;
@@ -21,6 +29,9 @@ type CartRow = {
   item_slug: string;
   item_name: string;
   unit_price: number;
+  stay_total: number | null;
+  rate_plan_id: number | null;
+  rate_plan_name: string;
   quantity: number;
   check_in: string | null;
   check_out: string | null;
@@ -37,7 +48,13 @@ export function nightsBetween(checkIn: string | null, checkOut: string | null): 
 
 function lineTotal(row: CartRow): number {
   if (row.item_type === "room") {
-    return row.unit_price * nightsBetween(row.check_in, row.check_out) * row.quantity;
+    // Nights can be priced differently, so the stay total is stored rather
+    // than rebuilt from a single nightly figure. Older rows written before
+    // rate plans existed have no stay_total; fall back to the old maths so
+    // an existing cart still adds up.
+    const perStay =
+      row.stay_total ?? row.unit_price * nightsBetween(row.check_in, row.check_out);
+    return perStay * row.quantity;
   }
   return row.unit_price * row.quantity;
 }
@@ -49,6 +66,9 @@ function rowToItem(row: CartRow): CartItem {
     itemSlug: row.item_slug,
     itemName: row.item_name,
     unitPrice: row.unit_price,
+    stayTotal: row.stay_total,
+    ratePlanId: row.rate_plan_id,
+    ratePlanName: row.rate_plan_name ?? "",
     quantity: row.quantity,
     checkIn: row.check_in,
     checkOut: row.check_out,
@@ -60,7 +80,9 @@ function rowToItem(row: CartRow): CartItem {
 /** All items in a customer's cart. Returns [] if the DB isn't configured. */
 export async function getCartItems(customerId: number): Promise<CartItem[]> {
   const rows = await safeQuery<CartRow>(
-    "SELECT id, item_type, item_slug, item_name, unit_price, quantity, check_in, check_out, guests FROM cart_items WHERE customer_id = ? ORDER BY id ASC",
+    `SELECT id, item_type, item_slug, item_name, unit_price, stay_total,
+            rate_plan_id, rate_plan_name, quantity, check_in, check_out, guests
+     FROM cart_items WHERE customer_id = ? ORDER BY id ASC`,
     [customerId]
   );
   if (!rows) return [];
@@ -86,30 +108,75 @@ export async function getCartSummary(customerId: number): Promise<CartSummary> {
 export type AddRoomInput = {
   customerId: number;
   slug: string;
+  ratePlanId: number;
   checkIn: string;
   checkOut: string;
   guests: number;
   quantity: number;
 };
 
-/** Adds a room to the cart, snapshotting its current name/price. Returns an
- *  error string on failure, or null on success. */
+/**
+ * Puts a stay in the cart on a chosen rate plan.
+ *
+ * The quote is worked out here and frozen: every night is looked up against
+ * the room's date-range prices, and if any night has no price the plan isn't
+ * on sale then and the whole thing is refused rather than guessed at.
+ * Availability is re-checked too, because the guest may have been sitting on
+ * the search results while someone else booked the last room.
+ *
+ * Returns an error string on failure, or null on success.
+ */
 export async function addRoomToCart(input: AddRoomInput): Promise<string | null> {
-  if (!input.checkIn || !input.checkOut) return "Please choose check-in and check-out dates.";
-  if (new Date(input.checkOut) <= new Date(input.checkIn)) {
-    return "Check-out date must be after check-in.";
+  if (!isValidDate(input.checkIn) || !isValidDate(input.checkOut)) {
+    return "Please choose check-in and check-out dates.";
   }
+  const nights = nightsOf(input.checkIn, input.checkOut);
+  if (nights.length === 0) return "Check-out date must be after check-in.";
+  if (input.checkIn < today()) return "Check-in can't be in the past.";
+
   const room = await getRoomBySlug(input.slug);
   if (!room) return "That room could not be found.";
-  if (!room.available) return "That room is not currently available.";
 
-  const quantity = Math.max(1, Math.min(input.quantity, room.unitsLeft || 1));
+  const plan = await getRatePlanById(input.ratePlanId);
+  if (!plan) return "Please choose a rate.";
+
+  const rates = await getRoomRates(room.slug);
+  const nightly = nightlyPrices(rates, plan.id, nights);
+  const perStay = stayTotal(nightly);
+  if (perStay === null) {
+    return `${plan.name} isn't available for those dates.`;
+  }
+
+  const free = await unitsFreeForStay(room, input.checkIn, input.checkOut);
+  if (free <= 0) {
+    return `${room.name} is fully booked for those dates.`;
+  }
+
+  const quantity = Math.max(1, Math.min(input.quantity, free));
+  const averageNightly = Math.round(perStay / nights.length);
+
   const result = await safeQuery(
-    `INSERT INTO cart_items (customer_id, item_type, item_slug, item_name, unit_price, quantity, check_in, check_out, guests)
-     VALUES (?, 'room', ?, ?, ?, ?, ?, ?, ?)`,
-    [input.customerId, room.slug, room.name, room.price, quantity, input.checkIn, input.checkOut, input.guests]
+    `INSERT INTO cart_items (customer_id, item_type, item_slug, item_name, unit_price,
+                             stay_total, rate_plan_id, rate_plan_name, quantity,
+                             check_in, check_out, guests)
+     VALUES (?, 'room', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      input.customerId,
+      room.slug,
+      room.name,
+      averageNightly,
+      perStay,
+      plan.id,
+      plan.name,
+      quantity,
+      input.checkIn,
+      input.checkOut,
+      input.guests,
+    ]
   );
-  return result === null ? "Could not add the room to your cart. Please try again." : null;
+  return result === null
+    ? "Could not add the room to your cart. Please try again."
+    : null;
 }
 
 export type AddAddOnInput = {

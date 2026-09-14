@@ -19,6 +19,18 @@ import { updateSiteSettings } from "@/lib/settings-repo";
 import { updateAboutContent, textToValues } from "@/lib/about-repo";
 import { updateLegalPage } from "@/lib/legal-repo";
 import { sanitizeRichText } from "@/lib/rich-text";
+import {
+  upsertRatePlan,
+  deleteRatePlan,
+  addRoomRate,
+  deleteRoomRate,
+  type RatePlanInput,
+} from "@/lib/rates-repo";
+import {
+  setRangeOverride,
+  clearAvailabilityOverride,
+} from "@/lib/availability-repo";
+import { isValidDate } from "@/lib/dates";
 import { updatePaymentStatus, updateReservationStatus } from "@/lib/reservations-repo";
 import type { SiteSettings, AboutContent } from "@/lib/data";
 
@@ -224,6 +236,124 @@ export async function saveLegalAction(slug: "privacy" | "terms", formData: FormD
 
   await updateLegalPage(slug, { title, updated, content });
   redirect(`/admin/legal/${slug}?saved=1`);
+}
+
+
+// --- Rate plans -------------------------------------------------------------
+
+export async function saveRatePlanAction(id: number, formData: FormData) {
+  await requireAuthed();
+
+  const input: RatePlanInput = {
+    slug: String(formData.get("slug") ?? "").trim(),
+    name: String(formData.get("name") ?? "").trim(),
+    description: String(formData.get("description") ?? "").trim(),
+    sortOrder: Number(formData.get("sortOrder") ?? 0) || 0,
+  };
+
+  await upsertRatePlan(input, id > 0 ? id : undefined);
+  redirect("/admin/rate-plans?saved=1");
+}
+
+export async function deleteRatePlanAction(id: number) {
+  await requireAuthed();
+  await deleteRatePlan(id);
+  redirect("/admin/rate-plans?deleted=1");
+}
+
+// --- Date-range prices ------------------------------------------------------
+
+export async function addRoomRateAction(roomSlug: string, formData: FormData) {
+  await requireAuthed();
+
+  const startDate = String(formData.get("startDate") ?? "");
+  const endDate = String(formData.get("endDate") ?? "");
+  const price = Number(formData.get("price") ?? 0);
+  const ratePlanId = Number(formData.get("ratePlanId") ?? 0);
+  const month = String(formData.get("month") ?? "");
+
+  const back = (error?: string) => {
+    const params = new URLSearchParams();
+    if (month) params.set("month", month);
+    if (error) params.set("error", error);
+    else params.set("saved", "1");
+    redirect(`/admin/rooms/${roomSlug}/calendar?${params.toString()}`);
+  };
+
+  if (!isValidDate(startDate) || !isValidDate(endDate) || endDate < startDate) {
+    back("Please give a start date and an end date, in that order.");
+  }
+  if (!ratePlanId) back("Please choose a rate plan.");
+  if (!Number.isFinite(price) || price <= 0) back("Please give a nightly price.");
+
+  await addRoomRate({
+    roomSlug,
+    ratePlanId,
+    startDate,
+    endDate,
+    price: Math.round(price),
+    label: String(formData.get("label") ?? "").trim(),
+  });
+  back();
+}
+
+export async function deleteRoomRateAction(
+  roomSlug: string,
+  rateId: number,
+  month: string
+) {
+  await requireAuthed();
+  await deleteRoomRate(rateId);
+  const params = new URLSearchParams({ saved: "1" });
+  if (month) params.set("month", month);
+  redirect(`/admin/rooms/${roomSlug}/calendar?${params.toString()}`);
+}
+
+// --- Availability calendar --------------------------------------------------
+
+export async function setAvailabilityAction(
+  roomSlug: string,
+  formData: FormData
+) {
+  await requireAuthed();
+
+  const startDate = String(formData.get("startDate") ?? "");
+  const endDate = String(formData.get("endDate") ?? "");
+  const mode = String(formData.get("mode") ?? "close");
+  const units = Number(formData.get("units") ?? 0);
+  const note = String(formData.get("note") ?? "").trim();
+  const month = String(formData.get("month") ?? "");
+
+  const back = (error?: string) => {
+    const params = new URLSearchParams();
+    if (month) params.set("month", month);
+    if (error) params.set("error", error);
+    else params.set("saved", "1");
+    redirect(`/admin/rooms/${roomSlug}/calendar?${params.toString()}`);
+  };
+
+  if (!isValidDate(startDate) || !isValidDate(endDate) || endDate < startDate) {
+    back("Please give a start date and an end date, in that order.");
+  }
+
+  if (mode === "reset") {
+    // Hand the dates back to the room's standing stock.
+    const { datesInRange } = await import("@/lib/dates");
+    for (const date of datesInRange(startDate, endDate)) {
+      await clearAvailabilityOverride(roomSlug, date);
+    }
+    back();
+  }
+
+  await setRangeOverride(
+    roomSlug,
+    startDate,
+    endDate,
+    mode === "close" ? 0 : Math.max(0, Math.round(units)),
+    mode === "close",
+    note
+  );
+  back();
 }
 
 export async function updateReservationAction(

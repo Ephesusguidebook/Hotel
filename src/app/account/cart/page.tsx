@@ -78,12 +78,23 @@ export default async function CartPage({
                       </p>
                       <p className="font-serif text-lg text-charcoal-900">{item.itemName}</p>
                       {item.itemType === "room" ? (
-                        <p className="mt-1 text-sm text-charcoal-700">
-                          {item.checkIn} → {item.checkOut} &middot;{" "}
-                          {nightsBetween(item.checkIn, item.checkOut)} night
-                          {nightsBetween(item.checkIn, item.checkOut) === 1 ? "" : "s"}
-                          {item.guests ? ` · ${item.guests} guests` : ""}
-                        </p>
+                        <>
+                          {item.ratePlanName && (
+                            <p className="mt-1 text-sm font-medium text-gold-600">
+                              {item.ratePlanName}
+                            </p>
+                          )}
+                          <p className="mt-1 text-sm text-charcoal-700">
+                            {item.checkIn} → {item.checkOut} &middot;{" "}
+                            {nightsBetween(item.checkIn, item.checkOut)} night
+                            {nightsBetween(item.checkIn, item.checkOut) === 1 ? "" : "s"}
+                            {item.guests ? ` · ${item.guests} guests` : ""}
+                          </p>
+                          <p className="mt-1 text-sm text-charcoal-500">
+                            ${item.unitPrice} avg / night &middot; $
+                            {item.stayTotal ?? item.unitPrice} per room for the stay
+                          </p>
+                        </>
                       ) : (
                         <p className="mt-1 text-sm text-charcoal-700">${item.unitPrice} each</p>
                       )}

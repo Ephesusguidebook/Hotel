@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
 import { isAdminAuthed } from "@/lib/auth";
 import { getRoomBySlug } from "@/lib/rooms-repo";
@@ -19,6 +20,14 @@ export default async function EditRoomPage({
   return (
     <div className="mx-auto max-w-3xl px-6 py-10">
       <AdminHeader title={`Edit — ${room.name}`} />
+
+      <Link
+        href={`/admin/rooms/${room.slug}/calendar`}
+        prefetch={false}
+        className="mb-8 inline-block border border-charcoal-900/25 px-5 py-3 text-sm tracking-widest-plus text-charcoal-800 hover:border-gold-500"
+      >
+        PRICES &amp; AVAILABILITY CALENDAR &rarr;
+      </Link>
       <RoomForm room={room} />
     </div>
   );

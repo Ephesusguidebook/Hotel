@@ -66,6 +66,9 @@ export default async function AdminReservationDetailPage({
                 {item.itemType === "room" ? "ROOM" : "TOUR / TRANSFER"}
               </p>
               <p className="text-sm text-charcoal-900">{item.itemName}</p>
+                      {item.ratePlanName && (
+                        <p className="text-sm text-gold-600">{item.ratePlanName}</p>
+                      )}
               <p className="mt-1 text-xs text-charcoal-500">
                 {item.itemType === "room"
                   ? `${item.checkIn} → ${item.checkOut} · $${item.unitPrice}/night × ${item.quantity}`

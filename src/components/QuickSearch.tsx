@@ -12,8 +12,8 @@ export default function QuickSearch() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const params = new URLSearchParams();
-    if (checkIn) params.set("checkin", checkIn);
-    if (checkOut) params.set("checkout", checkOut);
+    if (checkIn) params.set("checkIn", checkIn);
+    if (checkOut) params.set("checkOut", checkOut);
     if (guests) params.set("guests", guests);
     router.push(`/rooms?${params.toString()}`);
   }

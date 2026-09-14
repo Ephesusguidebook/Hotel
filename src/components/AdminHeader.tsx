@@ -27,6 +27,9 @@ export default function AdminHeader({ title }: { title: string }) {
         <Link href="/admin/rooms" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
           Rooms
         </Link>
+        <Link href="/admin/rate-plans" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
+          Rate Plans
+        </Link>
         <Link href="/admin/add-ons" prefetch={false} className="text-charcoal-700 hover:text-gold-600">
           Tours & Transfers
         </Link>
